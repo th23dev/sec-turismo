@@ -1,0 +1,188 @@
+/* --- Grid de Serviços --- */
+.main-container {
+   background-color: var(--bg);
+   width: 100%;
+   height: auto;
+   overflow: hidden;
+
+   .parent {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      grid-template-rows: repeat(6, 1fr);
+      gap: 15px;
+
+      a {
+         padding: 20px;
+         border-radius: 10px;
+         text-decoration: none;
+         font-size: 20px;
+         font-weight: bold;
+         color: var(--text-light);
+         transition: 0.3s;
+         position: relative;
+
+         &:hover {
+            transform: translateY(-5px);
+         }
+      }
+   }
+
+}
+
+#videos {
+   background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('../imgs/logos-bg/portal.webp') no-repeat center center/cover;
+   font-size: 40px;
+   grid-column: span 3 / span 3;
+   grid-row: span 3 / span 3;
+}
+
+#hoteis {
+   background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('../imgs/logos-bg/hoteis.webp') no-repeat center center/cover;
+   grid-column: span 2 / span 2;
+   grid-row: span 2 / span 2;
+   grid-column-start: 4;
+}
+
+.insta {
+   display: flex;
+   justify-content: start;
+   align-items: center;
+   gap: 20px;
+
+   img,
+   i {
+      width: 50px;
+      font-size: 30px;
+      text-align: center;
+      filter: grayscale(100) brightness(100);
+   }
+
+   img{
+      width: 60px;
+   }
+}
+
+#mapa-turistico {
+   background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('../imgs/logos-bg/mapa_turistico_bg.webp') no-repeat center center/cover;
+   grid-column: span 2 / span 2;
+   grid-row: span 2 / span 2;
+   grid-column-start: 1;
+   grid-row-start: 4;
+}
+
+#barraca-pescador {
+   background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('../imgs/logos-bg/barraca_do_pescador.webp') no-repeat center center/cover;
+   grid-column: span 2 / span 2;
+   grid-row: span 2 / span 2;
+   grid-column-start: 4;
+   grid-row-start: 3;
+}
+
+#SEBRAE {
+   background-color: var(--primary-color);
+   grid-column-start: 6;
+   grid-row-start: 4;
+}
+
+#MTUR {
+   background: linear-gradient(45deg, #002776 0%, #004C99 25%, #0066CC 50%, #3399FF 75%, #66CCFF 100%);
+   grid-column-start: 6;
+   grid-row-start: 3;
+}
+
+#SEMTUR {
+   background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+   grid-column-start: 6;
+   grid-row-start: 1;
+}
+
+#PREFEITURA {
+   background: #0d7fb8;
+   grid-column-start: 6;
+   grid-row-start: 2;
+}
+
+#EMBRATUR {
+   background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+   grid-column-start: 6;
+   grid-row-start: 5;
+}
+
+#igarapes {
+   background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('../imgs/logos-bg/igarapes.webp') no-repeat center center/cover;
+   grid-row: span 5 / span 5;
+   grid-column-start: 3;
+   grid-row-start: 4;
+}
+
+#tabua-de-mare {
+   background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('../imgs/logos-bg/tabua_de_mare.webp') no-repeat center center/cover;
+   grid-row: span 4 / span 4;
+   grid-column-start: 4;
+   grid-row-start: 5;
+}
+#cat {
+   background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('../imgs/logos-bg/cat.webp') no-repeat center center/cover;
+   grid-row: span 4 / span 4;
+   grid-column-start: 5;
+   grid-row-start: 5;
+}
+
+#praias {
+   background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('../imgs/logos-bg/praias.webp') no-repeat center center/cover;
+   grid-column: span 2 / span 2;
+   grid-row: span 3 / span 3;
+   grid-column-start: 1;
+   grid-row-start: 6;
+}
+
+#contatos-uteis {
+   background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('../imgs/logos-bg/contatos_uteis.webp') no-repeat center center/cover;
+   grid-row: span 3 / span 3;
+   grid-column-start: 6;
+   grid-row-start: 6;
+}
+
+@media (max-width: 768px) {
+   .main-container {
+      .parent {
+         grid-template-columns: 1fr;
+         grid-template-rows: auto;
+         gap: 20px;
+      }
+
+      .parent>* {
+         grid-column: auto !important;
+         grid-row: auto !important;
+      }
+
+      .parent a {
+         font-size: 18px !important;
+         padding: 10px !important;
+         grid-column: span 2 / span 2 !important;
+         grid-row: span 6 / span 6 !important;
+      }
+   }
+}
+
+/* Responsividade para dispositivos em modo horizontal */
+@media (max-width: 1024px) and (orientation: landscape) and (max-height: 600px) {
+   .main-container {
+      .parent {
+         grid-template-columns: repeat(2, 1fr);
+         grid-template-rows: repeat(6, 1fr);
+         gap: 15px;
+         padding: 20px;
+      }
+
+      .parent a {
+         font-size: 14px !important;
+         padding: 8px !important;
+         min-height: 60px;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         text-align: center;
+      }
+   }
+}

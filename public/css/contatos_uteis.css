@@ -1,0 +1,72 @@
+@import url('style.css');
+
+#contact-section {
+   background-color: var(--bg);
+   width: 100%;
+   height: auto;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   gap: 20px;
+   color: var(--dark-color);
+
+   .contact {
+      background-color: var(--bg);
+      width: 90%;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.356);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      color: var(--main-text);
+      font-size: 20px;
+      font-weight: bold;
+      transition: 0.3s;
+
+      i {
+         width: 40px;
+         height: 40px;
+         background: var(--bg);
+         color: var(--main-text);
+         border-radius: 50%;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         transition: 0.3s;
+      }
+
+      &:hover {
+         transform: translateY(-10px);
+         color: var(--accent-color);
+
+         i {
+            background-color: var(--dark-color);
+            color: var(--accent-color);
+         }
+      }
+   }
+}
+
+/* Responsividade para dispositivos em modo horizontal */
+@media (max-width: 1024px) and (orientation: landscape) and (max-height: 600px) {
+   #contact-section {
+      gap: 15px;
+      padding: 20px 10px;
+
+      .contact {
+         width: 95%;
+         padding: 15px;
+         font-size: 18px;
+         gap: 15px;
+
+         i {
+            width: 35px;
+            height: 35px;
+         }
+      }
+   }
+}
+

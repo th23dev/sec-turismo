@@ -1,0 +1,329 @@
+#functions-section {
+   display: flex;
+   flex-direction: column;
+   height: auto;
+}
+
+#lugares {
+   display: flex;
+   flex-direction: column;
+   gap: 20px;
+   width: 100%;
+   max-height: 220px;
+   overflow: hidden;
+   transition: max-height 0.3s ease;
+}
+
+#lugares.show {
+   max-height: none;
+}
+
+#noticias {
+   display: flex;
+   flex-direction: column;
+   gap: 20px;
+   width: 100%;
+   max-height: 220px;
+   overflow: hidden;
+   transition: max-height 0.3s ease;
+}
+
+#noticias.show {
+   max-height: none;
+}
+
+.functions {
+   display: flex;
+   gap: 20px;
+   align-items: center;
+
+   form {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-light);
+      margin-left: auto;
+
+      input {
+         background: var(--bg);
+         border: 2px solid var(--primary-color);
+         font-weight: 600;
+         font-size: 0.95rem;
+         letter-spacing: 0.3px;
+         padding: 5px 10px;
+         border-radius: 10px;
+      }
+
+      button {
+         background: none;
+         border: none;
+         color: var(--primary-color);
+         cursor: pointer;
+         font-size: 1.2rem;
+      }
+   }
+
+   .filtros {
+      width: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+
+      a {
+         background-color: var(--primary-color);
+         color: var(--text-light);
+         padding: 5px;
+         border-radius: 5px;
+         border: none;
+         cursor: pointer;
+         text-decoration: none;
+      }
+   }
+
+   .ver-mais {
+      background-color: var(--primary-color);
+      color: var(--text-light);
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+      margin-left: auto;
+   }
+}
+
+
+
+.cards {
+   width: 100%;
+   display: flex;
+   flex-wrap: wrap;
+   align-items: center;
+   justify-content: start;
+   gap: 20px;
+   overflow: hidden;
+}
+
+.card-lugar {
+   color: var(--text-light);
+   text-shadow: 0px 0px 5px #111;
+   font-weight: bold;
+   padding: 10px;
+   border-radius: 5px;
+   width: 150px;
+   height: 150px;
+   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+   position: relative;
+   overflow: hidden;
+   border: 1px solid var(--primary-color);
+}
+
+.card-lugar > a {
+   background-color: transparent;
+   color: var(--text-light);
+   text-decoration: none;
+   text-align: right;
+   padding: 10px;
+   width: 100%;
+   height: auto;
+   position: absolute;
+   bottom: 0px;
+   left: 0px;
+}
+
+.card-noticia {
+   position: relative;
+   min-width: 150px;
+   max-width: 150px;
+   min-height: 150px;
+   padding: 14px;
+   display: flex;
+   flex-direction: column;
+   justify-content: flex-end;
+   gap: 12px;
+   border-radius: 5px;
+   border: 1px solid var(--primary-color);
+   background: rgba(0, 0, 0, 0.16);
+   box-shadow: 0 0 12px rgba(0, 0, 0, 0.12);
+   transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+   overflow: hidden;
+   color: var(--text-light);
+   text-shadow: 0 1px 6px rgba(0,0,0,0.45);
+}
+
+.card-noticia:hover {
+   transform: translateY(-4px);
+   box-shadow: 0 16px 35px rgba(0, 0, 0, 0.16);
+   background: rgba(0, 0, 0, 0.2);
+}
+
+.card-noticia .card-bg {
+   position: absolute;
+   inset: 0;
+   background-size: cover;
+   background-position: center;
+   filter: brightness(0.55);
+}
+
+.card-noticia .card-bg.placeholder {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.14));
+   color: rgba(255,255,255,0.82);
+}
+
+.card-noticia .card-bg.placeholder i {
+   font-size: 2rem;
+}
+
+.card-noticia .card-content {
+   position: relative;
+   z-index: 1;
+   display: flex;
+   flex-direction: column;
+   gap: 10px;
+}
+
+.card-noticia .news-label {
+   display: inline-flex;
+   align-items: center;
+   justify-content: center;
+   padding: 6px 12px;
+   border-radius: 999px;
+   background: rgba(0,0,0,0.45);
+   color: var(--text-light);
+   font-size: 0.75rem;
+   width: fit-content;
+}
+
+.card-noticia .card-title {
+   font-size: 1rem;
+   line-height: 1.3;
+   margin: 0;
+   font-weight: 700;
+}
+
+.card-noticia .card-actions {
+   display: flex;
+   gap: 8px;
+}
+
+.card-noticia .icon-btn {
+   display: inline-flex;
+   align-items: center;
+   justify-content: center;
+   width: 34px;
+   height: 34px;
+   border-radius: 50%;
+   background: rgba(255,255,255,0.16);
+   color: var(--text-light);
+   text-decoration: none;
+   border: 1px solid rgba(255,255,255,0.18);
+   transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.card-noticia .icon-btn:hover {
+   transform: translateY(-1px);
+   background: rgba(255,255,255,0.24);
+}
+
+.card-noticia .icon-btn.edit {
+   color: #9cccff;
+}
+
+.card-noticia .icon-btn.delete {
+   color: #ffb3b3;
+}
+
+@media (max-width: 900px) {
+   .cards {
+      justify-content: center;
+   }
+   .card-lugar,
+   .card-noticia,
+   #add-lugar {
+      width: calc(50% - 20px);
+      max-width: 260px;
+   }
+}
+
+@media (max-width: 680px) {
+   .functions {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 14px;
+   }
+
+   .functions h2 {
+      font-size: 1.25rem;
+   }
+
+   .functions .ver-mais {
+      width: 100%;
+      margin-left: 0;
+   }
+
+   .cards {
+      flex-direction: column;
+      gap: 16px;
+   }
+
+   .card-lugar,
+   .card-noticia,
+   #add-lugar {
+      width: 100%;
+      max-width: none;
+   }
+
+   .card-noticia {
+      min-height: auto;
+      padding: 20px;
+   }
+
+   .card-noticia .card-bg,
+   .card-noticia .card-bg.placeholder {
+      height: 180px;
+   }
+
+   .card-actions {
+      justify-content: stretch;
+   }
+
+   .btn-action {
+      width: 100%;
+      justify-content: center;
+   }
+
+   #add-lugar {
+      height: 180px;
+      font-size: 48px;
+   }
+}
+
+#add-lugar {
+   border: 5px solid var(--primary-color);
+   color: var(--bg);
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   font-size: 62px;
+   text-decoration: none;
+}
+
+.card-lugar-empty {
+   background: linear-gradient(135deg, #e0e0e0 0%, #f0f0f0 100%);
+   color: #999;
+   text-shadow: none;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   gap: 8px;
+   font-size: 0.9rem;
+}
+
+.card-lugar-empty i {
+   font-size: 2.5rem;
+   color: #bbb;
+}

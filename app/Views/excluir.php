@@ -1,0 +1,308 @@
+<?php
+// SIMPLIFICAÇÃO GERAL: Validar o item antes de excluir e separar exclusão de mídia da exclusão do local.
+include('../Core/conexao.php');
+include('../Controllers/protect.php');
+include('../Controllers/LugaresController.php');
+
+$controller = new LugaresController($pdo);
+
+$id = isset($_GET['id']) ? $_GET['id'] : null;
+$lugar = null;
+$mensagem = '';
+$erro = '';
+
+if (!isset($_SESSION)) session_start();
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+if ($id) {
+    $lugar = $controller->buscarLugar($id);
+}
+
+if (!$lugar && $id) {
+    echo "Lugar não encontrado!";
+    exit;
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar_exclusao'])) {
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        $erro = 'Token CSRF inválido.';
+    } else {
+        // Primeiro exclui todas as mídias associadas
+        $controller->excluirMidiasPorLugar($id);
+        $resultado = $controller->excluirLugar($id);
+        if ($resultado) {
+            header('location: admin.php?msg=' . urlencode('Local excluído com sucesso!'));
+            exit;
+        } else {
+            $erro = 'Erro ao excluir o local.';
+        }
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excluir Local - Turismo Curuçá</title>
+    <link rel="stylesheet" href="../../public/css/conexao.css">
+    <style>
+        .delete-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .delete-header {
+            background: linear-gradient(135deg, #ff4757, #ff3838);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .delete-header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .delete-header .warning-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .delete-content {
+            padding: 2rem;
+        }
+
+        .place-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid #e9ecef;
+        }
+
+        .place-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            border: 2px solid #dee2e6;
+        }
+
+        .place-details h3 {
+            margin: 0 0 0.5rem 0;
+            color: #2c3e50;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .place-details p {
+            margin: 0 0 1rem 0;
+            color: #6c757d;
+            line-height: 1.5;
+        }
+
+        .place-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #495057;
+            font-size: 0.9rem;
+        }
+
+        .meta-item i {
+            color: #6c757d;
+        }
+
+        .warning-message {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 6px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            color: #856404;
+        }
+
+        .warning-message .warning-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .delete-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn-delete {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-delete:hover {
+            background: #c82333;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+        }
+
+        .btn-cancel {
+            background: #6c757d;
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem 2rem;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-cancel:hover {
+            background: #5a6268;
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .delete-container {
+                margin: 1rem;
+                border-radius: 8px;
+            }
+
+            .delete-header,
+            .delete-content {
+                padding: 1.5rem;
+            }
+
+            .delete-actions {
+                flex-direction: column;
+            }
+
+            .btn-delete,
+            .btn-cancel {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="back-nav">
+        <div class="text-box">
+            <h1>Excluir Local</h1>
+        </div>
+        <div class="btn-box">
+            <a href="admin.php" class="btn-voltar">
+                <i class="fas fa-chevron-left"></i> Voltar
+            </a>
+        </div>
+    </nav>
+
+    <main>
+        <div class="delete-container">
+            <div class="delete-header">
+                <div class="warning-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h1>Confirmar Exclusão</h1>
+            </div>
+
+            <div class="delete-content">
+                <?php if ($erro): ?>
+                    <div class="alert alert-erro" style="margin-bottom: 1rem;">
+                        <i class="fas fa-exclamation-circle"></i> <?= htmlspecialchars($erro) ?>
+                    </div>
+                <?php endif; ?>
+
+                <?php if ($lugar): ?>
+                    <div class="warning-message">
+                        <div class="warning-title">
+                            <i class="fas fa-exclamation-triangle"></i> Atenção!
+                        </div>
+                        <p>Esta ação não pode ser desfeita. O local e todas as suas mídias serão permanentemente removidos do sistema.</p>
+                    </div>
+
+                    <div class="place-card">
+                        <?php if (!empty($lugar['imagem_principal'])): ?>
+                            <img src="<?= htmlspecialchars($lugar['imagem_principal']) ?>" alt="Imagem do local" class="place-image">
+                        <?php endif; ?>
+
+                        <div class="place-details">
+                            <h3><?= htmlspecialchars($lugar['nome']) ?></h3>
+                            <p><?= htmlspecialchars($lugar['descricao']) ?></p>
+
+                            <div class="place-meta">
+                                <div class="meta-item">
+                                    <i class="fas fa-tag"></i>
+                                    <span><strong>Tipo:</strong> <?= htmlspecialchars($lugar['tipo']) ?></span>
+                                </div>
+
+                                <?php if (!empty($lugar['numero'])): ?>
+                                    <div class="meta-item">
+                                        <i class="fas fa-phone"></i>
+                                        <span><strong>Telefone:</strong> <?= htmlspecialchars($lugar['numero']) ?></span>
+                                    </div>
+                                <?php endif; ?>
+
+                                <?php if ($lugar['possui_restaurante']): ?>
+                                    <div class="meta-item">
+                                        <i class="fas fa-utensils"></i>
+                                        <span>Possui restaurante</span>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="delete-actions">
+                        <form action="" method="post" style="display: inline;">
+                            <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+                            <input type="hidden" name="confirmar_exclusao" value="1">
+                            <button type="submit" class="btn-delete">
+                                <i class="fas fa-trash-alt"></i> Sim, excluir permanentemente
+                            </button>
+                        </form>
+
+                        <a href="admin.php" class="btn-cancel">
+                            <i class="fas fa-times"></i> Cancelar
+                        </a>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    </main>
+
+    <?php include 'components/footer.php'; ?>
+</body>
+</html>
+

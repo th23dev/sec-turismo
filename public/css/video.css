@@ -1,0 +1,179 @@
+/* --- Video Carousel --- */
+.video-carousel-section {
+   background-color: var(--bg);
+   text-align: center;
+   height: auto;
+   min-height: 80dvh;
+
+   h2 {
+      color: var(--main-text);
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      margin-bottom: 40px;
+   }
+
+   .carousel-container {
+      position: relative;
+      max-width: 1300px;
+      height: 100%;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+
+      .carousel-track-container {
+         overflow-x: scroll;
+         scroll-behavior: smooth;
+         scroll-snap-type: x mandatory;
+         -webkit-overflow-scrolling: touch;
+         scrollbar-width: none;
+         padding: 20px 0;
+
+         &::-webkit-scrollbar {
+            display: none;
+         }
+
+         .carousel-track {
+            display: flex;
+            flex-wrap: nowrap;
+            list-style: none;
+
+            .carousel-slide {
+               flex: 0 0 calc(100% / 3);
+               padding: 0 15px;
+               scroll-snap-align: start;
+               scroll-snap-stop: always;
+               box-sizing: border-box;
+               
+               .video-card {
+                  background: var(--secondary-bg);
+                  border-radius: 10px;
+                  overflow: hidden;
+                  box-shadow: var(--shadow);
+                  transition: transform 0.3s ease;
+                  min-height: 400px;
+
+                  video {
+                     width: 100%;
+                     aspect-ratio: 16 / 9;
+                     border: none;
+                  }
+
+                  .video-info {
+                     padding: 20px;
+                     text-align: left;
+
+                     h3 {
+                        color: var(--main-text);
+                        margin-bottom: 8px;
+                        font-size: 1.2rem;
+                     }
+
+                     p {
+                        font-size: 0.9rem;
+                        color: var(--text-color);
+                     }
+                  }
+               }
+            }
+         }
+      }
+   }
+}
+
+.carousel-btn {
+   background: var(--dark-color);
+   color: var(--text-light);
+   border: none;
+   width: 50px;
+   height: 50px;
+   border-radius: 50%;
+   cursor: pointer;
+   font-size: 1.2rem;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   transition: 0.3s;
+   flex-shrink: 0;
+
+   &:hover {
+      transform: scale(1.1);
+   }
+}
+
+
+@media (max-width: 768px) {
+   .carousel-container {
+      flex-direction: column;
+      gap: 20px;
+      height: auto;
+   }
+
+   .carousel-track-container {
+      overflow-x: hidden;   /* remove scroll horizontal */
+      overflow-y: auto;     /* permite scroll vertical */
+      scroll-snap-type: y mandatory; /* muda snap para vertical */
+      padding: 0;
+   }
+
+   .carousel-track {
+      flex-direction: column;
+      gap: 30px;
+   }
+
+   .carousel-track .carousel-slide {
+      flex: 1 0 auto;       /* ocupa largura total */
+      padding: 0;
+      scroll-snap-align: start;
+   }
+
+   .carousel-btn {
+      display: none;        /* oculta botões no mobile */
+   }
+}
+
+/* Responsividade para dispositivos em modo horizontal */
+@media (max-width: 1024px) and (orientation: landscape) and (max-height: 600px) {
+   .carousel-container {
+      flex-direction: row;
+      gap: 15px;
+   }
+
+   .carousel-track-container {
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      padding: 0;
+   }
+
+   .carousel-track {
+      flex-direction: row;
+      gap: 20px;
+   }
+
+   .carousel-track .carousel-slide {
+      flex: 0 0 300px;
+      padding: 0;
+      scroll-snap-align: start;
+   }
+
+   .carousel-btn {
+      display: flex;
+   }
+
+   .video-card {
+      height: 200px;
+   }
+
+   .video-card video {
+      height: 150px;
+   }
+
+   .video-info h3 {
+      font-size: 1rem;
+   }
+
+   .video-info p {
+      font-size: 0.9rem;
+   }
+}
