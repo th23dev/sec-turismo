@@ -35,3 +35,5 @@ O painel administrativo permite gerenciar os pontos turísticos através das ope
 - **Banco de Dados**: MySQL
 - **Controle de Versão**: Git + GitHub
 
+*"Raffael Thauã da Silva Lima"*
+
