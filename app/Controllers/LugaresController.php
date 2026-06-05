@@ -50,19 +50,18 @@ class LugaresController
 
         $urls = array_filter(array_map('trim', explode("\n", $urlsText)));
         foreach ($urls as $url) {
-            if (!empty($url)) {
+            if (!empty($url) && ImageUpload::validateMediaUrl($url)) {
                 $this->model->criarMidia($lugar_id, $url);
             }
         }
 
         $files = $this->normalizeFilesArray($fileArray);
         foreach ($files as $file) {
-            $uploaded_path = ImageUpload::upload($file);
+            $uploaded_path = ImageUpload::uploadMedia($file);
             if ($uploaded_path) {
                 $this->model->criarMidia($lugar_id, $uploaded_path);
-            } else {
-                return false;
             }
+            // se upload falhar, apenas ignora este arquivo e continua
         }
 
         return true;
@@ -184,7 +183,21 @@ class LugaresController
 
     public function adicionarMidias($lugar_id, $dados = [], $arquivos = [])
     {
-        return $this->processMidias($lugar_id, $dados['midias'] ?? '', $arquivos['midias_arquivos'] ?? []);
+        // Aceita tanto o campo 'midias' (textarea com várias linhas)
+        // quanto 'url_midia' (campo único usado em editar.php)
+        $midiasText = '';
+        if (!empty($dados['midias'])) {
+            $midiasText = $dados['midias'];
+        } elseif (!empty($dados['url_midia'])) {
+            $midiasText = $dados['url_midia'];
+        }
+
+        $filesArray = [];
+        if (!empty($arquivos['midias_arquivos'])) {
+            $filesArray = $arquivos['midias_arquivos'];
+        }
+
+        return $this->processMidias($lugar_id, $midiasText, $filesArray);
     }
 
     public function excluirMidia($midia_id){

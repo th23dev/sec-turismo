@@ -278,16 +278,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['acao']) && $lugar) {
                   <?php endif; ?>
                </div>
 
-               <!-- Adicionar nova mídia -->
+               <!-- Adicionar nova mídia com Tabs -->
                <div class="midia-add-box">
-                  <label for="url_midia">Adicionar nova URL de imagem/vídeo ou enviar imagens</label>
-                  <div class="midia-add-row">
-                     <input type="text" name="url_midia" id="url_midia" placeholder="https://exemplo.com/imagem.jpg">
+                  <label>Adicionar nova mídia</label>
+                  
+                  <!-- Tabs para alternar entre upload e URL -->
+                  <div class="midia-input-tabs">
+                     <button type="button" class="tab-btn active" data-tab="upload">
+                        <i class="fas fa-cloud-upload-alt"></i> Upload
+                     </button>
+                     <button type="button" class="tab-btn" data-tab="url">
+                        <i class="fas fa-link"></i> Link
+                     </button>
                   </div>
-                  <div class="midia-add-row file-upload-row">
-                     <input type="file" name="midias_arquivos[]" id="midias_arquivos" accept="image/jpeg,image/png,image/webp,image/gif" multiple>
-                     <small>Você pode enviar várias imagens de uma vez.</small>
+
+                  <!-- Aba Upload de Arquivo -->
+                  <div class="tab-content active" id="midia-tab-upload">
+                     <div class="midia-add-row file-upload-row">
+                        <input type="file" name="midias_arquivos[]" id="midias_arquivos" accept="image/jpeg,image/png,image/webp,image/gif" multiple>
+                        <small>Você pode enviar várias imagens de uma vez (JPG, PNG, WebP, GIF - Máx. 5MB cada).</small>
+                     </div>
                   </div>
+
+                  <!-- Aba URL da Mídia -->
+                  <div class="tab-content" id="midia-tab-url">
+                     <div class="midia-add-row">
+                        <input type="text" name="url_midia" id="url_midia" placeholder="https://exemplo.com/imagem.jpg ou https://sua-api.com/imagem/123">
+                        <small>Cole a URL completa da imagem ou vídeo. Aceita URLs com ou sem extensão.</small>
+                     </div>
+                  </div>
+
                   <div class="midia-add-row">
                      <button type="submit" name="acao" value="adicionar_midia" class="btn-adicionar-midia">
                         <i class="fas fa-plus"></i> Adicionar
@@ -428,6 +448,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['acao']) && $lugar) {
          hidden.disabled = this.checked;
       });
       hidden.disabled = toggle.checked;
+
+      // ===== SISTEMA DE ABAS PARA MÍDIAS ADICIONAIS =====
+      const mediasTabButtons = document.querySelectorAll('.midia-input-tabs .tab-btn');
+      const mediasTabContents = document.querySelectorAll('.midia-add-box .tab-content');
+
+      mediasTabButtons.forEach(btn => {
+         btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const tabName = this.dataset.tab;
+            const container = this.closest('.midia-add-box');
+            
+            // Remover ativa de todos os botões e conteúdos
+            container.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            container.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            
+            // Adicionar ativa ao clicado
+            this.classList.add('active');
+            container.querySelector(`#midia-tab-${tabName}`).classList.add('active');
+            
+            // Limpar campos do outro tab
+            if (tabName === 'upload') {
+               document.getElementById('url_midia').value = '';
+            } else {
+               document.getElementById('midias_arquivos').value = '';
+            }
+         });
+      });
 
       // Validar antes de enviar (apenas a seção de imagem principal)
       const forms = document.querySelectorAll('form.editar-form');

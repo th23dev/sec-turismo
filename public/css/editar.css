@@ -719,6 +719,75 @@ body.dark .alert-erro {
    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
 }
 
+/* --- Sistema de Abas para Mídias Adicionais --- */
+.midia-input-tabs {
+   display: flex;
+   gap: 12px;
+   margin: 16px 0 12px 0;
+   border-bottom: 2px solid #e0e0e0;
+}
+
+.midia-input-tabs .tab-btn {
+   padding: 12px 20px;
+   background: none;
+   border: none;
+   cursor: pointer;
+   font-size: 0.95rem;
+   font-weight: 500;
+   color: #999;
+   transition: all 0.3s ease;
+   position: relative;
+   font-family: "Poppins", sans-serif;
+   display: flex;
+   align-items: center;
+   gap: 8px;
+}
+
+.midia-input-tabs .tab-btn:hover {
+   color: var(--primary-color);
+}
+
+.midia-input-tabs .tab-btn.active {
+   color: var(--primary-color);
+}
+
+.midia-input-tabs .tab-btn.active::after {
+   content: '';
+   position: absolute;
+   bottom: -2px;
+   left: 0;
+   right: 0;
+   height: 3px;
+   background: linear-gradient(135deg, var(--primary-color), var(--dark-color));
+   border-radius: 2px;
+}
+
+.midia-add-box .tab-content {
+   display: none;
+   animation: fadeIn 0.3s ease;
+}
+
+.midia-add-box .tab-content.active {
+   display: block;
+}
+
+body.dark .midia-input-tabs {
+   border-bottom-color: #444;
+}
+
+/* --- Dark Mode para Tab de Mídias --- */
+body.dark .midia-input-tabs .tab-btn {
+   color: #888;
+}
+
+body.dark .midia-input-tabs .tab-btn:hover {
+   color: var(--primary-color);
+}
+
+body.dark .midia-input-tabs .tab-btn.active {
+   color: var(--primary-color);
+}
+
 /* --- Dark Mode Mídias --- */
 body.dark .midia-card {
    background: linear-gradient(135deg, #3a3a3a 0%, #333 100%);
