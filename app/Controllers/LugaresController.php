@@ -12,6 +12,62 @@ class LugaresController
         $this->model = new LugaresModel($conexao);
     }
 
+    private function normalizeFilesArray($files)
+    {
+        $normalized = [];
+        if (!isset($files['name'])) {
+            return $normalized;
+        }
+
+        if (is_array($files['name'])) {
+            foreach ($files['name'] as $index => $name) {
+                $error = $files['error'][$index] ?? UPLOAD_ERR_NO_FILE;
+                if (empty($name) || $error === UPLOAD_ERR_NO_FILE) {
+                    continue;
+                }
+                $normalized[] = [
+                    'name' => $files['name'][$index],
+                    'type' => $files['type'][$index] ?? '',
+                    'tmp_name' => $files['tmp_name'][$index] ?? '',
+                    'error' => $error,
+                    'size' => $files['size'][$index] ?? 0,
+                ];
+            }
+        } else {
+            if ($files['error'] !== UPLOAD_ERR_NO_FILE) {
+                $normalized[] = $files;
+            }
+        }
+
+        return $normalized;
+    }
+
+    private function processMidias($lugar_id, $urlsText = '', $fileArray = [])
+    {
+        if (!$lugar_id) {
+            return false;
+        }
+
+        $urls = array_filter(array_map('trim', explode("\n", $urlsText)));
+        foreach ($urls as $url) {
+            if (!empty($url)) {
+                $this->model->criarMidia($lugar_id, $url);
+            }
+        }
+
+        $files = $this->normalizeFilesArray($fileArray);
+        foreach ($files as $file) {
+            $uploaded_path = ImageUpload::upload($file);
+            if ($uploaded_path) {
+                $this->model->criarMidia($lugar_id, $uploaded_path);
+            } else {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public function buscarLugares($tipo)
     {
         $search = isset($_POST['search']) ? $_POST['search'] : '';
@@ -65,13 +121,11 @@ class LugaresController
 
         $lugar_id = $this->model->criarLocal($imagem_principal, $nome, $tipo, $numero, $instagram, $linkInstagram, $descricao, $possui_restaurante);
 
-        // Se criou com sucesso e tem mídias adicionais, salva elas
-        if ($lugar_id && !empty($dados['midias'])) {
-            $urls = array_filter(array_map('trim', explode("\n", $dados['midias'])));
-            foreach ($urls as $url) {
-                if (!empty($url)) {
-                    $this->model->criarMidia($lugar_id, $url);
-                }
+        if ($lugar_id) {
+            $midiasText = $dados['midias'] ?? '';
+            $midiasFiles = $arquivos['midias_arquivos'] ?? [];
+            if (!$this->processMidias($lugar_id, $midiasText, $midiasFiles)) {
+                return false;
             }
         }
 
@@ -126,6 +180,11 @@ class LugaresController
 
     public function criarMidia($lugar_id, $url){
         return $this->model->criarMidia($lugar_id, $url);
+    }
+
+    public function adicionarMidias($lugar_id, $dados = [], $arquivos = [])
+    {
+        return $this->processMidias($lugar_id, $dados['midias'] ?? '', $arquivos['midias_arquivos'] ?? []);
     }
 
     public function excluirMidia($midia_id){

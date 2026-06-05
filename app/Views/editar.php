@@ -32,11 +32,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acao']) && $_POST['ac
     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
         $erro = 'Token CSRF inválido.';
     } else {
-        $url = trim($_POST['url_midia'] ?? '');
-        if (!empty($url)) {
-            $controller->criarMidia($id, $url);
+        $resultado = $controller->adicionarMidias($id, $_POST, $_FILES);
+        if ($resultado) {
             header('Location: editar.php?id=' . $id);
             exit;
+        } else {
+            $erro = 'Erro ao adicionar mídia. Verifique o arquivo ou URL.';
         }
     }
 }
@@ -279,9 +280,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['acao']) && $lugar) {
 
                <!-- Adicionar nova mídia -->
                <div class="midia-add-box">
-                  <label for="url_midia">Adicionar nova URL de imagem/vídeo</label>
+                  <label for="url_midia">Adicionar nova URL de imagem/vídeo ou enviar imagens</label>
                   <div class="midia-add-row">
                      <input type="text" name="url_midia" id="url_midia" placeholder="https://exemplo.com/imagem.jpg">
+                  </div>
+                  <div class="midia-add-row file-upload-row">
+                     <input type="file" name="midias_arquivos[]" id="midias_arquivos" accept="image/jpeg,image/png,image/webp,image/gif" multiple>
+                     <small>Você pode enviar várias imagens de uma vez.</small>
+                  </div>
+                  <div class="midia-add-row">
                      <button type="submit" name="acao" value="adicionar_midia" class="btn-adicionar-midia">
                         <i class="fas fa-plus"></i> Adicionar
                      </button>

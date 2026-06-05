@@ -187,6 +187,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                   <label for="midias">URLs de imagens/vídeos adicionais (uma por linha)</label>
                   <textarea name="midias" id="midias" placeholder="https://exemplo.com/imagem1.jpg&#10;https://exemplo.com/imagem2.jpg&#10;https://exemplo.com/video.mp4" rows="5"></textarea>
                </div>
+               <div class="form-group">
+                  <label for="midias_arquivos">Enviar imagens adicionais</label>
+                  <input type="file" name="midias_arquivos[]" id="midias_arquivos" accept="image/jpeg,image/png,image/webp,image/gif" multiple>
+                  <small>Você pode enviar várias imagens ao mesmo tempo.</small>
+               </div>
             </div>
 
             <!-- Ações -->
