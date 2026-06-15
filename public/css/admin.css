@@ -242,11 +242,13 @@
    }
    .card-lugar,
    .card-noticia,
-   #add-lugar {
+   #add-lugar,
+   #add-usuario {
       width: calc(50% - 20px);
       max-width: 260px;
    }
 }
+
 
 @media (max-width: 680px) {
    .functions {
@@ -271,10 +273,12 @@
 
    .card-lugar,
    .card-noticia,
-   #add-lugar {
+   #add-lugar,
+   #add-usuario {
       width: 100%;
       max-width: none;
    }
+
 
    .card-noticia {
       min-height: auto;
@@ -301,7 +305,9 @@
    }
 }
 
-#add-lugar {
+/* Cards especiais ("adicionar") no painel */
+#add-lugar,
+#add-usuario {
    border: 5px solid var(--primary-color);
    color: var(--bg);
    display: flex;
@@ -310,6 +316,7 @@
    font-size: 62px;
    text-decoration: none;
 }
+
 
 .card-lugar-empty {
    background: linear-gradient(135deg, #e0e0e0 0%, #f0f0f0 100%);

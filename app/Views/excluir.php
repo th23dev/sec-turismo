@@ -3,6 +3,7 @@
 include('../Core/conexao.php');
 include('../Controllers/protect.php');
 include('../Controllers/LugaresController.php');
+require_once('../Utils/csrf.php');
 
 $controller = new LugaresController($pdo);
 
@@ -12,9 +13,7 @@ $mensagem = '';
 $erro = '';
 
 if (!isset($_SESSION)) session_start();
-if (empty($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
+csrf_token();
 
 if ($id) {
     $lugar = $controller->buscarLugar($id);
@@ -26,10 +25,9 @@ if (!$lugar && $id) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar_exclusao'])) {
-    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    if (!csrf_validate($_POST['csrf_token'] ?? null)) {
         $erro = 'Token CSRF inválido.';
     } else {
-        // Primeiro exclui todas as mídias associadas
         $controller->excluirMidiasPorLugar($id);
         $resultado = $controller->excluirLugar($id);
         if ($resultado) {
@@ -41,6 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar_exclusao'])
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="pt-br">

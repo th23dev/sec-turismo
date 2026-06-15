@@ -1,28 +1,24 @@
 <?php 
 // SIMPLIFICAÇÃO GERAL: Separar lógica de autenticação da view e passar mensagens de erro como variável.
 include '../Core/conexao.php';
+require_once '../Utils/csrf.php';
 
 $erro = '';
 
-// Garantir que a sessão está iniciada e token CSRF existe
-if (empty($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
+// Garante token CSRF na sessão (para reaproveitar em todos os POST)
+csrf_token();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-        $erro = 'Token CSRF inválido.';
-    } else {
-        require_once '../Controllers/AuthController.php'; 
-        require_once '../Models/UsuarioModel.php';
-        $controller = new AuthController();
-        $resultado = $controller->login($pdo);
-        if ($resultado !== true && !empty($resultado)) {
-            $erro = $resultado;
-        }
+    require_once '../Controllers/AuthController.php'; 
+    require_once '../Models/UsuarioModel.php';
+    $controller = new AuthController();
+    $resultado = $controller->login($pdo);
+    if ($resultado !== true && !empty($resultado)) {
+        $erro = $resultado;
     }
 }
 ?>
+
 
 <html lang="pt-br">
 

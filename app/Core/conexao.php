@@ -1,21 +1,35 @@
 <?php
+// Conexão com o banco de forma segura (sem credenciais hardcoded).
+// Lê as credenciais do .env via helper manual.
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-$user = 'root';
-$password = '';
-$database = 'sec_turismo';
-$host = 'localhost';
+
+require_once __DIR__ . '/../Utils/env.php';
+require_once __DIR__ . '/../config.php';
+
+$user = env('DB_USER', 'root');
+$password = env('DB_PASSWORD', '');
+$database = env('DB_NAME', 'sec_turismo');
+$host = env('DB_HOST', 'localhost');
 
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$database", $user, $password, [
+    $dsn = "mysql:host={$host};dbname={$database};charset=utf8mb4";
+
+    $pdo = new PDO($dsn, $user, $password, [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        PDO::ATTR_EMULATE_PREPARES => false
+        PDO::ATTR_EMULATE_PREPARES => false,
     ]);
+
+    // Compatibilidade (caso o projeto use $mysqli)
     global $pdo, $mysqli;
-    $mysqli = $pdo;  // Compatibility alias
+    $mysqli = $pdo;
 } catch (PDOException $e) {
-    die("Erro na conexão: " . $e->getMessage());
+    // Evita vazar detalhes sensíveis.
+    http_response_code(500);
+    die('Erro na conexão com o banco de dados.');
 }
 ?>
+

@@ -2,6 +2,7 @@
 include('../Core/conexao.php');
 include('../Controllers/protect.php');
 include('../Controllers/NoticiasController.php');
+require_once('../Utils/csrf.php');
 
 $controller = new NoticiasController($pdo);
 $mensagem = '';
@@ -9,12 +10,10 @@ $erro = '';
 $old = $_POST;
 
 if (!isset($_SESSION)) session_start();
-if (empty($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
+csrf_token();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    if (!csrf_validate($_POST['csrf_token'] ?? null)) {
         $erro = 'Token CSRF inválido.';
     } else {
         $resultado = $controller->criarNoticia($_POST, $_FILES);
@@ -27,6 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="pt-br">

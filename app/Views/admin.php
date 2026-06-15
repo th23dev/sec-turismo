@@ -52,6 +52,7 @@ $noticias = $noticiasController->buscarNoticias();
    <main>
       <section id="functions-section">
          <div class="container" id="lugares">
+
             <div class="functions">
                <h2>Lugares</h2>
 
@@ -68,6 +69,7 @@ $noticias = $noticiasController->buscarNoticias();
             <div class="cards">
                <a href="criar.php" class="card-lugar" id="add-lugar"><i class="fas fa-plus"></i></a>
                <?php foreach ($lugares as $lugar): ?>
+
                   <?php if (!empty($lugar['imagem_principal'])): ?>
                      <div class="card-lugar" style="background: url('<?= htmlspecialchars($lugar['imagem_principal']); ?>') no-repeat center center / cover;">
                   <?php else: ?>
@@ -80,9 +82,7 @@ $noticias = $noticiasController->buscarNoticias();
                <?php endforeach ?>
             </div>
          </div>
-      </section>
 
-      <section id="news-section">
          <div class="container" id="noticias">
             <div class="functions">
                <h2>Notícias</h2>
@@ -94,6 +94,7 @@ $noticias = $noticiasController->buscarNoticias();
                <a href="criar_noticia.php" class="card-lugar" id="add-noticia"><i class="fas fa-plus"></i></a>
                <?php if (!empty($noticias)): ?>
                   <?php foreach ($noticias as $noticia): ?>
+
                      <div class="card-lugar card-noticia">
                         <?php if (!empty($noticia['imagem_url'])): ?>
                            <div class="card-bg" style="background: url('<?= htmlspecialchars($noticia['imagem_url']); ?>') no-repeat center center / cover;"></div>
@@ -120,6 +121,24 @@ $noticias = $noticiasController->buscarNoticias();
                <?php endif; ?>
             </div>
          </div>
+      
+         <div class="container" id="usuarios">
+            <div class="functions">
+               <h2>Usuários</h2>
+               <div class="filtros"></div>
+               <div></div>
+            </div>
+
+            <div class="cards">
+               <a href="criar_usuario.php" class="card-lugar" id="add-usuario" title="Adicionar usuário">
+                  <i class="fas fa-user-plus"></i>
+               </a>
+               <div class="card-lugar card-lugar-empty">
+                  <i class="fas fa-user"></i>
+                  Cadastre novos usuários
+               </div>
+            </div>
+         </div>
       </section>
    </main>
 
@@ -131,3 +150,4 @@ $noticias = $noticiasController->buscarNoticias();
 <script src="../../public/js/admin.js"></script>
 
 </html>
+

@@ -1,21 +1,20 @@
 <?php
-// SIMPLIFICAÇÃO GERAL: Usar um pattern MVC mais claro e mover validações e tokens CSRF para um middleware/construtor comum.
+// SIMPLIFICAÇÃO GERAL: Usar um pattern MVC mais claro.
 include('../Core/conexao.php');
 include('../Controllers/protect.php');
 include('../Controllers/LugaresController.php');
 require_once('../Utils/ImageUpload.php');
+require_once('../Utils/csrf.php');
 
 $controller = new LugaresController($pdo);
 $mensagem = '';
 $erro = '';
 
 if (!isset($_SESSION)) session_start();
-if (empty($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
+csrf_token();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    if (!csrf_validate($_POST['csrf_token'] ?? null)) {
         $erro = 'Token CSRF inválido.';
     } else {
         $resultado = $controller->criarLocal($_POST, $_FILES);
@@ -29,6 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="pt-br">

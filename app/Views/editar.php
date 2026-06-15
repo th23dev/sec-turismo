@@ -1,9 +1,10 @@
 <?php
-// SIMPLIFICAÇÃO GERAL: Mover lógica de validação e mensagens para um controller separado e padronizar o fluxo de POST/GET.
+// SIMPLIFICAÇÃO GERAL: Mover lógica de validação e mensagens.
 include('../Core/conexao.php');
 include('../Controllers/protect.php');
 include('../Controllers/LugaresController.php');
 require_once('../Utils/ImageUpload.php');
+require_once('../Utils/csrf.php');
 
 $controller = new LugaresController($pdo);
 
@@ -13,9 +14,7 @@ $mensagem = isset($_GET['msg']) ? $_GET['msg'] : '';
 $erro = '';
 
 if (!isset($_SESSION)) session_start();
-if (empty($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
+csrf_token();
 
 if ($id) {
    $lugar = $controller->buscarLugar($id);
@@ -29,7 +28,7 @@ if (!$lugar && $id) {
 
 // Processa adicionar mídia
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acao']) && $_POST['acao'] === 'adicionar_midia' && $id) {
-    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    if (!csrf_validate($_POST['csrf_token'] ?? null)) {
         $erro = 'Token CSRF inválido.';
     } else {
         $resultado = $controller->adicionarMidias($id, $_POST, $_FILES);
@@ -44,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acao']) && $_POST['ac
 
 // Processa excluir mídia
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acao']) && $_POST['acao'] === 'excluir_midia' && $id) {
-    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    if (!csrf_validate($_POST['csrf_token'] ?? null)) {
         $erro = 'Token CSRF inválido.';
     } else {
         $midia_id = intval($_POST['midia_id'] ?? 0);
@@ -58,19 +57,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acao']) && $_POST['ac
 
 // Processa o formulário principal se enviado
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['acao']) && $lugar) {
-    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    if (!csrf_validate($_POST['csrf_token'] ?? null)) {
         $erro = 'Token CSRF inválido.';
     } else {
-        // Determina qual imagem usar (arquivo ou URL)
         $imagem_principal = '';
         if (!empty($_FILES['arquivo_imagem']['name'])) {
-            // Arquivo foi enviado, será processado no controller
             $imagem_principal = 'arquivo';
         } else {
-            // Usar URL do formulário
             $imagem_principal = $_POST['imagem_principal_url'] ?? '';
         }
-        
+
         $resultado = $controller->atualizarLocal(
             $id,
             $imagem_principal,
@@ -85,7 +81,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['acao']) && $lugar) {
         );
         if ($resultado) {
             $mensagem = 'Local atualizado com sucesso!';
-            // Recarrega os dados atualizados
             $lugar = $controller->buscarLugar($id);
         } else {
             $erro = 'Erro ao atualizar o local.';
@@ -95,6 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['acao']) && $lugar) {
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="pt-br">

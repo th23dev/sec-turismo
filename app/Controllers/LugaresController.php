@@ -132,6 +132,25 @@ class LugaresController
     }
 
     public function excluirLugar($id){
+        // Deleta imagem principal (somente quando for upload local)
+        $lugar = $this->model->buscarLugar($id);
+        if ($lugar && !empty($lugar['imagem_principal']) && strpos($lugar['imagem_principal'], 'imgs/uploads/') !== false) {
+            ImageUpload::delete($lugar['imagem_principal']);
+        }
+
+        // Deleta mídias do lugar (somente quando forem uploads locais)
+        $midias = $this->model->buscarMidias($id);
+        if (!empty($midias)) {
+            foreach ($midias as $midia) {
+                $url = $midia['url'] ?? '';
+                if (!empty($url) && strpos($url, 'imgs/uploads/') !== false) {
+                    ImageUpload::delete($url);
+                }
+            }
+        }
+
+        // Deleta registros no banco (ordem: mídias->local)
+        $this->model->excluirMidiasPorLugar($id);
         return $this->model->excluirLugar($id);
     }
     

@@ -1,0 +1,10 @@
+# =============================
+# Sec-Turismo - Segurança
+# (fallback raiz)
+# =============================
+
+# Bloqueia acesso direto a arquivos sensíveis
+<FilesMatch "(^\.env$|^\.env\..*|^composer\.json$|^composer\.lock$)">
+  Require all denied
+</FilesMatch>
+

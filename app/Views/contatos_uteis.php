@@ -33,7 +33,7 @@
             hospital (91) 98456-0893 <i class="fas fa-hospital"></i>
          </div>
          <div class="contact">
-            cat - centro de atendimento ao turista (91) <i class="fas fa-info"></i>
+            cat - centro de atendimento ao turista (91) 98548-8735<i class="fas fa-info"></i>
          </div>
          <div class="contact">
             polícia militar (91) 98631-2863 <i class="fas fa-gun"></i>
