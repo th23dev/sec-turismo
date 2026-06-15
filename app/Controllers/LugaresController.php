@@ -135,7 +135,7 @@ class LugaresController
         return $this->model->excluirLugar($id);
     }
     
-    public function atualizarLocal($id, $imagem_principal = '', $nome, $tipo, $numero, $instagram, $linkInstagram, $descricao, $possui_restaurante, $arquivos = [])
+    public function atualizarLocal($id, $imagem_principal, $nome, $tipo, $numero, $instagram, $linkInstagram, $descricao, $possui_restaurante, $arquivos = [])
     {
         require_once '../Utils/ImageUpload.php';
         
