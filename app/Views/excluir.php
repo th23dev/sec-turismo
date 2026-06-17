@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar_exclusao'])
         .delete-container {
             max-width: 600px;
             margin: 2rem auto;
-            background: white;
+            background: var(--secondary-bg);
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             overflow: hidden;
@@ -82,11 +82,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar_exclusao'])
         }
 
         .place-card {
-            background: #f8f9fa;
+            background: var(--bg);
             border-radius: 8px;
             padding: 1.5rem;
             margin-bottom: 2rem;
-            border: 1px solid #e9ecef;
+            border: 1px solid rgba(0, 44, 153, 0.12);
         }
 
         .place-image {
@@ -95,19 +95,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar_exclusao'])
             object-fit: cover;
             border-radius: 6px;
             margin-bottom: 1rem;
-            border: 2px solid #dee2e6;
+            border: 1px solid rgba(0, 44, 153, 0.12);
         }
 
         .place-details h3 {
             margin: 0 0 0.5rem 0;
-            color: #2c3e50;
+            color: var(--main-text);
             font-size: 1.4rem;
             font-weight: 600;
         }
 
         .place-details p {
             margin: 0 0 1rem 0;
-            color: #6c757d;
+            color: var(--text-color);
             line-height: 1.5;
         }
 
@@ -122,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar_exclusao'])
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            color: #495057;
+            color: var(--text-color);
             font-size: 0.9rem;
         }
 
@@ -211,6 +211,132 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar_exclusao'])
             .btn-cancel {
                 width: 100%;
                 justify-content: center;
+            }
+        }
+
+        body.dark .delete-container {
+            background: var(--secondary-bg);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 16px 42px rgba(0, 0, 0, 0.35);
+        }
+
+        body.dark .place-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        body.dark .place-details h3,
+        body.dark .place-details p,
+        body.dark .meta-item,
+        body.dark .meta-item i {
+            color: var(--text-color);
+        }
+
+        body.dark .warning-message {
+            background: rgba(255, 214, 0, 0.12);
+            border-color: rgba(255, 214, 0, 0.32);
+            color: #ffe58a;
+        }
+
+        .delete-container {
+            width: min(860px, 92%);
+            max-width: none;
+            margin: clamp(28px, 5vw, 56px) auto;
+            background: var(--secondary-bg);
+            border: 1px solid rgba(0, 44, 153, 0.12);
+            border-radius: 8px;
+            box-shadow: 0 24px 58px rgba(0, 44, 153, 0.12);
+        }
+
+        .delete-header {
+            background:
+                linear-gradient(90deg, rgba(150, 20, 36, 0.96), rgba(220, 53, 69, 0.92)),
+                #dc3545;
+            padding: 28px;
+        }
+
+        .delete-header .warning-icon {
+            display: grid;
+            place-items: center;
+            width: 58px;
+            height: 58px;
+            margin: 0 auto 14px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.14);
+            font-size: 1.8rem;
+        }
+
+        .delete-header h1 {
+            font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .delete-content {
+            padding: clamp(20px, 4vw, 32px);
+        }
+
+        .place-card {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            padding: 16px;
+            border: 1px solid rgba(0, 44, 153, 0.12);
+            border-radius: 8px;
+            background: var(--bg);
+        }
+
+        .place-image {
+            width: 160px;
+            min-width: 160px;
+            height: 150px;
+            margin: 0;
+            border: 1px solid rgba(0, 44, 153, 0.12);
+            border-radius: 8px;
+        }
+
+        .place-details h3 {
+            color: var(--main-text);
+        }
+
+        .place-details p,
+        .meta-item,
+        .meta-item i {
+            color: var(--text-color);
+        }
+
+        .warning-message {
+            background: rgba(255, 214, 0, 0.14);
+            border: 1px solid rgba(255, 214, 0, 0.36);
+            border-radius: 8px;
+            color: #6b4a00;
+        }
+
+        .delete-actions {
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        .btn-delete,
+        .btn-cancel {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 46px;
+            min-width: 160px;
+            border-radius: 8px;
+            font-weight: 900;
+        }
+
+        @media (max-width: 680px) {
+            .place-card {
+                flex-direction: column;
+            }
+
+            .place-image {
+                width: 100%;
+                min-width: 0;
             }
         }
     </style>

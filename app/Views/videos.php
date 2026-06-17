@@ -57,10 +57,10 @@ $videos = $controller->buscarVideos($search);
                      <?php foreach ($videos as $video): ?> 
                         <li class="carousel-slide">
                            <div class="video-card">
-                              <video src="<?= $video['video'] ?>" controls preload></video>
+                              <video src="<?= htmlspecialchars($video['video']) ?>" controls preload></video>
                               <div class="video-info">
-                                 <h3><?= $video['titulo'] ?></h3>
-                                 <p><?= $video['descricao'] ?></p>
+                                 <h3><?= htmlspecialchars($video['titulo']) ?></h3>
+                                 <p><?= htmlspecialchars($video['descricao']) ?></p>
                               </div>
                            </div>
                         </li>

@@ -1,39 +1,56 @@
 # Turismo Curuçá
 
-Projeto de desenvolvimento de um site turístico para a **Secretaria de Turismo da cidade de Curuçá (PA)**. 
-## Objetivos 
+Site turístico para a Secretaria de Turismo de Curuçá (PA), com páginas públicas de atrativos, serviços ao visitante e painel administrativo para gestão de conteúdo.
 
-O objetivo é divulgar os pontos turísticos da região e oferecer uma plataforma administrativa para gestão do conteúdo buscando:
+## Requisitos
 
-- Facilitar a divulgação dos atrativos turísticos de Curuçá.  
-- Oferecer uma plataforma simples e eficiente para a Secretaria de Turismo gerenciar conteúdos.  
-- Garantir uma experiência agradável e informativa para visitantes e moradores.
+- PHP 8.1 ou superior
+- MySQL/MariaDB
+- Apache com `mod_rewrite`
+- Extensões PHP comuns: `pdo_mysql`, `mbstring`, `fileinfo` e `gd` ou suporte equivalente para uploads
 
-## Estrutura do Projeto
+## Configuração
 
-O sistema segue o padrão **MVC (Model-View-Controller)**:
+1. Duplique `.env.example` para `.env`.
+2. Ajuste as credenciais do banco:
 
-- **Model**: Representa os dados e a lógica de negócio (pontos turísticos, categorias, etc.).
-- **View**: Interface para o usuário final (site público) e para o administrador (painel de controle).
-- **Controller**: Responsável por intermediar a comunicação entre Model e View.
+```env
+DB_HOST=localhost
+DB_NAME=sec_turismo
+DB_USER=root
+DB_PASSWORD=
+BASE_URL=
+```
 
----
+3. Garanta permissão de escrita para `public/imgs/uploads`.
+4. Importe/crie as tabelas usadas pelo painel antes de cadastrar notícias, locais e usuários.
 
-## Funcionalidades CRUD
+## Como Rodar Localmente
 
-O painel administrativo permite gerenciar os pontos turísticos através das operações **CRUD**:
+Com Laragon ou Apache local, aponte o host para a raiz do projeto e acesse:
 
-- **Create (Criar)**: Adicionar novos pontos turísticos ao banco de dados pela interface administrativa.  
-- **Read (Ler)**: Visualizar os pontos turísticos cadastrados na página pública.  
-- **Update (Atualizar)**: Editar informações de pontos turísticos e refletir as alterações no site.  
-- **Delete (Excluir)**: Remover pontos turísticos do banco de dados.  
+```text
+/public/index.php
+```
 
-## Tecnologias
+Se acessar apenas a raiz do domínio, o `.htaccess` redireciona para `public/index.php`.
 
-- **Backend**: php 
-- **Frontend**: HTML5, CSS3, JavaScript
-- **Banco de Dados**: MySQL
-- **Controle de Versão**: Git + GitHub
+## Implantação
 
-*"Raffael Thauã da Silva Lima"*
+A estrutura atual ainda possui páginas públicas em `app/Views/*.php`. Por isso, para publicar sem refatorar rotas, hospede a raiz do projeto e mantenha o `.htaccess` ativo. Ele bloqueia acesso às camadas internas (`Core`, `Controllers`, `Models`, `Utils`) e redireciona a raiz para a página inicial.
 
+Para uma implantação mais rígida no futuro, o próximo passo recomendado é criar um roteador único em `public/index.php` e mover todo acesso público para URLs controladas por esse front controller.
+
+## Estrutura
+
+- `public/`: página inicial, CSS, JavaScript, imagens e documentos públicos.
+- `app/Views/`: páginas públicas secundárias e telas administrativas.
+- `app/Controllers/`: regras de fluxo entre views e models.
+- `app/Models/`: acesso ao banco de dados.
+- `app/Utils/`: helpers de ambiente, CSRF e upload.
+- `app/Core/conexao.php`: conexão PDO com o banco.
+
+## Observações
+
+- A página inicial não derruba o site se o banco ainda não estiver configurado; nesse caso, apenas a seção de notícias fica vazia.
+- Não publique `.env`, dumps SQL ou backups no servidor público.

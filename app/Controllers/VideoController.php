@@ -13,6 +13,54 @@ class VideoController {
     public function buscarVideos($search) {
         return $this->model->buscarVideos($search);
     }
+
+    public function buscarVideo($id) {
+        return $this->model->buscarVideo($id);
+    }
+
+    public function criarVideo($dados) {
+        $titulo = trim($dados['titulo'] ?? '');
+        $descricao = trim($dados['descricao'] ?? '');
+        $video = trim($dados['video'] ?? '');
+
+        if (!$this->validarDadosVideo($titulo, $video)) {
+            return false;
+        }
+
+        return $this->model->criarVideo($titulo, $descricao, $video);
+    }
+
+    public function atualizarVideo($id, $dados) {
+        $titulo = trim($dados['titulo'] ?? '');
+        $descricao = trim($dados['descricao'] ?? '');
+        $video = trim($dados['video'] ?? '');
+
+        if (!$this->validarDadosVideo($titulo, $video)) {
+            return false;
+        }
+
+        return $this->model->atualizarVideo($id, $titulo, $descricao, $video);
+    }
+
+    public function excluirVideo($id) {
+        return $this->model->excluirVideo($id);
+    }
+
+    private function validarUrlVideo($url) {
+        if (!filter_var($url, FILTER_VALIDATE_URL)) {
+            return false;
+        }
+
+        $path = parse_url($url, PHP_URL_PATH) ?? '';
+        $ext = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+        $permitidas = ['mp4', 'webm', 'ogg', 'mov'];
+
+        return in_array($ext, $permitidas, true);
+    }
+
+    private function validarDadosVideo($titulo, $video) {
+        return $titulo !== '' && $video !== '' && $this->validarUrlVideo($video);
+    }
 }
 
 ?>

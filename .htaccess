@@ -1,10 +1,20 @@
 # =============================
 # Sec-Turismo - Segurança
-# (fallback raiz)
 # =============================
+#
+# Estrutura atual:
+# - a página inicial fica em /public/index.php;
+# - algumas páginas públicas ainda são servidas por /app/Views/*.php.
+#
+# Em produção, mantenha este .htaccess na raiz do projeto ou evolua o projeto
+# para um roteador único antes de usar /public como DocumentRoot exclusivo.
 
-# Bloqueia acesso direto a arquivos sensíveis
-<FilesMatch "(^\.env$|^\.env\..*|^composer\.json$|^composer\.lock$)">
+Options -Indexes
+DirectoryIndex index.php public/index.php
+
+<FilesMatch "(^\.env$|^\.env\..*|^composer\.json$|^composer\.lock$|^README\.md$|^TODO\.md$)">
   Require all denied
 </FilesMatch>
 
+RedirectMatch 404 ^/app/(Core|Controllers|Models|Utils)/
+RedirectMatch 404 ^/app/config\.php$

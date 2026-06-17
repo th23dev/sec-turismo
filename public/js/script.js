@@ -35,6 +35,10 @@ const body = document.body;
 function updateDarkModeIcon() {
     if (darkModeToggle) {
         const icon = darkModeToggle.querySelector('i');
+        if (!icon) {
+            return;
+        }
+
         if (body.classList.contains('dark')) {
             icon.className = 'fas fa-sun';
             darkModeToggle.classList.add('active');

@@ -27,6 +27,13 @@ try {
     global $pdo, $mysqli;
     $mysqli = $pdo;
 } catch (PDOException $e) {
+    if (defined('DB_OPTIONAL') && DB_OPTIONAL) {
+        global $pdo, $mysqli;
+        $pdo = null;
+        $mysqli = null;
+        return;
+    }
+
     // Evita vazar detalhes sensíveis.
     http_response_code(500);
     die('Erro na conexão com o banco de dados.');
