@@ -1,4 +1,4 @@
-/* --- Catálogo de Igarapés --- */
+
 .catalogo {
    background: var(--bg);
    text-align: center;
@@ -358,7 +358,7 @@ body.dark {
    }
 }
 
-/* Responsividade para celulares no modo horizontal */
+
 @media (max-width: 1024px) and (orientation: landscape) and (max-height: 600px) {
    .modal-box {
       flex-direction: row;

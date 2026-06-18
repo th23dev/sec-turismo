@@ -1,3 +1,4 @@
+<?php require_once __DIR__ . '/../Utils/url.php'; start_url_rewriter(); ?>
 <?php
 include('../Core/conexao.php');
 include('../Controllers/protect.php');
@@ -27,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar_exclusao'])
     } else {
         $resultado = $controller->excluirNoticia($id);
         if ($resultado) {
-            header('location: admin.php');
+            header('location: ' . redirect_url('admin'));
             exit;
         } else {
             $erro = 'Erro ao excluir a notícia.';
@@ -43,8 +44,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar_exclusao'])
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Excluir Notícia - Turismo Curuçá</title>
-    <link rel="stylesheet" href="../../public/css/conexao.css">
-    <link rel="stylesheet" href="../../public/css/editar.css">
+   <link rel="stylesheet" href="/public/css/conexao.css">
+    <link rel="stylesheet" href="/public/css/editar.css">
 </head>
 <body>
     <nav class="back-nav">
@@ -52,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar_exclusao'])
             <h1>Excluir Notícia</h1>
         </div>
         <div class="btn-box">
-            <a href="admin.php" class="btn-voltar">
+            <a href="/admin" class="btn-voltar">
                 <i class="fas fa-chevron-left"></i> Voltar
             </a>
         </div>
@@ -97,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar_exclusao'])
                         <button type="submit" name="confirmar_exclusao" class="btn-delete">
                             <i class="fas fa-trash"></i> Excluir
                         </button>
-                        <a href="admin.php" class="btn-cancel">
+                        <a href="/admin" class="btn-cancel">
                             <i class="fas fa-times"></i> Cancelar
                         </a>
                     </form>

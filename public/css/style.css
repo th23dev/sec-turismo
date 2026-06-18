@@ -14,7 +14,7 @@
    --footer-color: #222;
 }
 
-/* Dark mode variables */
+
 body.dark {
    --bg: #1a1a1a;
    --secondary-bg: #2d2d2d;
@@ -58,7 +58,59 @@ section {
    background-color: var(--bg);
 }
 
-/* --- Navbar --- */
+.reveal-on-scroll {
+   opacity: 0;
+   transform: translateY(34px);
+   transition:
+      opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+   transition-delay: var(--reveal-delay, 0ms);
+   will-change: opacity, transform;
+}
+
+.reveal-on-scroll.is-visible {
+   opacity: 1;
+   transform: translateY(0);
+}
+
+.card.reveal-on-scroll,
+.card-lugar.reveal-on-scroll,
+.contact-card.reveal-on-scroll,
+.news-card.reveal-on-scroll,
+.parent > a.reveal-on-scroll {
+   transform: translateY(38px) scale(0.98);
+}
+
+.card.reveal-on-scroll.is-visible,
+.card-lugar.reveal-on-scroll.is-visible,
+.contact-card.reveal-on-scroll.is-visible,
+.news-card.reveal-on-scroll.is-visible,
+.parent > a.reveal-on-scroll.is-visible {
+   transform: translateY(0) scale(1);
+}
+
+.card.reveal-on-scroll.is-visible:hover,
+.card-lugar.reveal-on-scroll.is-visible:hover,
+.contact-card.reveal-on-scroll.is-visible:hover,
+.news-card.reveal-on-scroll.is-visible:hover,
+.parent > a.reveal-on-scroll.is-visible:hover {
+   transform: translateY(-3px) scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+   .reveal-on-scroll,
+   .card.reveal-on-scroll,
+   .card-lugar.reveal-on-scroll,
+   .contact-card.reveal-on-scroll,
+   .news-card.reveal-on-scroll,
+   .parent > a.reveal-on-scroll {
+      opacity: 1;
+      transform: none;
+      transition: none;
+   }
+}
+
+
 #main-nav {
    background:
       linear-gradient(90deg, rgba(0, 44, 153, 0.98), rgba(0, 71, 255, 0.94)),
@@ -88,11 +140,11 @@ section {
 
       .logo-img {
          height: 52px;
-         padding: 6px;
-         border-radius: 8px;
-         background: rgba(255, 255, 255, 0.12);
+         padding: 0;
+         border-radius: 0;
+         background: transparent;
          filter: none;
-         transition: transform 0.3s ease, background 0.3s ease;
+         transition: transform 0.3s ease;
       }
 
       .logo-text {
@@ -106,7 +158,6 @@ section {
 
       &:hover .logo-img {
          transform: translateY(-2px);
-         background: rgba(255, 255, 255, 0.18);
       }
    }
 
@@ -130,12 +181,12 @@ section {
             font-weight: 800;
             font-size: 0.86rem;
             position: relative;
-            transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+            transition: color 0.2s ease, transform 0.2s ease;
             text-transform: uppercase;
             letter-spacing: 0;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            border-radius: 8px;
+            background: transparent;
+            border: 0;
+            border-radius: 0;
             cursor: pointer;
             min-height: 40px;
             padding: 10px 14px;
@@ -146,9 +197,7 @@ section {
 
             &:hover {
                transform: translateY(-2px);
-               border-color: rgba(255, 214, 0, 0.62);
-               background: var(--accent-color);
-               color: var(--dark-color);
+               color: var(--accent-color);
             }
 
             &::after {
@@ -192,7 +241,7 @@ section {
    }
 }
 
-/* --- Hero Section --- */
+
 .hero {
    position: relative;
    height: 100vh;
@@ -506,7 +555,7 @@ body.dark .news-image-placeholder {
    text-align: center;
 }
 
-/* --- Botão Voltar --- */
+
 .back-nav {
    position: sticky;
    top: 0;
@@ -635,7 +684,7 @@ body.dark .news-image-placeholder {
    }
 }
 
-/* --- Footer --- */
+
 footer {
    background: var(--footer-color);
    color: var(--text-light);
@@ -737,24 +786,65 @@ footer {
 
       .btn-box {
          width: 92%;
-         flex-direction: column;
-         align-items: stretch;
+         display: grid;
+         grid-template-columns: repeat(2, minmax(0, 1fr));
+         align-items: center;
          padding-bottom: 12px;
+
+         > * {
+            min-width: 0;
+         }
 
          .btn-voltar,
          .btn-logout,
          #user-name {
             font-size: 0.9rem;
             width: 100%;
+            min-height: 42px;
+            padding: 9px 12px;
+         }
+
+         .btn-voltar:first-of-type {
+            order: 1;
+         }
+
+         .btn-voltar:last-of-type {
+            order: 2;
+         }
+
+         .btn-voltar:only-child {
+            grid-column: 1 / -1;
+         }
+
+         #user-name {
+            order: 2;
+            grid-column: 1 / -1;
+         }
+
+         .btn-logout {
+            order: 3;
          }
 
          form {
+            order: 3;
+            grid-column: 1 / -1;
             width: 100%;
             max-width: none;
+            flex: none;
+            min-height: 44px;
+            padding: 5px 6px 5px 12px;
 
             input {
                font-size: 0.9rem;
                width: auto;
+               min-height: 32px;
+               padding: 6px 4px;
+            }
+
+            button {
+               flex: 0 0 36px;
+               width: 36px;
+               height: 36px;
             }
          }
       }
@@ -781,7 +871,7 @@ footer {
    }
 }
 
-/* Responsividade para dispositivos em modo horizontal */
+
 @media (max-width: 1024px) and (orientation: landscape) and (max-height: 600px) {
    #main-nav {
       padding: 0 2%;

@@ -4,7 +4,7 @@
       border: none;
 }
 
-/* Responsividade para dispositivos em modo horizontal */
+
 @media (max-width: 1024px) and (orientation: landscape) and (max-height: 600px) {
    #barraca-do-pescador {
       height: 85vh;

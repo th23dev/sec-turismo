@@ -74,4 +74,3 @@ class VideoModel {
         $this->db->exec($sql);
     }
 }
-?>

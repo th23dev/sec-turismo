@@ -6,7 +6,7 @@
    padding: clamp(28px, 5vw, 56px) 5%;
 }
 
-/* --- Alertas --- */
+
 .alert {
    padding: 14px 16px;
    border-radius: 8px;
@@ -50,14 +50,14 @@
    }
 }
 
-/* --- Formulário --- */
+
 .editar-form {
    display: flex;
    flex-direction: column;
    gap: 18px;
 }
 
-/* --- Seções do Formulário --- */
+
 .form-section {
    background: var(--secondary-bg);
    border-radius: 8px;
@@ -91,7 +91,7 @@
    justify-content: center;
 }
 
-/* --- Grupos de Campos --- */
+
 .form-group {
    display: flex;
    flex-direction: column;
@@ -110,14 +110,14 @@
    letter-spacing: 0;
 }
 
-/* --- Linhas do Formulário (2 colunas) --- */
+
 .form-row {
    display: grid;
    grid-template-columns: 1fr 1fr;
    gap: 16px;
 }
 
-/* --- Inputs, Selects, Textarea --- */
+
 .form-group input[type="text"],
 .form-group input[type="email"],
 .form-group input[type="password"],
@@ -184,7 +184,7 @@
    line-height: 1.6;
 }
 
-/* --- Input com Ícone --- */
+
 .input-icon {
    position: relative;
    display: flex;
@@ -203,7 +203,7 @@
    padding-left: 44px !important;
 }
 
-/* --- Preview de Imagem --- */
+
 .image-preview-group {
    background: var(--secondary-bg);
    border-radius: 8px;
@@ -266,7 +266,7 @@
    font-weight: 500;
 }
 
-/* --- Toggle Switch --- */
+
 .toggle-group {
    display: flex;
    align-items: center;
@@ -336,7 +336,7 @@
    box-shadow: 0 0 0 3px rgba(0, 71, 255, 0.2);
 }
 
-/* --- Botões de Ação --- */
+
 .form-actions {
    display: flex;
    gap: 12px;
@@ -539,7 +539,7 @@
    color: white;
 }
 
-/* --- Dark Mode Adaptações --- */
+
 body.dark .form-section {
    background: var(--secondary-bg);
    border-color: rgba(0, 86, 255, 0.15);
@@ -638,7 +638,7 @@ body.dark .place-details p {
    color: var(--text-color);
 }
 
-/* --- Responsividade --- */
+
 @media (max-width: 768px) {
    #section-editar {
       padding: 20px 4%;
@@ -692,7 +692,7 @@ body.dark .place-details p {
    }
 }
 
-/* --- Seção de Mídias --- */
+
 .midias-grid {
    display: grid;
    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
@@ -814,7 +814,7 @@ body.dark .place-details p {
    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
 }
 
-/* --- Sistema de Abas para Mídias Adicionais --- */
+
 .midia-input-tabs {
    display: flex;
    gap: 8px;
@@ -866,7 +866,7 @@ body.dark .midia-input-tabs {
    border-bottom-color: #444;
 }
 
-/* --- Dark Mode para Tab de Mídias --- */
+
 body.dark .midia-input-tabs .tab-btn {
    color: #888;
 }
@@ -879,7 +879,7 @@ body.dark .midia-input-tabs .tab-btn.active {
    color: var(--primary-color);
 }
 
-/* --- Dark Mode Mídias --- */
+
 body.dark .midia-card {
    background: linear-gradient(135deg, #3a3a3a 0%, #333 100%);
    border-color: #555;
@@ -904,7 +904,7 @@ body.dark .midia-add-row input[type="text"]:focus {
    border-color: var(--primary-color);
 }
 
-/* --- Sistema de Abas para Upload --- */
+
 .image-input-tabs {
    display: flex;
    gap: 8px;
@@ -963,7 +963,7 @@ body.dark .midia-add-row input[type="text"]:focus {
    }
 }
 
-/* --- Upload de Arquivo --- */
+
 .file-upload-container {
    margin-bottom: 16px;
 }
@@ -1005,7 +1005,7 @@ body.dark .midia-add-row input[type="text"]:focus {
    margin-top: 4px;
 }
 
-/* --- Dark Mode - Upload --- */
+
 body.dark .image-input-tabs {
    border-color: #444;
    background: #3a3a3a;
@@ -1041,7 +1041,7 @@ body.dark .file-upload-label small {
    color: #999;
 }
 
-/* --- Responsividade - Upload --- */
+
 @media (max-width: 768px) {
    .image-input-tabs {
       flex-wrap: wrap;

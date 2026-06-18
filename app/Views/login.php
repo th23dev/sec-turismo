@@ -1,5 +1,5 @@
+<?php require_once __DIR__ . '/../Utils/url.php'; start_url_rewriter(); ?>
 <?php 
-// SIMPLIFICAÇÃO GERAL: Separar lógica de autenticação da view e passar mensagens de erro como variável.
 include '../Core/conexao.php';
 require_once '../Utils/csrf.php';
 
@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Turismo Curuçá - Portal</title>
-   <link rel="stylesheet" href="../../public/css/conexao.css">
+   <link rel="stylesheet" href="/public/css/conexao.css">
 </head>
 
 <body>
@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
          <h1>Login</h1>
       </div>
       <div class="btn-box">
-         <a href="../../public/index.php" class="btn-voltar">
+         <a href="/" class="btn-voltar">
             <i class="fas fa-chevron-left"></i> Voltar
          </a>
       </div>
@@ -43,10 +43,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
    <main>
       <section id="login-section">
-         <!-- ERRO: $erro nunca é definido no escopo da view. Solução: o controller deve definir $erro antes de renderizar ou a variável deve ser inicializada. -->
          <?php if (!empty($erro)) echo "<p style='color:red'>$erro</p>"; ?>
 
-         <!-- ERRO: formulário de login não possui token CSRF. Solução: gerar token CSRF na sessão e validar ao receber POST. -->
          <form action="" method="post">
             <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
             <label for="email">E-mail:</label>
@@ -62,6 +60,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 </body>
 
-<script src="../../public/js/script.js"></script>
+<script src="/public/js/script.js"></script>
 
 </html>

@@ -1,6 +1,4 @@
 <?php
-// SIMPLIFICAÇÃO GERAL: Implementar um framework MVC como Laravel para melhor organização do código, usar bibliotecas de autenticação seguras, e ORM para abstrair consultas ao banco de dados.
-// ERRO: Senha em texto plano. Risco: Qualquer pessoa com acesso ao banco vê as senhas. Solução: Usar password_hash() no cadastro e password_verify() no login.
 class UsuarioModel {
     private $db;
 
@@ -23,4 +21,3 @@ class UsuarioModel {
         return $stmt->execute([$nome, $email, $senhaHash]);
     }
 }
-?>

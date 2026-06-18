@@ -1,5 +1,5 @@
+<?php require_once __DIR__ . '/../Utils/url.php'; start_url_rewriter(); ?>
 <?php
-// SIMPLIFICAÇÃO GERAL: Padronizar o carregamento de dados e manter esta view apenas para renderizar o catálogo de igarapés.
 include '../Core/conexao.php';
 require_once '../Controllers/LugaresController.php';
 
@@ -15,7 +15,7 @@ $lugares = $controller->buscarLugares('igarape');
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Turismo Curuçá - Igarapés</title>
-   <link rel="stylesheet" href="../../public/css/conexao.css">
+   <link rel="stylesheet" href="/public/css/conexao.css">
 </head>
 
 <body>
@@ -25,7 +25,7 @@ $lugares = $controller->buscarLugares('igarape');
          <h1>Igarapés</h1>
       </div>
       <div class="btn-box">
-         <a href="menu.php" class="btn-voltar">
+         <a href="/menu" class="btn-voltar">
             <i class="fas fa-chevron-left"></i> Voltar
          </a>
 
@@ -34,8 +34,7 @@ $lugares = $controller->buscarLugares('igarape');
             <button type="submit"><i class="fas fa-search"></i></button>
          </form>
 
-         <!-- ERRO: O caminho relativo pode estar incorreto para public/index.php a partir desta view. Solução: confirme se deve ser ../../public/index.php. -->
-         <a href="../../public/index.php" class="btn-voltar">
+         <a href="/" class="btn-voltar">
             Início <i class="fas fa-house"></i>
          </a>
       </div>
@@ -108,7 +107,7 @@ $lugares = $controller->buscarLugares('igarape');
    <?php include 'components/footer.php'; ?>
 
 </body>
-<script src="../../public/js/script.js"></script>
-<script src="../../public/js/catalogo.js"></script>
+<script src="/public/js/script.js"></script>
+<script src="/public/js/catalogo.js"></script>
 
 </html>

@@ -1,4 +1,4 @@
-/* --- Video Carousel --- */
+
 .video-carousel-section {
    background-color: var(--bg);
    text-align: center;
@@ -110,9 +110,9 @@
    }
 
    .carousel-track-container {
-      overflow-x: hidden;   /* remove scroll horizontal */
-      overflow-y: auto;     /* permite scroll vertical */
-      scroll-snap-type: y mandatory; /* muda snap para vertical */
+      overflow-x: hidden;
+      overflow-y: auto;
+      scroll-snap-type: y mandatory;
       padding: 0;
    }
 
@@ -122,17 +122,17 @@
    }
 
    .carousel-track .carousel-slide {
-      flex: 1 0 auto;       /* ocupa largura total */
+      flex: 1 0 auto;
       padding: 0;
       scroll-snap-align: start;
    }
 
    .carousel-btn {
-      display: none;        /* oculta botões no mobile */
+      display: none;
    }
 }
 
-/* Responsividade para dispositivos em modo horizontal */
+
 @media (max-width: 1024px) and (orientation: landscape) and (max-height: 600px) {
    .carousel-container {
       flex-direction: row;

@@ -5,7 +5,6 @@ require_once '../Utils/ImageUpload.php';
 class LugaresController
 {
     private $model;
-    private $tipo;
 
     public function __construct($conexao)
     {
@@ -85,8 +84,6 @@ class LugaresController
 
     public function criarLocal($dados, $arquivos = [])
     {
-        require_once '../Utils/ImageUpload.php';
-        
         $imagem_principal = '';
         
         // Processa arquivo de upload
@@ -156,8 +153,6 @@ class LugaresController
     
     public function atualizarLocal($id, $imagem_principal, $nome, $tipo, $numero, $instagram, $linkInstagram, $descricao, $possui_restaurante, $arquivos = [])
     {
-        require_once '../Utils/ImageUpload.php';
-        
         // Se não foi fornecida nova imagem, mantém a anterior
         if (empty($imagem_principal)) {
             $imagem_principal_final = '';

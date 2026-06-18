@@ -1,6 +1,7 @@
-// Menu Hambúrguer
 const menuToggle = document.getElementById('menu-toggle');
 const navLinks = document.getElementById('nav-links');
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const body = document.body;
 
 if (menuToggle && navLinks) {
     menuToggle.addEventListener('click', () => {
@@ -9,7 +10,6 @@ if (menuToggle && navLinks) {
         menuToggle.setAttribute('aria-expanded', menuToggle.getAttribute('aria-expanded') === 'false' ? 'true' : 'false');
     });
 
-    // Fechar menu quando clicar em um link
     navLinks.querySelectorAll('a').forEach(link => {
         link.addEventListener('click', () => {
             menuToggle.classList.remove('active');
@@ -18,7 +18,6 @@ if (menuToggle && navLinks) {
         });
     });
 
-    // Fechar menu ao redimensionar a janela
     window.addEventListener('resize', () => {
         if (window.innerWidth > 768) {
             menuToggle.classList.remove('active');
@@ -28,9 +27,7 @@ if (menuToggle && navLinks) {
     });
 }
 
-// Dark Mode Toggle
 const darkModeToggle = document.getElementById('dark-mode-toggle');
-const body = document.body;
 
 function updateDarkModeIcon() {
     if (darkModeToggle) {
@@ -49,7 +46,6 @@ function updateDarkModeIcon() {
     }
 }
 
-// Configurar o toggle
 if (darkModeToggle) {
     darkModeToggle.addEventListener('click', () => {
         body.classList.toggle('dark');
@@ -59,9 +55,79 @@ if (darkModeToggle) {
     });
 }
 
-// Verificar se o modo dark está salvo no localStorage
 const isDarkMode = localStorage.getItem('darkMode') === 'true';
 if (isDarkMode) {
     body.classList.add('dark');
 }
 updateDarkModeIcon();
+
+const revealGroups = [
+    '.services-section .section-heading',
+    '.service-card',
+    '.home-news-header',
+    '.home-news-card',
+    '.home-news-empty',
+    '.intro-section .section-heading',
+    '.intro-section > p',
+    '.experiences-section .section-heading',
+    '.experience-card',
+    '.feature-media',
+    '.feature-content',
+    '.feature-step',
+    '.hero h1',
+    '.hero p',
+    '.btn-start',
+    '.news-header',
+    '.news-card',
+    '.news-empty',
+    '.parent',
+    '.catalogo .card',
+    '.cards-grid > p',
+    '.video-carousel-section .carousel-container',
+    '.carousel-slide',
+    '.map-intro',
+    '.map-frame',
+    '.info-section > .info',
+    '.info-section > .info-image',
+    '.passport-step',
+    '.passport-rules > li',
+    '.passport-preview',
+    '.contact-header',
+    '.contact-card',
+    '#login-section > p',
+    '#login-section > form',
+    '#functions-section > .container',
+    '.functions',
+    '.cards > .card-lugar',
+    '#section-editar > .alert',
+    '.editar-form > .form-group',
+    '.editar-form > .form-section',
+    '.editar-form > .form-actions',
+    '#barraca-do-pescador'
+];
+
+const revealElements = Array.from(document.querySelectorAll(revealGroups.join(',')))
+    .filter((element, index, elements) => !element.closest('.modal') && elements.indexOf(element) === index);
+
+revealElements.forEach((element, index) => {
+    element.classList.add('reveal-on-scroll');
+    element.style.setProperty('--reveal-delay', `${Math.min(index % 4, 3) * 90}ms`);
+});
+
+if (reduceMotion || !('IntersectionObserver' in window)) {
+    revealElements.forEach(element => element.classList.add('is-visible'));
+} else {
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        rootMargin: '0px 0px -12% 0px',
+        threshold: 0.12
+    });
+
+    revealElements.forEach(element => revealObserver.observe(element));
+}

@@ -1,21 +1,17 @@
-# ==========================================
-# SECURITY / ROUTING (public root)
-# ==========================================
-
-# Impede listagem de diretórios
 Options -Indexes
 
-# Bloqueia acesso direto a arquivos sensíveis
 <FilesMatch "\.(env|ini|log|sql|bak|old|swp|dist)$">
     Require all denied
 </FilesMatch>
 
-# Bloqueia acesso a pastas que não devem ser servidas diretamente
+<Files "passaporte_turistico.pdf">
+    Require all denied
+</Files>
+
 RedirectMatch 404 ^/app/
 RedirectMatch 404 ^/vendor/
 RedirectMatch 404 ^/db/
 
-# Headers de segurança
 <IfModule mod_headers.c>
     Header always set X-Frame-Options "DENY"
     Header always set X-Content-Type-Options "nosniff"
@@ -23,13 +19,10 @@ RedirectMatch 404 ^/db/
     Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
 </IfModule>
 
-# Roteia tudo (exceto arquivos existentes) para o front controller
 RewriteEngine On
 
-# Se existe arquivo ou diretório, servir diretamente
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
 
-# Caso contrário, encaminha para public/index.php
 RewriteRule ^ index.php [L]

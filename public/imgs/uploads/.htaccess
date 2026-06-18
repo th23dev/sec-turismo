@@ -1,16 +1,13 @@
-# Permitir acesso a arquivos de imagem
 <FilesMatch "\.(jpg|jpeg|png|webp|gif)$">
     Order Deny,Allow
     Allow from all
 </FilesMatch>
 
-# Bloquear execução de PHP nessa pasta
 <FilesMatch "\.php$">
     Order Deny,Allow
     Deny from all
 </FilesMatch>
 
-# Configurar tipo MIME correto
 AddType image/jpeg .jpg
 AddType image/jpeg .jpeg
 AddType image/png .png

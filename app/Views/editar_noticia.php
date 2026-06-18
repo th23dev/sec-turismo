@@ -1,3 +1,4 @@
+<?php require_once __DIR__ . '/../Utils/url.php'; start_url_rewriter(); ?>
 <?php
 include('../Core/conexao.php');
 include('../Controllers/protect.php');
@@ -27,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $resultado = $controller->atualizarNoticia($id, $_POST, $_FILES);
         if ($resultado) {
-            header('Location: admin.php');
+            header('Location: ' . redirect_url('admin'));
             exit;
         } else {
             $erro = 'Erro ao atualizar a notícia. Tente novamente.';
@@ -44,8 +45,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Notícia - <?= htmlspecialchars($noticia['titulo'] ?? '') ?></title>
-    <link rel="stylesheet" href="../../public/css/conexao.css">
-    <link rel="stylesheet" href="../../public/css/editar.css">
+   <link rel="stylesheet" href="/public/css/conexao.css">
+    <link rel="stylesheet" href="/public/css/editar.css">
 </head>
 
 <body>
@@ -54,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <h1>Editar Notícia</h1>
         </div>
         <div class="btn-box">
-            <a href="admin.php" class="btn-voltar">
+            <a href="/admin" class="btn-voltar">
                 <i class="fas fa-chevron-left"></i> Voltar
             </a>
         </div>
@@ -144,7 +145,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <button type="submit" class="btn-salvar">
                         <i class="fas fa-save"></i> Salvar Alterações
                     </button>
-                    <a href="admin.php" class="btn-cancelar">
+                    <a href="/admin" class="btn-cancelar">
                         <i class="fas fa-times"></i> Cancelar
                     </a>
                 </div>

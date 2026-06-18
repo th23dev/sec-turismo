@@ -1,5 +1,5 @@
+<?php require_once __DIR__ . '/../Utils/url.php'; start_url_rewriter(); ?>
 <?php 
-// SIMPLIFICAÇÃO GERAL: Usar um controller para montar os dados e manter a view apenas para exibir o resultado.
 include '../Core/conexao.php';
 require_once '../Controllers/LugaresController.php'; 
 
@@ -15,7 +15,7 @@ $lugares = $controller->buscarLugares('hotel');
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Turismo Curuçá - Hotéis</title>
-   <link rel="stylesheet" href="../../public/css/conexao.css">
+   <link rel="stylesheet" href="/public/css/conexao.css">
 </head>
 
 <body>
@@ -25,7 +25,7 @@ $lugares = $controller->buscarLugares('hotel');
          <h1>Hotéis Locais</h1>
       </div>
       <div class="btn-box">
-         <a href="menu.php" class="btn-voltar">
+         <a href="/menu" class="btn-voltar">
             <i class="fas fa-chevron-left"></i> Voltar
          </a>
 
@@ -34,7 +34,7 @@ $lugares = $controller->buscarLugares('hotel');
             <button type="submit"><i class="fas fa-search"></i></button>
          </form>
 
-         <a href="../../public/index.php" class="btn-voltar">
+         <a href="/" class="btn-voltar">
             Início <i class="fas fa-house"></i>
          </a>
       </div>
@@ -106,7 +106,7 @@ $lugares = $controller->buscarLugares('hotel');
    <?php include 'components/footer.php'; ?>
 
 </body>
-<script src="../../public/js/script.js"></script>
-<script src="../../public/js/catalogo.js"></script>
+<script src="/public/js/script.js"></script>
+<script src="/public/js/catalogo.js"></script>
 
 </html>

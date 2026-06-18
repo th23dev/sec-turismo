@@ -1,5 +1,5 @@
+<?php require_once __DIR__ . '/../Utils/url.php'; start_url_rewriter(); ?>
 <?php
-// SIMPLIFICAÇÃO GERAL: Validar o item antes de excluir e separar exclusão de mídia da exclusão do local.
 include('../Core/conexao.php');
 include('../Controllers/protect.php');
 include('../Controllers/LugaresController.php');
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar_exclusao'])
         $controller->excluirMidiasPorLugar($id);
         $resultado = $controller->excluirLugar($id);
         if ($resultado) {
-            header('location: admin.php?msg=' . urlencode('Local excluído com sucesso!'));
+            header('location: ' . redirect_url('admin') . '?msg=' . urlencode('Local excluído com sucesso!'));
             exit;
         } else {
             $erro = 'Erro ao excluir o local.';
@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar_exclusao'])
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Excluir Local - Turismo Curuçá</title>
-    <link rel="stylesheet" href="../../public/css/conexao.css">
+   <link rel="stylesheet" href="/public/css/conexao.css">
     <style>
         .delete-container {
             max-width: 600px;
@@ -347,7 +347,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar_exclusao'])
             <h1>Excluir Local</h1>
         </div>
         <div class="btn-box">
-            <a href="admin.php" class="btn-voltar">
+            <a href="/admin" class="btn-voltar">
                 <i class="fas fa-chevron-left"></i> Voltar
             </a>
         </div>
@@ -418,7 +418,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar_exclusao'])
                             </button>
                         </form>
 
-                        <a href="admin.php" class="btn-cancel">
+                        <a href="/admin" class="btn-cancel">
                             <i class="fas fa-times"></i> Cancelar
                         </a>
                     </div>

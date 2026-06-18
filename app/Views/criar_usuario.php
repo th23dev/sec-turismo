@@ -1,3 +1,4 @@
+<?php require_once __DIR__ . '/../Utils/url.php'; start_url_rewriter(); ?>
 <?php
 include '../Core/conexao.php';
 include '../Controllers/protect.php';
@@ -29,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Turismo Curuçá - Criar Usuário</title>
-    <link rel="stylesheet" href="../../public/css/conexao.css">
+   <link rel="stylesheet" href="/public/css/conexao.css">
 </head>
 
 <body>
@@ -38,10 +39,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <h1>Criar Usuário</h1>
         </div>
         <div class="btn-box">
-            <a href="admin.php" class="btn-voltar">
+            <a href="/admin" class="btn-voltar">
                 <i class="fas fa-chevron-left"></i> Voltar
             </a>
-            <a href="admin.php" class="btn-voltar">
+            <a href="/admin" class="btn-voltar">
                 Início <i class="fas fa-house"></i>
             </a>
         </div>
@@ -96,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <button type="submit" class="btn-salvar">
                         <i class="fas fa-plus"></i> Criar Usuário
                     </button>
-                    <a href="admin.php" class="btn-cancelar">
+                    <a href="/admin" class="btn-cancelar">
                         <i class="fas fa-times"></i> Cancelar
                     </a>
                 </div>
@@ -106,7 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <?php include 'components/footer.php'; ?>
 
-    <script src="../../public/js/script.js"></script>
+    <script src="/public/js/script.js"></script>
 </body>
 
 </html>

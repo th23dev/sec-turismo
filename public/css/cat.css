@@ -1,4 +1,4 @@
-/* --- Info Section (CAT) --- */
+
 .info-section {
    background-color: var(--bg);
    display: grid;
@@ -54,6 +54,185 @@
    }
 }
 
+.passport-info {
+   padding: clamp(24px, 4vw, 38px);
+   border-radius: 8px;
+   background:
+      linear-gradient(180deg, rgba(0, 71, 255, 0.08), rgba(0, 44, 153, 0.04)),
+      var(--secondary-bg);
+   border: 1px solid rgba(0, 44, 153, 0.12);
+   box-shadow: 0 18px 44px rgba(0, 44, 153, 0.1);
+
+   h2 {
+      margin-bottom: 12px;
+      line-height: 1.04;
+   }
+
+   h3 {
+      margin: 30px 0 12px;
+      color: var(--main-text);
+      font-size: clamp(1.2rem, 2vw, 1.55rem);
+      line-height: 1.2;
+   }
+
+   > p {
+      color: var(--text-color);
+      font-size: 1.02rem;
+      line-height: 1.75;
+   }
+}
+
+.passport-lead {
+   max-width: 680px;
+   padding-left: 16px;
+   border-left: 4px solid var(--accent-color);
+   font-weight: 700;
+}
+
+.passport-flow {
+   display: grid;
+   gap: 12px;
+   margin: 26px 0 8px;
+}
+
+.passport-step {
+   display: grid;
+   grid-template-columns: 44px 1fr;
+   gap: 14px;
+   align-items: start;
+   padding: 16px;
+   border: 1px solid rgba(0, 71, 255, 0.14);
+   border-radius: 8px;
+   background: rgba(0, 71, 255, 0.06);
+
+   span {
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      background: var(--primary-color);
+      color: var(--text-light);
+      font-weight: 900;
+      box-shadow: 0 10px 22px rgba(0, 44, 153, 0.18);
+   }
+
+   strong {
+      display: block;
+      color: var(--main-text);
+      font-size: 1.02rem;
+      line-height: 1.2;
+   }
+
+   p {
+      margin: 6px 0 0;
+      color: var(--text-color);
+      line-height: 1.55;
+   }
+}
+
+.passport-rules {
+   display: grid;
+   gap: 12px;
+   margin-top: 16px;
+   padding-left: 0;
+   list-style: none;
+   counter-reset: passport-rules;
+
+   li {
+      position: relative;
+      padding: 16px 16px 16px 58px;
+      border-radius: 8px;
+      background: var(--secondary-bg);
+      border: 1px solid rgba(0, 44, 153, 0.1);
+      counter-increment: passport-rules;
+
+      &::before {
+         content: counter(passport-rules);
+         position: absolute;
+         top: 16px;
+         left: 16px;
+         display: grid;
+         place-items: center;
+         width: 30px;
+         height: 30px;
+         border-radius: 8px;
+         background: var(--accent-color);
+         color: var(--dark-color);
+         font-weight: 900;
+      }
+   }
+
+   strong {
+      display: block;
+      color: var(--main-text);
+      line-height: 1.25;
+   }
+
+   p {
+      margin: 8px 0 0;
+      line-height: 1.65;
+   }
+}
+
+.passport-preview {
+   position: sticky;
+   top: 110px;
+   align-self: start;
+}
+
+.passport-preview-card {
+   overflow: hidden;
+   border-radius: 8px;
+   background:
+      radial-gradient(circle at 50% 28%, rgba(255, 214, 0, 0.22), transparent 36%),
+      linear-gradient(135deg, rgba(0, 44, 153, 0.98), rgba(0, 71, 255, 0.92));
+   border: 1px solid rgba(255, 255, 255, 0.18);
+   box-shadow: 0 28px 70px rgba(0, 44, 153, 0.22);
+
+   img {
+      display: block;
+      width: min(86%, 460px);
+      margin: 40px auto 28px;
+      border-radius: 6px;
+      box-shadow: none;
+      transform: rotate(-2deg);
+      filter: drop-shadow(0 28px 34px rgba(0, 0, 0, 0.34));
+   }
+}
+
+.passport-note {
+   padding: 22px 24px 24px;
+   background: rgba(0, 20, 80, 0.42);
+   color: var(--text-light);
+
+   strong {
+      display: block;
+      color: var(--accent-color);
+      font-size: 1.05rem;
+      text-transform: uppercase;
+   }
+
+   p {
+      margin: 8px 0 0;
+      color: rgba(255, 255, 255, 0.88);
+      line-height: 1.65;
+   }
+}
+
+body.dark {
+   .passport-info,
+   .passport-rules li {
+      background: var(--secondary-bg);
+      border-color: rgba(255, 255, 255, 0.08);
+   }
+
+   .passport-step {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.08);
+   }
+}
+
 @media (max-width: 768px) {
    .info-section {
       grid-template-columns: 1fr;
@@ -62,9 +241,22 @@
          font-size: 20px;
       }
    }
+
+   .passport-info {
+      padding: 22px;
+   }
+
+   .passport-preview {
+      position: static;
+   }
+
+   .passport-preview-card img {
+      width: min(86%, 360px);
+      margin-top: 28px;
+   }
 }
 
-/* Responsividade para dispositivos em modo horizontal */
+
 @media (max-width: 1024px) and (orientation: landscape) and (max-height: 600px) {
    .info-section {
       grid-template-columns: 1fr 1fr;

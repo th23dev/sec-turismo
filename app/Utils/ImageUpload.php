@@ -4,7 +4,7 @@ class ImageUpload
     private const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
     private const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
     private const ALLOWED_EXTENSIONS = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
-    private const UPLOAD_DIR_WEB = '../../public/imgs/uploads/';
+    private const UPLOAD_DIR_WEB = '/public/imgs/uploads/';
 
     // Media (images + videos)
     private const MAX_MEDIA_FILE_SIZE = 50 * 1024 * 1024; // 50MB
@@ -241,4 +241,3 @@ class ImageUpload
         return false;
     }
 }
-?>

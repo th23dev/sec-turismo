@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../Utils/csrf.php';
+require_once __DIR__ . '/../Utils/url.php';
 
 class AuthController
 {
@@ -39,11 +40,7 @@ class AuthController
       $_SESSION['id'] = $usuario['id'];
       $_SESSION['nome'] = $usuario['nome'];
 
-      header("Location: admin.php");
+      header("Location: " . redirect_url('admin'));
       exit();
    }
 }
-?>
-
-
-

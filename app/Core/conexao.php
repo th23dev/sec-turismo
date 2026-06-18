@@ -38,5 +38,4 @@ try {
     http_response_code(500);
     die('Erro na conexão com o banco de dados.');
 }
-?>
 

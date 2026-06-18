@@ -4,33 +4,15 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 $noticias = [];
+$heroVideoUrl = 'https://mapaturisticointerativocuruca.my.canva.site/totem-site/_assets/video/b4e84df212644b4f0e6f0bcc9d9661ee.mp4';
 define('DB_OPTIONAL', true);
+require_once __DIR__ . '/../app/Utils/url.php';
 require_once __DIR__ . '/../app/Core/conexao.php';
 
 if (isset($pdo) && $pdo instanceof PDO) {
     require_once __DIR__ . '/../app/Controllers/NoticiasController.php';
     $noticiasController = new NoticiasController($pdo);
     $noticias = $noticiasController->buscarUltimasNoticias(3);
-}
-
-$debugNoticiasCount = count($noticias);
-$scriptName = str_replace('\\', '/', $_SERVER['SCRIPT_NAME'] ?? '');
-$isPublicEntry = str_contains($scriptName, '/public/');
-$publicBasePath = $isPublicEntry ? '' : 'public/';
-$viewsBasePath = $isPublicEntry ? '../app/Views/' : 'app/Views/';
-
-function asset_url(string $path): string
-{
-    global $publicBasePath;
-
-    return $publicBasePath . ltrim($path, '/');
-}
-
-function view_url(string $view): string
-{
-    global $viewsBasePath;
-
-    return $viewsBasePath . ltrim($view, '/');
 }
 
 function normalizeImagemUrl(?string $path): string
@@ -73,7 +55,7 @@ $experiencias = [
     [
         'titulo' => 'Hospedagem',
         'texto' => 'Opções para planejar melhor a estadia e circular pela cidade.',
-        'imagem' => 'imgs/hoteis/por-do-sol.webp',
+        'imagem' => 'imgs/hoteis/leao-de-juda/leao-de-juda.webp',
         'link' => view_url('hoteis.php'),
     ],
 ];
@@ -96,13 +78,13 @@ $servicos = [
     <title>Turismo Curuçá - Portal Oficial</title>
     <link rel="stylesheet" href="<?= asset_url('css/style.css'); ?>?v=20260616">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="<?= asset_url('css/home.css'); ?>?v=20260616-services-section">
+    <link rel="stylesheet" href="<?= asset_url('css/home.css'); ?>?v=20260618-institutional-hero-video">
 </head>
 
 <body class="home-page">
     <nav id="main-nav" class="home-nav" aria-label="Navegação principal">
         <a class="logo-area" href="#inicio" aria-label="Turismo Curuçá">
-            <img src="<?= asset_url('imgs/logos-bg/logo-sec-turismo.webp'); ?>" alt="Secretaria de Turismo" class="logo-img">
+            <img src="<?= asset_url('imgs/logos-bg/logo-visite-curuca.png'); ?>?v=20260618-vem-viver" alt="Vem viver Curuçá" class="logo-img">
             <span class="logo-text">Turismo Curuçá</span>
         </a>
 
@@ -133,12 +115,21 @@ $servicos = [
 
     <main class="home-main">
         <section class="home-hero" id="inicio" aria-label="Portal turístico de Curuçá">
-            <div class="home-hero__media" aria-hidden="true"></div>
+            <div class="home-hero__media" aria-hidden="true">
+                <?php if ($heroVideoUrl !== ''): ?>
+                    <video class="home-hero__video" autoplay muted loop playsinline preload="metadata" poster="<?= asset_url('imgs/logos-bg/portal.webp'); ?>" tabindex="-1" disablepictureinpicture controlslist="nodownload nofullscreen noremoteplayback" oncontextmenu="return false;">
+                        <source src="<?= htmlspecialchars($heroVideoUrl); ?>" type="video/mp4">
+                    </video>
+                <?php endif; ?>
+            </div>
             <div class="home-hero__overlay" aria-hidden="true"></div>
 
             <div class="home-hero__content">
                 <p class="eyebrow">Portal turístico municipal</p>
-                <h1>Venha viver Curuçá</h1>
+                <div class="hero-brand-title">
+                    <h1>Venha viver Curuçá</h1>
+                    <img src="<?= asset_url('imgs/logos-bg/logo-visite-curuca.png'); ?>?v=20260618-vem-viver" alt="Vem viver Curuçá" class="hero-brand-title__logo">
+                </div>
                 <p class="hero-copy">Natureza amazônica, praias, igarapés, cultura popular e serviços para planejar sua visita com mais tranquilidade.</p>
                 <div class="hero-actions">
                     <a class="btn-primary" href="<?= view_url('menu.php'); ?>">Explorar o guia</a>
@@ -172,7 +163,7 @@ $servicos = [
                     <h2>Notícias e novidades</h2>
                     <p>Comunicados, eventos e informações recentes do turismo em Curuçá.</p>
                 </div>
-                <div class="home-news-grid">
+                <div class="home-news-grid <?= count($noticias) === 1 ? 'home-news-grid--single' : ''; ?>">
                     <?php if (!empty($noticias)): ?>
                         <?php foreach ($noticias as $noticia): ?>
                             <article class="home-news-card">
@@ -230,14 +221,30 @@ $servicos = [
         </section>
 
         <section class="feature-section">
-            <div class="feature-media">
-                <img src="<?= asset_url('imgs/logos-bg/passaporte_turistico.png'); ?>" alt="Passaporte turístico de Curuçá">
-            </div>
             <div class="feature-content">
                 <p class="eyebrow">Serviço ao visitante</p>
                 <h2>Passaporte Turístico</h2>
                 <p>Retire seu passaporte no Centro de Atendimento ao Turista, registre sua passagem pelos atrativos e acompanhe as regras do circuito oficial.</p>
-                <a class="text-link" href="<?= view_url('cat.php'); ?>">Saiba como funciona</a>
+                <div class="feature-steps" aria-label="Como usar o passaporte turistico">
+                    <div class="feature-step">
+                        <span>1</span>
+                        <p>Retire no CAT</p>
+                    </div>
+                    <div class="feature-step">
+                        <span>2</span>
+                        <p>Visite os atrativos</p>
+                    </div>
+                    <div class="feature-step">
+                        <span>3</span>
+                        <p>Registre sua rota</p>
+                    </div>
+                </div>
+                <div class="feature-actions">
+                    <a class="text-link" href="<?= view_url('cat.php'); ?>">Saiba como funciona</a>
+                </div>
+            </div>
+            <div class="feature-media">
+                <img src="<?= asset_url('imgs/logos-bg/passaporte_turistico.png'); ?>" alt="Passaporte turístico de Curuçá">
             </div>
         </section>
 
@@ -245,18 +252,20 @@ $servicos = [
 
     <footer>
         <div class="footer-logos">
-            <a href="https://www.sebrae.com.br/" target="_blank" rel="noopener"><img src="<?= asset_url('imgs/logos-bg/logo-sebrae.webp'); ?>" alt="Sebrae"></a>
-            <a href="https://www.cidadeempreendedora.com.br/" target="_blank" rel="noopener"><img src="<?= asset_url('imgs/logos-bg/logo-cidade-empreendedora.webp'); ?>" alt="Cidade Empreendedora"></a>
-            <a href="https://www.instagram.com/turismocuruca.oficial" target="_blank" rel="noopener"><img src="<?= asset_url('imgs/logos-bg/logo-sec-turismo.webp'); ?>" alt="Secretaria de Turismo de Curuçá"></a>
-            <a href="https://curuca.pa.gov.br/" target="_blank" rel="noopener"><img src="<?= asset_url('imgs/logos-bg/logo-prefeitura-curuca.webp'); ?>" alt="Prefeitura de Curuçá"></a>
+            <a href="https://www.sebrae.com.br/" target="_blank"><img src="<?= asset_url('imgs/logos-bg/logo-sebrae.webp'); ?>" alt="sebrae"></a>
+            <a href="" target="_blank"><img src="<?= asset_url('imgs/logos-bg/logo-cidade-empreendedora.webp'); ?>" alt="cidade empreendedora"></a>
+            <a href="https://www.instagram.com/turismocuruca.oficial" target="_blank"><img src="<?= asset_url('imgs/logos-bg/logo-sec-turismo.webp'); ?>" alt="secretaria de turismo Curuçá"></a>
+            <a href="https://curuca.pa.gov.br/" target="_blank"><img src="<?= asset_url('imgs/logos-bg/logo-prefeitura-curuca.webp'); ?>" alt="prefeitura de Curuçá"></a>
         </div>
         <div class="social-links">
-            <a href="https://www.instagram.com/turismocuruca.oficial" target="_blank" rel="noopener">@turismocuruca.oficial</a>
+            <a href="https://www.instagram.com/turismocuruca.oficial">Siga-nos: @turismocuruca.oficial</a>
         </div>
+        <hr style="border: 0.5px solid #444; margin-bottom: 20px;">
         <p>&copy; 2026 - Prefeitura Municipal de Curuçá - Todos os direitos reservados.</p>
+        <p>Desenvolvedor - <a href="https://github.com/th23dev" target="_blank">Th23dev</a> - <a href="https://instagram.com/th23_dev" target="_blank">@th23_dev</a></p>
     </footer>
 
-    <script src="<?= asset_url('js/script.js'); ?>"></script>
+    <script src="<?= asset_url('js/script.js'); ?>?v=20260618-feature-layout"></script>
 </body>
 
 </html>

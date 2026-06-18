@@ -1,4 +1,4 @@
-/* --- Grid de Serviços --- */
+
 .main-container {
    background-color: var(--bg);
    width: 100%;
@@ -165,7 +165,7 @@
    }
 }
 
-/* Responsividade para dispositivos em modo horizontal */
+
 @media (max-width: 1024px) and (orientation: landscape) and (max-height: 600px) {
    .main-container {
       .parent {

@@ -1,9 +1,8 @@
+<?php require_once __DIR__ . '/../Utils/url.php'; start_url_rewriter(); ?>
 <?php
-// SIMPLIFICAÇÃO GERAL: Mover lógica de validação e mensagens.
 include('../Core/conexao.php');
 include('../Controllers/protect.php');
 include('../Controllers/LugaresController.php');
-require_once('../Utils/ImageUpload.php');
 require_once('../Utils/csrf.php');
 
 $controller = new LugaresController($pdo);
@@ -33,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acao']) && $_POST['ac
     } else {
         $resultado = $controller->adicionarMidias($id, $_POST, $_FILES);
         if ($resultado) {
-            header('Location: editar.php?id=' . $id);
+            header('Location: ' . redirect_url('editar') . '?id=' . $id);
             exit;
         } else {
             $erro = 'Erro ao adicionar mídia. Verifique o arquivo ou URL.';
@@ -49,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acao']) && $_POST['ac
         $midia_id = intval($_POST['midia_id'] ?? 0);
         if ($midia_id > 0) {
             $controller->excluirMidia($midia_id);
-            header('Location: editar.php?id=' . $id);
+            header('Location: ' . redirect_url('editar') . '?id=' . $id);
             exit;
         }
     }
@@ -85,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['acao']) && $lugar) {
         } else {
             $erro = 'Erro ao atualizar o local.';
         }
-        header('Location: editar.php?id=' . $id . '&msg=' . urlencode($mensagem ?: $erro));
+        header('Location: ' . redirect_url('editar') . '?id=' . $id . '&msg=' . urlencode($mensagem ?: $erro));
         exit;
     }
 }
@@ -99,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['acao']) && $lugar) {
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Turismo Curuçá - Editar <?= htmlspecialchars($lugar['nome'] ?? '') ?></title>
-   <link rel="stylesheet" href="../../public/css/conexao.css">
+   <link rel="stylesheet" href="/public/css/conexao.css">
 </head>
 
 <body>
@@ -108,10 +107,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['acao']) && $lugar) {
          <h1>Editar <?= htmlspecialchars($lugar['nome'] ?? '') ?></h1>
       </div>
       <div class="btn-box">
-         <a href="admin.php" class="btn-voltar">
+         <a href="/admin" class="btn-voltar">
             <i class="fas fa-chevron-left"></i> Voltar
          </a>
-         <a href="admin.php" class="btn-voltar">
+         <a href="/admin" class="btn-voltar">
             Início <i class="fas fa-house"></i>
          </a>
       </div>
@@ -317,10 +316,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['acao']) && $lugar) {
                <button type="submit" class="btn-salvar">
                   <i class="fas fa-save"></i> Salvar Alterações
                </button>
-               <a href="admin.php" class="btn-cancelar">
+               <a href="/admin" class="btn-cancelar">
                   <i class="fas fa-times"></i> Cancelar
                </a>
-               <a href="excluir.php?id=<?php echo $lugar['id']; ?>" class=" btn-cancelar btn-excluir">
+               <a href="/excluir?id=<?php echo $lugar['id']; ?>" class=" btn-cancelar btn-excluir">
                   <i class="fas fa-times"></i> Excluir
                </a>
             </div>
@@ -496,8 +495,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['acao']) && $lugar) {
          });
       });
    </script>
-   <script src="../../public/js/script.js"></script>
-   <script src="../js/menu.js"></script>
+   <script src="/public/js/script.js"></script>
 </body>
 
 </html>

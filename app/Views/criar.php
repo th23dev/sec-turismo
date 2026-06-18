@@ -1,9 +1,8 @@
+<?php require_once __DIR__ . '/../Utils/url.php'; start_url_rewriter(); ?>
 <?php
-// SIMPLIFICAÇÃO GERAL: Usar um pattern MVC mais claro.
 include('../Core/conexao.php');
 include('../Controllers/protect.php');
 include('../Controllers/LugaresController.php');
-require_once('../Utils/ImageUpload.php');
 require_once('../Utils/csrf.php');
 
 $controller = new LugaresController($pdo);
@@ -20,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $resultado = $controller->criarLocal($_POST, $_FILES);
         if ($resultado) {
             $mensagem = 'Local criado com sucesso!';
-            header('location: admin.php');
+            header('location: ' . redirect_url('admin'));
             exit;
         } else {
             $erro = 'Erro ao criar o local. Tente novamente.';
@@ -37,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Turismo Curuçá - Criar Novo Local</title>
-   <link rel="stylesheet" href="../../public/css/conexao.css">
+   <link rel="stylesheet" href="/public/css/conexao.css">
 </head>
 
 <body>
@@ -46,10 +45,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
          <h1>Criar Novo Local</h1>
       </div>
       <div class="btn-box">
-         <a href="admin.php" class="btn-voltar">
+         <a href="/admin" class="btn-voltar">
             <i class="fas fa-chevron-left"></i> Voltar
          </a>
-         <a href="admin.php" class="btn-voltar">
+         <a href="/admin" class="btn-voltar">
             Início <i class="fas fa-house"></i>
          </a>
       </div>
@@ -68,7 +67,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
          <?php endif; ?>
 
-         <!-- ERRO: Ausência de proteção CSRF. Risco: Ataques de cross-site request forgery. Solução: gerar token CSRF na sessão e validar em todo POST. -->
          <form action="" method="post" class="editar-form" enctype="multipart/form-data">
             <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
             <!-- Preview da Imagem -->
@@ -199,7 +197,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                <button type="submit" class="btn-salvar">
                   <i class="fas fa-plus"></i> Criar Local
                </button>
-               <a href="admin.php" class="btn-cancelar">
+               <a href="/admin" class="btn-cancelar">
                   <i class="fas fa-times"></i> Cancelar
                </a>
             </div>
@@ -337,8 +335,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
          }
       });
    </script>
-   <script src="../../public/js/script.js"></script>
-   <script src="../js/menu.js"></script>
+   <script src="/public/js/script.js"></script>
 </body>
 
 </html>

@@ -8,6 +8,28 @@ class NoticiasModel
         $this->db = $conexao;
     }
 
+    private function publicPath(?string $path): string
+    {
+        if (empty($path)) {
+            return '';
+        }
+
+        if (preg_match('#^(https?://|data:|/)#i', $path)) {
+            return $path;
+        }
+
+        return '/' . ltrim(str_replace(['../../public/', '../public/', 'public/'], 'public/', $path), '/');
+    }
+
+    private function normalizeNoticia(array $noticia): array
+    {
+        if (isset($noticia['imagem_url'])) {
+            $noticia['imagem_url'] = $this->publicPath($noticia['imagem_url']);
+        }
+
+        return $noticia;
+    }
+
     public function criarNoticia($titulo, $conteudo, $imagem_url, $instagram_url = '', $data_inicio = null, $data_fim = null, $indefinido = 0)
     {
         $sql = "INSERT INTO noticias (titulo, conteudo, imagem_url, instagram_url, data_inicio, data_fim, indefinido, published_at) VALUES (:titulo, :conteudo, :imagem_url, :instagram_url, :data_inicio, :data_fim, :indefinido, NOW())";
@@ -45,7 +67,7 @@ class NoticiasModel
         $sql = "SELECT * FROM noticias ORDER BY published_at DESC";
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return array_map(fn ($noticia) => $this->normalizeNoticia($noticia), $stmt->fetchAll(PDO::FETCH_ASSOC));
     }
 
     public function buscarUltimasNoticias($limite = 3)
@@ -77,7 +99,7 @@ class NoticiasModel
             $noticias = array_merge($noticias, $fallback);
         }
 
-        return $noticias;
+        return array_map(fn ($noticia) => $this->normalizeNoticia($noticia), $noticias);
     }
 
     public function buscarNoticia($id)
@@ -86,7 +108,9 @@ class NoticiasModel
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $noticia = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $noticia ? $this->normalizeNoticia($noticia) : $noticia;
     }
 
     public function excluirNoticia($id)

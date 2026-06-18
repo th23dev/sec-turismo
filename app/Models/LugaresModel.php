@@ -1,5 +1,4 @@
 <?php
-// SIMPLIFICAÇÃO GERAL: Implementar um framework MVC como Laravel para melhor organização do código, usar bibliotecas de autenticação seguras, e ORM para abstrair consultas ao banco de dados.
 class LugaresModel
 {
     private $db;
@@ -7,6 +6,28 @@ class LugaresModel
     public function __construct($conexao)
     {
         $this->db = $conexao;
+    }
+
+    private function publicPath(?string $path): string
+    {
+        if (empty($path)) {
+            return '';
+        }
+
+        if (preg_match('#^(https?://|data:|/)#i', $path)) {
+            return $path;
+        }
+
+        return '/' . ltrim(str_replace(['../../public/', '../public/', 'public/'], 'public/', $path), '/');
+    }
+
+    private function normalizeLugar(array $lugar): array
+    {
+        if (isset($lugar['imagem_principal'])) {
+            $lugar['imagem_principal'] = $this->publicPath($lugar['imagem_principal']);
+        }
+
+        return $lugar;
     }
 
     public function criarLocal($imagem_principal, $nome, $tipo, $numero, $instagram, $linkInstagram, $descricao, $possui_restaurante)
@@ -87,7 +108,7 @@ class LugaresModel
             if (!isset($midiasByLugar[$lugarId])) {
                 $midiasByLugar[$lugarId] = [];
             }
-            $midiasByLugar[$lugarId][] = $midia['url'];
+            $midiasByLugar[$lugarId][] = $this->publicPath($midia['url']);
         }
 
         // Build grouped lugares
@@ -100,7 +121,7 @@ class LugaresModel
             if (empty($lugarData['imagem_principal']) && !empty($lugarData['url'])) {
                 $lugarData['imagem_principal'] = $lugarData['url'][0];
             }
-            $lugares[] = $lugarData;
+            $lugares[] = $this->normalizeLugar($lugarData);
         }
 
         return $lugares;
@@ -111,7 +132,7 @@ class LugaresModel
         $sql = "SELECT DISTINCT * FROM lugares";
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return array_map(fn ($lugar) => $this->normalizeLugar($lugar), $stmt->fetchAll(PDO::FETCH_ASSOC));
     }
 
     public function buscarLugar($id)
@@ -121,7 +142,9 @@ class LugaresModel
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
 
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $lugar = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $lugar ? $this->normalizeLugar($lugar) : $lugar;
     }
 
     public function excluirLugar($id)
@@ -139,7 +162,15 @@ class LugaresModel
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $midias = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return array_map(function ($midia) {
+            if (isset($midia['url'])) {
+                $midia['url'] = $this->publicPath($midia['url']);
+            }
+
+            return $midia;
+        }, $midias);
     }
 
     public function criarMidia($lugar_id, $url){
@@ -164,4 +195,3 @@ class LugaresModel
         return $stmt->execute();
     }
 }
-?>
