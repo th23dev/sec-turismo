@@ -78,13 +78,13 @@ $servicos = [
     <title>Turismo Curuçá - Portal Oficial</title>
     <link rel="stylesheet" href="<?= asset_url('css/style.css'); ?>?v=20260616">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="<?= asset_url('css/home.css'); ?>?v=20260618-institutional-hero-video">
+    <link rel="stylesheet" href="<?= asset_url('css/home.css'); ?>?v=20260618-video-no-fade">
 </head>
 
 <body class="home-page">
     <nav id="main-nav" class="home-nav" aria-label="Navegação principal">
         <a class="logo-area" href="#inicio" aria-label="Turismo Curuçá">
-            <img src="<?= asset_url('imgs/logos-bg/logo-visite-curuca.png'); ?>?v=20260618-vem-viver" alt="Vem viver Curuçá" class="logo-img">
+            <img src="<?= asset_url('imgs/logos-bg/logo-visite-curuca.png'); ?>?v=20260618-logo-focus" alt="Turismo Curuçá" class="logo-img">
             <span class="logo-text">Turismo Curuçá</span>
         </a>
 
@@ -126,11 +126,10 @@ $servicos = [
 
             <div class="home-hero__content">
                 <p class="eyebrow">Portal turístico municipal</p>
+                <h1 class="sr-only">Turismo Curuçá</h1>
                 <div class="hero-brand-title">
-                    <h1>Venha viver Curuçá</h1>
-                    <img src="<?= asset_url('imgs/logos-bg/logo-visite-curuca.png'); ?>?v=20260618-vem-viver" alt="Vem viver Curuçá" class="hero-brand-title__logo">
+                    <img src="<?= asset_url('imgs/logos-bg/logo-visite-curuca.png'); ?>?v=20260618-logo-focus" alt="Turismo Curuçá" class="hero-brand-title__logo">
                 </div>
-                <p class="hero-copy">Natureza amazônica, praias, igarapés, cultura popular e serviços para planejar sua visita com mais tranquilidade.</p>
                 <div class="hero-actions">
                     <a class="btn-primary" href="<?= view_url('menu.php'); ?>">Explorar o guia</a>
                     <a class="btn-secondary" href="#experiencias">Ver experiências</a>
