@@ -37,6 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Turismo Curuçá - Criar Novo Local</title>
    <link rel="stylesheet" href="/public/css/conexao.css">
+   <link rel="stylesheet" href="/public/css/editar.css">
 </head>
 
 <body>
@@ -58,17 +59,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <section id="section-editar">
          <?php if ($mensagem): ?>
             <div class="alert alert-success">
-               <i class="fas fa-check-circle"></i> <?= $mensagem ?>
+               <i class="fas fa-check-circle"></i> <?= htmlspecialchars($mensagem) ?>
             </div>
          <?php endif; ?>
          <?php if ($erro): ?>
             <div class="alert alert-erro">
-               <i class="fas fa-exclamation-circle"></i> <?= $erro ?>
+               <i class="fas fa-exclamation-circle"></i> <?= htmlspecialchars($erro) ?>
             </div>
          <?php endif; ?>
 
          <form action="" method="post" class="editar-form" enctype="multipart/form-data">
-            <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
             <!-- Preview da Imagem -->
             <div class="form-group image-preview-group">
                <label>Imagem Principal</label>

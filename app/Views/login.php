@@ -27,6 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Turismo Curuçá - Portal</title>
    <link rel="stylesheet" href="/public/css/conexao.css">
+   <link rel="stylesheet" href="/public/css/login.css">
 </head>
 
 <body>
@@ -43,10 +44,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
    <main>
       <section id="login-section">
-         <?php if (!empty($erro)) echo "<p style='color:red'>$erro</p>"; ?>
+         <?php if (!empty($erro)) echo "<p style='color:red'>" . htmlspecialchars($erro) . "</p>"; ?>
 
          <form action="" method="post">
-            <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
             <label for="email">E-mail:</label>
             <input type="email" id="email" name="email" required><br><br>
             <label for="senha">Senha:</label>

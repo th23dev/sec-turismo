@@ -37,6 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Turismo Curuçá - Criar Notícia</title>
    <link rel="stylesheet" href="/public/css/conexao.css">
+   <link rel="stylesheet" href="/public/css/editar.css">
 </head>
 
 <body>
@@ -63,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php endif; ?>
 
             <form action="" method="post" class="editar-form" enctype="multipart/form-data">
-                <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
 
                 <div class="form-section">
                     <h3><i class="fas fa-heading"></i> Título</h3>
@@ -101,6 +102,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <label for="instagram_url">Link do Instagram</label>
                         <i class="fab fa-instagram"></i>
                         <input type="text" name="instagram_url" id="instagram_url" placeholder="https://instagram.com/exemplo" value="<?= htmlspecialchars($old['instagram_url'] ?? '') ?>">
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3><i class="fas fa-calendar-day"></i> Data do evento</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="evento_data_inicio">Dia do evento</label>
+                            <input type="date" name="evento_data_inicio" id="evento_data_inicio" value="<?= htmlspecialchars($old['evento_data_inicio'] ?? '') ?>">
+                        </div>
+                        <div class="form-group">
+                            <label for="evento_data_fim">Termina em</label>
+                            <input type="date" name="evento_data_fim" id="evento_data_fim" value="<?= htmlspecialchars($old['evento_data_fim'] ?? '') ?>">
+                            <small>Preencha apenas se o evento acontecer em mais de um dia.</small>
+                        </div>
                     </div>
                 </div>
 

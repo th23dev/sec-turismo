@@ -6,6 +6,34 @@ class NoticiasModel
     public function __construct($conexao)
     {
         $this->db = $conexao;
+        $this->garantirCamposDataEvento();
+    }
+
+    private function garantirCamposDataEvento(): void
+    {
+        $campos = [
+            'evento_data_inicio' => 'ALTER TABLE noticias ADD COLUMN evento_data_inicio DATE NULL AFTER instagram_url',
+            'evento_data_fim' => 'ALTER TABLE noticias ADD COLUMN evento_data_fim DATE NULL AFTER evento_data_inicio',
+        ];
+
+        foreach ($campos as $campo => $sql) {
+            try {
+                $stmt = $this->db->prepare(
+                    "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS
+                     WHERE TABLE_SCHEMA = DATABASE()
+                       AND TABLE_NAME = 'noticias'
+                       AND COLUMN_NAME = :campo"
+                );
+                $stmt->bindValue(':campo', $campo, PDO::PARAM_STR);
+                $stmt->execute();
+
+                if ((int) $stmt->fetchColumn() === 0) {
+                    $this->db->exec($sql);
+                }
+            } catch (Throwable $e) {
+                continue;
+            }
+        }
     }
 
     private function publicPath(?string $path): string
@@ -14,7 +42,7 @@ class NoticiasModel
             return '';
         }
 
-        if (preg_match('#^(https?://|data:|/)#i', $path)) {
+        if (preg_match('#^(https?://|/)#i', $path)) {
             return $path;
         }
 
@@ -30,14 +58,16 @@ class NoticiasModel
         return $noticia;
     }
 
-    public function criarNoticia($titulo, $conteudo, $imagem_url, $instagram_url = '', $data_inicio = null, $data_fim = null, $indefinido = 0)
+    public function criarNoticia($titulo, $conteudo, $imagem_url, $instagram_url = '', $evento_data_inicio = null, $evento_data_fim = null, $data_inicio = null, $data_fim = null, $indefinido = 0)
     {
-        $sql = "INSERT INTO noticias (titulo, conteudo, imagem_url, instagram_url, data_inicio, data_fim, indefinido, published_at) VALUES (:titulo, :conteudo, :imagem_url, :instagram_url, :data_inicio, :data_fim, :indefinido, NOW())";
+        $sql = "INSERT INTO noticias (titulo, conteudo, imagem_url, instagram_url, evento_data_inicio, evento_data_fim, data_inicio, data_fim, indefinido, published_at) VALUES (:titulo, :conteudo, :imagem_url, :instagram_url, :evento_data_inicio, :evento_data_fim, :data_inicio, :data_fim, :indefinido, NOW())";
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(':titulo', $titulo, PDO::PARAM_STR);
         $stmt->bindValue(':conteudo', $conteudo, PDO::PARAM_STR);
         $stmt->bindValue(':imagem_url', $imagem_url, PDO::PARAM_STR);
         $stmt->bindValue(':instagram_url', $instagram_url, PDO::PARAM_STR);
+        $stmt->bindValue(':evento_data_inicio', $evento_data_inicio ?: null, PDO::PARAM_STR);
+        $stmt->bindValue(':evento_data_fim', $evento_data_fim ?: null, PDO::PARAM_STR);
         $stmt->bindValue(':data_inicio', $data_inicio ?: null, PDO::PARAM_STR);
         $stmt->bindValue(':data_fim', $data_fim ?: null, PDO::PARAM_STR);
         $stmt->bindValue(':indefinido', $indefinido, PDO::PARAM_INT);
@@ -47,15 +77,17 @@ class NoticiasModel
         return false;
     }
 
-    public function atualizarNoticia($id, $titulo, $conteudo, $imagem_url, $instagram_url = '', $data_inicio = null, $data_fim = null, $indefinido = 0)
+    public function atualizarNoticia($id, $titulo, $conteudo, $imagem_url, $instagram_url = '', $evento_data_inicio = null, $evento_data_fim = null, $data_inicio = null, $data_fim = null, $indefinido = 0)
     {
-        $sql = "UPDATE noticias SET titulo = :titulo, conteudo = :conteudo, imagem_url = :imagem_url, instagram_url = :instagram_url, data_inicio = :data_inicio, data_fim = :data_fim, indefinido = :indefinido, updated_at = CURRENT_TIMESTAMP WHERE id = :id";
+        $sql = "UPDATE noticias SET titulo = :titulo, conteudo = :conteudo, imagem_url = :imagem_url, instagram_url = :instagram_url, evento_data_inicio = :evento_data_inicio, evento_data_fim = :evento_data_fim, data_inicio = :data_inicio, data_fim = :data_fim, indefinido = :indefinido, updated_at = CURRENT_TIMESTAMP WHERE id = :id";
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->bindValue(':titulo', $titulo, PDO::PARAM_STR);
         $stmt->bindValue(':conteudo', $conteudo, PDO::PARAM_STR);
         $stmt->bindValue(':imagem_url', $imagem_url, PDO::PARAM_STR);
         $stmt->bindValue(':instagram_url', $instagram_url, PDO::PARAM_STR);
+        $stmt->bindValue(':evento_data_inicio', $evento_data_inicio ?: null, PDO::PARAM_STR);
+        $stmt->bindValue(':evento_data_fim', $evento_data_fim ?: null, PDO::PARAM_STR);
         $stmt->bindValue(':data_inicio', $data_inicio ?: null, PDO::PARAM_STR);
         $stmt->bindValue(':data_fim', $data_fim ?: null, PDO::PARAM_STR);
         $stmt->bindValue(':indefinido', $indefinido, PDO::PARAM_INT);

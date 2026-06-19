@@ -1,11 +1,11 @@
-<FilesMatch "\.(jpg|jpeg|png|webp|gif)$">
-    Order Deny,Allow
-    Allow from all
-</FilesMatch>
+Options -Indexes
 
-<FilesMatch "\.php$">
-    Order Deny,Allow
-    Deny from all
+<IfModule mod_php.c>
+    php_flag engine off
+</IfModule>
+
+<FilesMatch "(^|\.)(php[0-9]?|phtml|phar|cgi|pl|py|sh|html?|svg|xml|js|css)(\.|$)">
+    Require all denied
 </FilesMatch>
 
 AddType image/jpeg .jpg
@@ -13,3 +13,7 @@ AddType image/jpeg .jpeg
 AddType image/png .png
 AddType image/webp .webp
 AddType image/gif .gif
+AddType video/mp4 .mp4
+AddType video/webm .webm
+AddType video/quicktime .mov
+AddType video/ogg .ogg

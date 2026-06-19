@@ -2,12 +2,12 @@
 // Conexão com o banco de forma segura (sem credenciais hardcoded).
 // Lê as credenciais do .env via helper manual.
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
+require_once __DIR__ . '/../Utils/security.php';
 require_once __DIR__ . '/../Utils/env.php';
 require_once __DIR__ . '/../config.php';
+
+secure_session_start();
+send_security_headers();
 
 $user = env('DB_USER', 'root');
 $password = env('DB_PASSWORD', '');

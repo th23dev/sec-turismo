@@ -16,6 +16,7 @@ $lugares = $controller->buscarLugares('hotel');
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Turismo Curuçá - Hotéis</title>
    <link rel="stylesheet" href="/public/css/conexao.css">
+   <link rel="stylesheet" href="/public/css/catalogo.css">
 </head>
 
 <body>
@@ -45,7 +46,7 @@ $lugares = $controller->buscarLugares('hotel');
          <div class="cards-grid">
             <?php if (count($lugares) > 0): ?>
                <?php foreach ($lugares as $lugar): ?>
-                  <div class="card" onclick="openModal('hotel-<?php echo $lugar['id']; ?>')">
+                  <div class="card" onclick="openModal('hotel-<?php echo intval($lugar['id']); ?>')">
                      <?php if (!empty($lugar['imagem_principal'])): ?>
                         <img src="<?php echo htmlspecialchars($lugar['imagem_principal']); ?>" alt="<?php echo htmlspecialchars($lugar['nome']); ?>">
                      <?php else: ?>
@@ -89,8 +90,8 @@ $lugares = $controller->buscarLugares('hotel');
                <?php if(!empty($lugar['numero'])):?>
                <span class="tag"><i class="fas fa-phone"></i><?php echo htmlspecialchars($lugar['numero']); ?></span>
                <?php endif; ?>
-               <?php if (!empty($lugar['instagram'])): ?>
-               <a class="tag insta" href="<?php echo htmlspecialchars($lugar['linkInstagram']); ?>/" target="_blank">
+               <?php if (!empty($lugar['instagram']) && is_safe_http_url($lugar['linkInstagram'] ?? '')): ?>
+               <a class="tag insta" href="<?php echo htmlspecialchars($lugar['linkInstagram']); ?>/" target="_blank" rel="noopener">
                   <i class="fab fa-instagram"></i><?php echo htmlspecialchars($lugar['instagram']); ?>
                </a>
                <?php endif; ?>

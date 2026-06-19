@@ -49,6 +49,11 @@ class VideoController {
             return false;
         }
 
+        $scheme = strtolower((string) parse_url($url, PHP_URL_SCHEME));
+        if (!in_array($scheme, ['http', 'https'], true)) {
+            return false;
+        }
+
         $path = parse_url($url, PHP_URL_PATH) ?? '';
         $ext = strtolower(pathinfo($path, PATHINFO_EXTENSION));
         $permitidas = ['mp4', 'webm', 'ogg', 'mov'];

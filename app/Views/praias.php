@@ -16,6 +16,7 @@ $lugares = $controller->buscarLugares('praia');
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Turismo Curuçá - Praias</title>
    <link rel="stylesheet" href="/public/css/conexao.css">
+   <link rel="stylesheet" href="/public/css/catalogo.css">
 </head>
 
 <body>
@@ -89,8 +90,8 @@ $lugares = $controller->buscarLugares('praia');
                <?php if(!empty($lugar['numero'])):?>
                <span class="tag"><i class="fas fa-phone"></i><?php echo htmlspecialchars($lugar['numero']); ?></span>
                <?php endif; ?>
-               <?php if (!empty($lugar['instagram'])): ?>
-               <a class="tag insta" href="<?php echo htmlspecialchars($lugar['linkInstagram']); ?>/" target="_blank">
+               <?php if (!empty($lugar['instagram']) && is_safe_http_url($lugar['linkInstagram'] ?? '')): ?>
+               <a class="tag insta" href="<?php echo htmlspecialchars($lugar['linkInstagram']); ?>/" target="_blank" rel="noopener">
                   <i class="fab fa-instagram"></i><?php echo htmlspecialchars($lugar['instagram']); ?>
                </a>
                <?php endif; ?>

@@ -14,7 +14,7 @@ class LugaresModel
             return '';
         }
 
-        if (preg_match('#^(https?://|data:|/)#i', $path)) {
+        if (preg_match('#^(https?://|/)#i', $path)) {
             return $path;
         }
 

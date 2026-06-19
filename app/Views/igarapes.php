@@ -16,6 +16,7 @@ $lugares = $controller->buscarLugares('igarape');
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Turismo Curuçá - Igarapés</title>
    <link rel="stylesheet" href="/public/css/conexao.css">
+   <link rel="stylesheet" href="/public/css/catalogo.css">
 </head>
 
 <body>
@@ -90,10 +91,10 @@ $lugares = $controller->buscarLugares('igarape');
                   <?php if (!empty($lugar['numero'])): ?>
                      <span class="tag"><i class="fas fa-phone"></i><?php echo htmlspecialchars($lugar['numero']); ?></span>
                   <?php endif; ?>
-                  <?php if (!empty($lugar['instagram'])): ?>
-                     <a class="tag insta" href="<?php echo htmlspecialchars($lugar['linkInstagram']); ?>/" target="_blank">
-                        <i class="fab fa-instagram"></i><?php echo htmlspecialchars($lugar['instagram']); ?>
-                     </a>
+               <?php if (!empty($lugar['instagram']) && is_safe_http_url($lugar['linkInstagram'] ?? '')): ?>
+                     <a class="tag insta" href="<?php echo htmlspecialchars($lugar['linkInstagram']); ?>/" target="_blank" rel="noopener">
+                  <i class="fab fa-instagram"></i><?php echo htmlspecialchars($lugar['instagram']); ?>
+               </a>
                   <?php endif; ?>
                   <?php if ($lugar['possui_restaurante']): ?>
                      <span class="tag"><i class="fas fa-utensils"></i>Restaurante</span>

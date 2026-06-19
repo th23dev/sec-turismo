@@ -7,7 +7,7 @@ require_once('../Utils/csrf.php');
 
 $controller = new LugaresController($pdo);
 
-$id = isset($_GET['id']) ? $_GET['id'] : null;
+$id = isset($_GET['id']) ? intval($_GET['id']) : null;
 $lugar = null;
 $mensagem = '';
 $erro = '';
@@ -28,7 +28,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar_exclusao'])
     if (!csrf_validate($_POST['csrf_token'] ?? null)) {
         $erro = 'Token CSRF inválido.';
     } else {
-        $controller->excluirMidiasPorLugar($id);
         $resultado = $controller->excluirLugar($id);
         if ($resultado) {
             header('location: ' . redirect_url('admin') . '?msg=' . urlencode('Local excluído com sucesso!'));
@@ -48,6 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar_exclusao'])
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Excluir Local - Turismo Curuçá</title>
    <link rel="stylesheet" href="/public/css/conexao.css">
+   <link rel="stylesheet" href="/public/css/editar.css">
     <style>
         .delete-container {
             max-width: 600px;
@@ -411,7 +411,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar_exclusao'])
 
                     <div class="delete-actions">
                         <form action="" method="post" style="display: inline;">
-                            <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+                            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
                             <input type="hidden" name="confirmar_exclusao" value="1">
                             <button type="submit" class="btn-delete">
                                 <i class="fas fa-trash-alt"></i> Sim, excluir permanentemente

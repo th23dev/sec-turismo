@@ -1,6 +1,7 @@
 <?php
 require_once '../Models/LugaresModel.php';
 require_once '../Utils/ImageUpload.php';
+require_once __DIR__ . '/../Utils/security.php';
 
 class LugaresController
 {
@@ -115,6 +116,10 @@ class LugaresController
         $descricao = $dados['descricao'] ?? '';
         $possui_restaurante = ($dados['restaurante'] ?? '0') === '1' || ($dados['restaurante'] ?? 0) == 1 ? 1 : 0;
 
+        if (!is_safe_http_url($linkInstagram)) {
+            return false;
+        }
+
         $lugar_id = $this->model->criarLocal($imagem_principal, $nome, $tipo, $numero, $instagram, $linkInstagram, $descricao, $possui_restaurante);
 
         if ($lugar_id) {
@@ -181,6 +186,10 @@ class LugaresController
             }
         }
         
+        if (!is_safe_http_url($linkInstagram)) {
+            return false;
+        }
+
         $possui_restaurante = $possui_restaurante === '1' || $possui_restaurante == 1 ? 1 : 0;
         return $this->model->atualizarLocal($id, $imagem_principal_final, $nome, $tipo, $numero, $instagram, $linkInstagram, $descricao, $possui_restaurante);
     }

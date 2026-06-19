@@ -60,9 +60,11 @@ function start_url_rewriter(): void
             return $html;
         }
 
-        $html = preg_replace('#\b(href|src|action)="/(?!/)#', '$1="' . $base . '/', $html);
-        $html = preg_replace("#url\('/(?!/)#", "url('" . $base . '/', $html);
-        $html = preg_replace('#url\("/(?!/)#', 'url("' . $base . '/', $html);
+        $basePattern = preg_quote(ltrim($base, '/'), '#');
+
+        $html = preg_replace('#\b(href|src|action)="/(?!/|' . $basePattern . '(?:/|$))#', '$1="' . $base . '/', $html);
+        $html = preg_replace("#url\('/(?!/|" . $basePattern . "(?:/|$))#", "url('" . $base . '/', $html);
+        $html = preg_replace('#url\("/(?!/|' . $basePattern . '(?:/|$))#', 'url("' . $base . '/', $html);
 
         return $html;
     });

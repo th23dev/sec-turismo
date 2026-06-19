@@ -3,6 +3,8 @@ DirectoryIndex index.php
 
 RewriteEngine On
 
+RewriteRule ^(\.git|\.agents|\.codex)(/|$) - [R=404,L]
+
 # Canonical public URLs.
 RewriteRule ^public/index\.php$ ./ [R=301,L]
 RewriteRule ^app/Views/([A-Za-z0-9_-]+)\.php$ $1 [R=301,L,QSA]
@@ -10,11 +12,18 @@ RewriteRule ^app/Controllers/logout\.php$ logout [R=301,L,QSA]
 
 # Public clean routes.
 RewriteRule ^logout$ app/Controllers/logout.php [END,QSA]
-RewriteRule ^(menu|praias|igarapes|hoteis|mapa_turistico|videos|cat|contatos_uteis|barraca_do_pescador|login|admin|criar|editar|excluir|criar_noticia|editar_noticia|excluir_noticia|criar_video|editar_video|excluir_video|criar_usuario)$ app/Views/$1.php [END,QSA]
+RewriteRule ^(menu|praias|igarapes|hoteis|mapa_turistico|videos|cat|contatos_uteis|barraca_do_pescador|historia|em_breve|login|admin|criar|editar|excluir|criar_noticia|editar_noticia|excluir_noticia|criar_video|editar_video|excluir_video|criar_usuario)$ app/Views/$1.php [END,QSA]
 
-<FilesMatch "(^\.env$|^\.env\..*|^composer\.json$|^composer\.lock$|^README\.md$|^TODO\.md$)">
+<FilesMatch "(^\.env$|^\.env\..*|^composer\.json$|^composer\.lock$|^README\.md$|^TODO\.md$|\.sql$|\.sqlite$|\.db$|\.bak$|\.backup$|\.old$|\.log$)">
   Require all denied
 </FilesMatch>
+
+<IfModule mod_headers.c>
+  Header always set X-Frame-Options "DENY"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+</IfModule>
 
 RewriteRule ^app/(Core|Controllers|Models|Utils)/ - [R=404,L]
 RewriteRule ^app/config\.php$ - [R=404,L]

@@ -7,6 +7,7 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Turismo Curu&ccedil;&aacute; - Portal</title>
    <link rel="stylesheet" href="/public/css/conexao.css">
+   <link rel="stylesheet" href="/public/css/mapa.css">
 </head>
 
 <body>
@@ -34,7 +35,7 @@
                as belezas de Curu&ccedil;&aacute;.</p>
 
             <div class="map-actions" aria-label="A&ccedil;&otilde;es do mapa">
-               <a href="/public/imgs/logos-bg/mapa_turistico.webp" class="map-action primary" target="_blank"
+               <a href="/public/imgs/logos-bg/mapa_turistico.webp" class="map-action primary" target="_blank" rel="noopener"
                   rel="noopener">
                   <i class="fas fa-up-right-from-square"></i>
                   Abrir mapa

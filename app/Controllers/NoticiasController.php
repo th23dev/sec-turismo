@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../Models/NoticiasModel.php';
 require_once __DIR__ . '/../Utils/ImageUpload.php';
+require_once __DIR__ . '/../Utils/security.php';
 
 class NoticiasController
 {
@@ -31,9 +32,16 @@ class NoticiasController
         $titulo = trim($dados['titulo'] ?? '');
         $conteudo = trim($dados['conteudo'] ?? '');
         $instagram_url = trim($dados['instagram_url'] ?? '');
+        $evento_data_inicio = $this->formatarDataSimples($dados['evento_data_inicio'] ?? '');
+        $evento_data_fim = $this->formatarDataSimples($dados['evento_data_fim'] ?? '');
+        [$evento_data_inicio, $evento_data_fim] = $this->normalizarPeriodoEvento($evento_data_inicio, $evento_data_fim);
         $data_inicio = $this->formatarData($dados['data_inicio'] ?? '');
         $data_fim = $this->formatarData($dados['data_fim'] ?? '');
         $indefinido = isset($dados['indefinido']) && $dados['indefinido'] === '1' ? 1 : 0;
+
+        if (!is_safe_http_url($instagram_url)) {
+            return false;
+        }
 
         if ($indefinido) {
             $data_fim = null;
@@ -41,7 +49,7 @@ class NoticiasController
 
         $imagem_url = $this->processarImagem($dados, $arquivos);
 
-        return $this->model->criarNoticia($titulo, $conteudo, $imagem_url, $instagram_url, $data_inicio, $data_fim, $indefinido);
+        return $this->model->criarNoticia($titulo, $conteudo, $imagem_url, $instagram_url, $evento_data_inicio, $evento_data_fim, $data_inicio, $data_fim, $indefinido);
     }
 
     public function atualizarNoticia($id, $dados, $arquivos = [])
@@ -54,9 +62,16 @@ class NoticiasController
         $titulo = trim($dados['titulo'] ?? '');
         $conteudo = trim($dados['conteudo'] ?? '');
         $instagram_url = trim($dados['instagram_url'] ?? '');
+        $evento_data_inicio = $this->formatarDataSimples($dados['evento_data_inicio'] ?? '');
+        $evento_data_fim = $this->formatarDataSimples($dados['evento_data_fim'] ?? '');
+        [$evento_data_inicio, $evento_data_fim] = $this->normalizarPeriodoEvento($evento_data_inicio, $evento_data_fim);
         $data_inicio = $this->formatarData($dados['data_inicio'] ?? '');
         $data_fim = $this->formatarData($dados['data_fim'] ?? '');
         $indefinido = isset($dados['indefinido']) && $dados['indefinido'] === '1' ? 1 : 0;
+
+        if (!is_safe_http_url($instagram_url)) {
+            return false;
+        }
 
         if ($indefinido) {
             $data_fim = null;
@@ -64,7 +79,7 @@ class NoticiasController
 
         $imagem_url = $this->processarImagem($dados, $arquivos, $noticiaExistente['imagem_url']);
 
-        return $this->model->atualizarNoticia($id, $titulo, $conteudo, $imagem_url, $instagram_url, $data_inicio, $data_fim, $indefinido);
+        return $this->model->atualizarNoticia($id, $titulo, $conteudo, $imagem_url, $instagram_url, $evento_data_inicio, $evento_data_fim, $data_inicio, $data_fim, $indefinido);
     }
 
     public function excluirNoticia($id)
@@ -105,5 +120,30 @@ class NoticiasController
         }
 
         return str_replace('T', ' ', $data);
+    }
+
+    private function formatarDataSimples($data)
+    {
+        $data = trim($data);
+        if (empty($data)) {
+            return null;
+        }
+
+        $timestamp = strtotime($data);
+        return $timestamp ? date('Y-m-d', $timestamp) : null;
+    }
+
+    private function normalizarPeriodoEvento($inicio, $fim): array
+    {
+        if (!$inicio && $fim) {
+            $inicio = $fim;
+            $fim = null;
+        }
+
+        if ($inicio && $fim && strtotime($fim) < strtotime($inicio)) {
+            return [$fim, $inicio];
+        }
+
+        return [$inicio, $fim];
     }
 }

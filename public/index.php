@@ -1,12 +1,13 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
 $noticias = [];
 $heroVideoUrl = 'https://mapaturisticointerativocuruca.my.canva.site/totem-site/_assets/video/b4e84df212644b4f0e6f0bcc9d9661ee.mp4';
 define('DB_OPTIONAL', true);
+require_once __DIR__ . '/../app/Utils/security.php';
 require_once __DIR__ . '/../app/Utils/url.php';
+
+secure_session_start();
+send_security_headers();
+
 require_once __DIR__ . '/../app/Core/conexao.php';
 
 if (isset($pdo) && $pdo instanceof PDO) {
@@ -20,7 +21,7 @@ function normalizeImagemUrl(?string $path): string
     if (empty($path)) {
         return '';
     }
-    if (preg_match('#^(https?://|data:)#i', $path)) {
+    if (preg_match('#^https?://#i', $path)) {
         return $path;
     }
 
@@ -37,6 +38,23 @@ function resumoTexto(string $texto, int $limite = 150): string
     }
 
     return strlen($texto) > $limite ? substr($texto, 0, $limite - 3) . '...' : $texto;
+}
+
+function formatarDataEvento(array $noticia): string
+{
+    $inicio = $noticia['evento_data_inicio'] ?? '';
+    $fim = $noticia['evento_data_fim'] ?? '';
+
+    if (empty($inicio)) {
+        return date('d/m/Y', strtotime($noticia['published_at'] ?? 'now'));
+    }
+
+    $inicioFormatado = date('d/m/Y', strtotime($inicio));
+    if (empty($fim) || $fim === $inicio) {
+        return 'Evento: ' . $inicioFormatado;
+    }
+
+    return 'Evento: ' . $inicioFormatado . ' a ' . date('d/m/Y', strtotime($fim));
 }
 
 $experiencias = [
@@ -125,7 +143,6 @@ $servicos = [
             <div class="home-hero__overlay" aria-hidden="true"></div>
 
             <div class="home-hero__content">
-                <p class="eyebrow">Portal turístico municipal</p>
                 <h1 class="sr-only">Turismo Curuçá</h1>
                 <div class="hero-brand-title">
                     <img src="<?= asset_url('imgs/logos-bg/logo-visite-curuca.png'); ?>?v=20260618-logo-focus" alt="Turismo Curuçá" class="hero-brand-title__logo">
@@ -174,10 +191,10 @@ $servicos = [
                                     </div>
                                 <?php endif; ?>
                                 <div class="home-news-card-content">
-                                    <span class="home-news-date"><?= date('d/m/Y', strtotime($noticia['published_at'] ?? 'now')); ?></span>
+                                    <span class="home-news-date"><?= htmlspecialchars(formatarDataEvento($noticia)); ?></span>
                                     <h3><?= htmlspecialchars($noticia['titulo'] ?? 'Notícia'); ?></h3>
                                     <p><?= htmlspecialchars(resumoTexto($noticia['conteudo'] ?? '')); ?></p>
-                                    <?php if (!empty($noticia['instagram_url'])): ?>
+                                    <?php if (!empty($noticia['instagram_url']) && is_safe_http_url($noticia['instagram_url'])): ?>
                                         <a href="<?= htmlspecialchars($noticia['instagram_url']); ?>" target="_blank" rel="noopener" class="home-news-instagram">
                                             <i class="fab fa-instagram" aria-hidden="true"></i> Instagram
                                         </a>
@@ -251,17 +268,17 @@ $servicos = [
 
     <footer>
         <div class="footer-logos">
-            <a href="https://www.sebrae.com.br/" target="_blank"><img src="<?= asset_url('imgs/logos-bg/logo-sebrae.webp'); ?>" alt="sebrae"></a>
-            <a href="" target="_blank"><img src="<?= asset_url('imgs/logos-bg/logo-cidade-empreendedora.webp'); ?>" alt="cidade empreendedora"></a>
-            <a href="https://www.instagram.com/turismocuruca.oficial" target="_blank"><img src="<?= asset_url('imgs/logos-bg/logo-sec-turismo.webp'); ?>" alt="secretaria de turismo Curuçá"></a>
-            <a href="https://curuca.pa.gov.br/" target="_blank"><img src="<?= asset_url('imgs/logos-bg/logo-prefeitura-curuca.webp'); ?>" alt="prefeitura de Curuçá"></a>
+            <a href="https://www.sebrae.com.br/" target="_blank" rel="noopener"><img src="<?= asset_url('imgs/logos-bg/logo-sebrae.webp'); ?>" alt="sebrae"></a>
+            <a href="" target="_blank" rel="noopener"><img src="<?= asset_url('imgs/logos-bg/logo-cidade-empreendedora.webp'); ?>" alt="cidade empreendedora"></a>
+            <a href="https://www.instagram.com/turismocuruca.oficial" target="_blank" rel="noopener"><img src="<?= asset_url('imgs/logos-bg/logo-sec-turismo.webp'); ?>" alt="secretaria de turismo Curuçá"></a>
+            <a href="https://curuca.pa.gov.br/" target="_blank" rel="noopener"><img src="<?= asset_url('imgs/logos-bg/logo-prefeitura-curuca.webp'); ?>" alt="prefeitura de Curuçá"></a>
         </div>
         <div class="social-links">
             <a href="https://www.instagram.com/turismocuruca.oficial">Siga-nos: @turismocuruca.oficial</a>
         </div>
         <hr style="border: 0.5px solid #444; margin-bottom: 20px;">
         <p>&copy; 2026 - Prefeitura Municipal de Curuçá - Todos os direitos reservados.</p>
-        <p>Desenvolvedor - <a href="https://github.com/th23dev" target="_blank">Th23dev</a> - <a href="https://instagram.com/th23_dev" target="_blank">@th23_dev</a></p>
+        <p>Desenvolvedor - <a href="https://github.com/th23dev" target="_blank" rel="noopener">Th23dev</a> - <a href="https://instagram.com/th23_dev" target="_blank" rel="noopener">@th23_dev</a></p>
     </footer>
 
     <script src="<?= asset_url('js/script.js'); ?>?v=20260618-feature-layout"></script>

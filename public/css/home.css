@@ -15,6 +15,10 @@
       .logo-img {
          height: 62px;
          filter:
+            drop-shadow(2px 0 0 #fff)
+            drop-shadow(-2px 0 0 #fff)
+            drop-shadow(0 2px 0 #fff)
+            drop-shadow(0 -2px 0 #fff)
             drop-shadow(0 10px 12px rgba(0, 0, 0, 0.22))
             drop-shadow(0 2px 3px rgba(0, 0, 0, 0.18));
       }
@@ -121,7 +125,6 @@
 
    .eyebrow,
    .hero-brand-title,
-   .hero-copy,
    .hero-actions {
       opacity: 0;
       transform: translateY(22px);
@@ -134,10 +137,6 @@
 
    .hero-brand-title {
       animation-delay: 0.24s;
-   }
-
-   .hero-copy {
-      animation-delay: 0.38s;
    }
 
    .hero-actions {
@@ -156,8 +155,10 @@
       object-fit: contain;
       display: block;
       filter:
-         drop-shadow(0 24px 22px rgba(0, 0, 0, 0.58))
-         drop-shadow(0 6px 8px rgba(0, 0, 0, 0.36));
+         drop-shadow(2px 0 0 #fff)
+         drop-shadow(-2px 0 0 #fff)
+         drop-shadow(0 2px 0 #fff)
+         drop-shadow(0 -2px 0 #fff);
    }
 }
 
@@ -216,15 +217,7 @@
    }
 }
 
-.hero-copy {
-   max-width: 680px;
-   margin: 22px 0 0;
-   color: rgba(255, 255, 255, 0.94);
-   font-size: clamp(1rem, 2vw, 1.25rem);
-}
-
-.hero-actions,
-.hero-highlights {
+.hero-actions {
    display: flex;
    flex-wrap: wrap;
    gap: 12px;
@@ -232,20 +225,6 @@
 
 .hero-actions {
    margin-top: 28px;
-}
-
-.hero-highlights {
-   margin-top: 22px;
-
-   span {
-      padding: 8px 12px;
-      border: 1px solid rgba(255, 255, 255, 0.28);
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.12);
-      color: var(--text-light);
-      font-size: 0.9rem;
-      font-weight: 700;
-   }
 }
 
 .btn-primary,
@@ -824,7 +803,6 @@ body.dark {
       .home-hero__media,
       .eyebrow,
       .hero-brand-title,
-      .hero-copy,
       .hero-actions {
          animation: none;
          opacity: 1;

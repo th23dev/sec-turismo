@@ -35,6 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Turismo Curuca - Criar Video</title>
    <link rel="stylesheet" href="/public/css/conexao.css">
+   <link rel="stylesheet" href="/public/css/editar.css">
 </head>
 
 <body>
@@ -61,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
          <?php endif; ?>
 
          <form action="" method="post" class="editar-form">
-            <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
 
             <div class="form-section">
                <h3><i class="fas fa-heading"></i> Titulo</h3>

@@ -10,7 +10,8 @@ $controller = new LugaresController($pdo);
 $noticiasController = new NoticiasController($pdo);
 $videosController = new VideoController($pdo);
 
-$tipo = isset($_GET['tipo']) ? $_GET['tipo'] : null;
+$tiposPermitidos = ['hotel', 'igarape', 'praia'];
+$tipo = isset($_GET['tipo']) && in_array($_GET['tipo'], $tiposPermitidos, true) ? $_GET['tipo'] : null;
 
 if ($tipo) {
    $lugares = $controller->buscarLugares($tipo);
@@ -30,6 +31,7 @@ $videos = $videosController->buscarVideos('');
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Turismo Curuca - Portal</title>
    <link rel="stylesheet" href="/public/css/conexao.css">
+   <link rel="stylesheet" href="/public/css/admin.css">
 </head>
 
 <body>
@@ -77,7 +79,7 @@ $videos = $videosController->buscarVideos('');
                         <i class="fas fa-image"></i>
                   <?php endif; ?>
                      <?php echo htmlspecialchars($lugar['nome']); ?>
-                     <a href="/editar?id=<?php echo $lugar['id']; ?>"><i class="fas fa-pencil"></i></a>
+                     <a href="/editar?id=<?php echo intval($lugar['id']); ?>"><i class="fas fa-pencil"></i></a>
                   </div>
                <?php endforeach ?>
             </div>
@@ -105,8 +107,8 @@ $videos = $videosController->buscarVideos('');
                         <div class="card-content">
                            <div class="card-title"><?= htmlspecialchars($noticia['titulo']); ?></div>
                            <div class="card-actions">
-                              <a href="/editar_noticia?id=<?php echo $noticia['id']; ?>" class="icon-btn edit" title="Editar"><i class="fas fa-pencil"></i></a>
-                              <a href="/excluir_noticia?id=<?php echo $noticia['id']; ?>" class="icon-btn delete" title="Excluir"><i class="fas fa-trash"></i></a>
+                              <a href="/editar_noticia?id=<?php echo intval($noticia['id']); ?>" class="icon-btn edit" title="Editar"><i class="fas fa-pencil"></i></a>
+                              <a href="/excluir_noticia?id=<?php echo intval($noticia['id']); ?>" class="icon-btn delete" title="Excluir"><i class="fas fa-trash"></i></a>
                            </div>
                         </div>
                      </div>
@@ -140,9 +142,11 @@ $videos = $videosController->buscarVideos('');
                         <div class="card-content">
                            <div class="card-title"><?= htmlspecialchars($video['titulo']); ?></div>
                            <div class="card-actions">
-                              <a href="/editar_video?id=<?php echo $video['id']; ?>" class="icon-btn edit" title="Editar"><i class="fas fa-pencil"></i></a>
-                              <a href="<?= htmlspecialchars($video['video']); ?>" class="icon-btn open" title="Abrir video" target="_blank" rel="noopener"><i class="fas fa-up-right-from-square"></i></a>
-                              <a href="/excluir_video?id=<?php echo $video['id']; ?>" class="icon-btn delete" title="Excluir"><i class="fas fa-trash"></i></a>
+                              <a href="/editar_video?id=<?php echo intval($video['id']); ?>" class="icon-btn edit" title="Editar"><i class="fas fa-pencil"></i></a>
+                              <?php if (is_safe_http_url($video['video'] ?? '')): ?>
+                                 <a href="<?= htmlspecialchars($video['video']); ?>" class="icon-btn open" title="Abrir video" target="_blank" rel="noopener"><i class="fas fa-up-right-from-square"></i></a>
+                              <?php endif; ?>
+                              <a href="/excluir_video?id=<?php echo intval($video['id']); ?>" class="icon-btn delete" title="Excluir"><i class="fas fa-trash"></i></a>
                            </div>
                         </div>
                      </div>

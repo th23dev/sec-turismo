@@ -16,6 +16,7 @@ $videos = $controller->buscarVideos($search);
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Turismo Curuçá - Portal</title>
    <link rel="stylesheet" href="/public/css/conexao.css">
+   <link rel="stylesheet" href="/public/css/video.css">
 </head>
 
 <body>
@@ -57,7 +58,9 @@ $videos = $controller->buscarVideos($search);
                      <?php foreach ($videos as $video): ?> 
                         <li class="carousel-slide">
                            <div class="video-card">
-                              <video src="<?= htmlspecialchars($video['video']) ?>" controls preload></video>
+                              <?php if (is_safe_http_url($video['video'] ?? '')): ?>
+                                 <video src="<?= htmlspecialchars($video['video']) ?>" controls preload></video>
+                              <?php endif; ?>
                               <div class="video-info">
                                  <h3><?= htmlspecialchars($video['titulo']) ?></h3>
                                  <p><?= htmlspecialchars($video['descricao']) ?></p>

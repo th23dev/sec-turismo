@@ -37,7 +37,7 @@
             <p><strong>Horário de Funcionamento:</strong> Segunda a Sábado, das 08h às 18h.</p>
 
             <div class="social-links">
-               <a class="tag insta" href="https://www.instagram.com/turismocuruca.oficial" target="_blank"><i
+               <a class="tag insta" href="https://www.instagram.com/turismocuruca.oficial" target="_blank" rel="noopener"><i
                      class="fab fa-instagram"></i>@turismocuruca.oficial</a>
                <span class="zapp tag"><i class="fab fa-whatsapp"></i>(91) 98548-8735</span>
             </div>
@@ -104,7 +104,7 @@
 
                <li>
                   <strong>Validade</strong>
-                  <p>Este passaporte tem validade até o dia <strong>31 de dezembro de 2026</strong> para completar sua coleção de experiências.</p>
+                  <p>Este passaporte tem validade até o dia <strong>31 de julho de 2027</strong> para completar sua coleção de experiências.</p>
                </li>
             </ol>
          </div>

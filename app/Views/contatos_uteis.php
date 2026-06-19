@@ -7,6 +7,7 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Turismo Curuçá - Contatos Úteis</title>
    <link rel="stylesheet" href="/public/css/conexao.css">
+   <link rel="stylesheet" href="/public/css/contatos_uteis.css">
 </head>
 
 <body>
@@ -93,7 +94,7 @@
                <div class="contact-info">
                   <span class="contact-type">Segurança</span>
                   <h3>Guarda Municipal Civil</h3>
-                  <span class="contact-phone muted">Sem número informado</span>
+                  <a href="tel:+5591993819937" class="contact-phone">(91) 99381-9937</a>
                </div>
             </article>
 
@@ -102,7 +103,7 @@
                <div class="contact-info">
                   <span class="contact-type">Proteção social</span>
                   <h3>Conselho Tutelar</h3>
-                  <span class="contact-phone muted">Sem número informado</span>
+                  <a href="tel:+5591988774215" class="contact-phone">(91) 98877-4215</a>
                </div>
             </article>
 
