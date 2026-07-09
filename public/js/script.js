@@ -130,3 +130,67 @@ if (reduceMotion || !('IntersectionObserver' in window)) {
 
     revealElements.forEach(element => revealObserver.observe(element));
 }
+
+const newsCards = document.querySelectorAll('[data-news-modal]');
+const newsCloseButtons = document.querySelectorAll('[data-news-close]');
+
+function openNewsModal(modalId) {
+    const modal = document.getElementById(`modal-${modalId}`);
+    if (!modal) {
+        return;
+    }
+
+    modal.style.display = 'flex';
+    modal.setAttribute('aria-hidden', 'false');
+    body.style.overflow = 'hidden';
+
+    const closeButton = modal.querySelector('[data-news-close]');
+    if (closeButton) {
+        closeButton.focus();
+    }
+}
+
+function closeNewsModal(modalId) {
+    const modal = document.getElementById(`modal-${modalId}`);
+    if (!modal) {
+        return;
+    }
+
+    modal.style.display = 'none';
+    modal.setAttribute('aria-hidden', 'true');
+    body.style.overflow = '';
+}
+
+newsCards.forEach(card => {
+    const modalId = card.dataset.newsModal;
+
+    card.addEventListener('click', () => openNewsModal(modalId));
+    card.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            openNewsModal(modalId);
+        }
+    });
+});
+
+newsCloseButtons.forEach(button => {
+    button.addEventListener('click', () => closeNewsModal(button.dataset.newsClose));
+});
+
+document.querySelectorAll('.home-news-modal').forEach(modal => {
+    modal.addEventListener('click', event => {
+        if (event.target === modal) {
+            closeNewsModal(modal.id.replace('modal-', ''));
+        }
+    });
+});
+
+document.addEventListener('keydown', event => {
+    if (event.key !== 'Escape') {
+        return;
+    }
+
+    document.querySelectorAll('.home-news-modal[aria-hidden="false"]').forEach(modal => {
+        closeNewsModal(modal.id.replace('modal-', ''));
+    });
+});

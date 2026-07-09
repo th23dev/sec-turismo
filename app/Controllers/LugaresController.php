@@ -115,12 +115,13 @@ class LugaresController
         $linkInstagram = $dados['linkInstagram'] ?? '';
         $descricao = $dados['descricao'] ?? '';
         $possui_restaurante = ($dados['restaurante'] ?? '0') === '1' || ($dados['restaurante'] ?? 0) == 1 ? 1 : 0;
+        $google_maps_url = extract_iframe_src((string) ($dados['google_maps_url'] ?? ''));
 
-        if (!is_safe_http_url($linkInstagram)) {
+        if (!is_safe_http_url($linkInstagram) || !is_safe_google_maps_url($google_maps_url)) {
             return false;
         }
 
-        $lugar_id = $this->model->criarLocal($imagem_principal, $nome, $tipo, $numero, $instagram, $linkInstagram, $descricao, $possui_restaurante);
+        $lugar_id = $this->model->criarLocal($imagem_principal, $nome, $tipo, $numero, $instagram, $linkInstagram, $descricao, $possui_restaurante, $google_maps_url);
 
         if ($lugar_id) {
             $midiasText = $dados['midias'] ?? '';
@@ -156,7 +157,7 @@ class LugaresController
         return $this->model->excluirLugar($id);
     }
     
-    public function atualizarLocal($id, $imagem_principal, $nome, $tipo, $numero, $instagram, $linkInstagram, $descricao, $possui_restaurante, $arquivos = [])
+    public function atualizarLocal($id, $imagem_principal, $nome, $tipo, $numero, $instagram, $linkInstagram, $descricao, $possui_restaurante, $google_maps_url = '', $arquivos = [])
     {
         // Se não foi fornecida nova imagem, mantém a anterior
         if (empty($imagem_principal)) {
@@ -186,12 +187,14 @@ class LugaresController
             }
         }
         
-        if (!is_safe_http_url($linkInstagram)) {
+        $google_maps_url = extract_iframe_src((string) $google_maps_url);
+
+        if (!is_safe_http_url($linkInstagram) || !is_safe_google_maps_url($google_maps_url)) {
             return false;
         }
 
         $possui_restaurante = $possui_restaurante === '1' || $possui_restaurante == 1 ? 1 : 0;
-        return $this->model->atualizarLocal($id, $imagem_principal_final, $nome, $tipo, $numero, $instagram, $linkInstagram, $descricao, $possui_restaurante);
+        return $this->model->atualizarLocal($id, $imagem_principal_final, $nome, $tipo, $numero, $instagram, $linkInstagram, $descricao, $possui_restaurante, $google_maps_url);
     }
 
     //-------------- Midias --------------
@@ -206,14 +209,7 @@ class LugaresController
 
     public function adicionarMidias($lugar_id, $dados = [], $arquivos = [])
     {
-        // Aceita tanto o campo 'midias' (textarea com várias linhas)
-        // quanto 'url_midia' (campo único usado em editar.php)
-        $midiasText = '';
-        if (!empty($dados['midias'])) {
-            $midiasText = $dados['midias'];
-        } elseif (!empty($dados['url_midia'])) {
-            $midiasText = $dados['url_midia'];
-        }
+        $midiasText = $dados['midias'] ?? '';
 
         $filesArray = [];
         if (!empty($arquivos['midias_arquivos'])) {

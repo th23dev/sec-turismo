@@ -6,6 +6,7 @@ require_once __DIR__ . '/../Utils/security.php';
 class NoticiasController
 {
     private $model;
+    private string $erro = '';
 
     public function __construct($conexao)
     {
@@ -27,11 +28,17 @@ class NoticiasController
         return $this->model->buscarNoticia($id);
     }
 
+    public function getErro(): string
+    {
+        return $this->erro;
+    }
+
     public function criarNoticia($dados, $arquivos = [])
     {
+        $this->erro = '';
         $titulo = trim($dados['titulo'] ?? '');
         $conteudo = trim($dados['conteudo'] ?? '');
-        $instagram_url = trim($dados['instagram_url'] ?? '');
+        $instagram_url = $this->normalizarLinkInstagram($dados['instagram_url'] ?? '');
         $evento_data_inicio = $this->formatarDataSimples($dados['evento_data_inicio'] ?? '');
         $evento_data_fim = $this->formatarDataSimples($dados['evento_data_fim'] ?? '');
         [$evento_data_inicio, $evento_data_fim] = $this->normalizarPeriodoEvento($evento_data_inicio, $evento_data_fim);
@@ -40,6 +47,7 @@ class NoticiasController
         $indefinido = isset($dados['indefinido']) && $dados['indefinido'] === '1' ? 1 : 0;
 
         if (!is_safe_http_url($instagram_url)) {
+            $this->erro = 'Link invalido. Use um link completo, como https://instagram.com/exemplo.';
             return false;
         }
 
@@ -54,14 +62,16 @@ class NoticiasController
 
     public function atualizarNoticia($id, $dados, $arquivos = [])
     {
+        $this->erro = '';
         $noticiaExistente = $this->buscarNoticia($id);
         if (!$noticiaExistente) {
+            $this->erro = 'Noticia nao encontrada.';
             return false;
         }
 
         $titulo = trim($dados['titulo'] ?? '');
         $conteudo = trim($dados['conteudo'] ?? '');
-        $instagram_url = trim($dados['instagram_url'] ?? '');
+        $instagram_url = $this->normalizarLinkInstagram($dados['instagram_url'] ?? '');
         $evento_data_inicio = $this->formatarDataSimples($dados['evento_data_inicio'] ?? '');
         $evento_data_fim = $this->formatarDataSimples($dados['evento_data_fim'] ?? '');
         [$evento_data_inicio, $evento_data_fim] = $this->normalizarPeriodoEvento($evento_data_inicio, $evento_data_fim);
@@ -70,6 +80,7 @@ class NoticiasController
         $indefinido = isset($dados['indefinido']) && $dados['indefinido'] === '1' ? 1 : 0;
 
         if (!is_safe_http_url($instagram_url)) {
+            $this->erro = 'Link invalido. Use um link completo, como https://instagram.com/exemplo.';
             return false;
         }
 
@@ -120,6 +131,24 @@ class NoticiasController
         }
 
         return str_replace('T', ' ', $data);
+    }
+
+    private function normalizarLinkInstagram($url): string
+    {
+        $url = trim((string) $url);
+        if ($url === '') {
+            return '';
+        }
+
+        if (str_starts_with($url, '@')) {
+            return 'https://instagram.com/' . ltrim($url, '@');
+        }
+
+        if (!preg_match('#^https?://#i', $url) && preg_match('#^(www\.)?instagram\.com/#i', $url)) {
+            return 'https://' . $url;
+        }
+
+        return $url;
     }
 
     private function formatarDataSimples($data)

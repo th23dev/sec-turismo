@@ -30,10 +30,10 @@ class LugaresModel
         return $lugar;
     }
 
-    public function criarLocal($imagem_principal, $nome, $tipo, $numero, $instagram, $linkInstagram, $descricao, $possui_restaurante)
+    public function criarLocal($imagem_principal, $nome, $tipo, $numero, $instagram, $linkInstagram, $descricao, $possui_restaurante, $google_maps_url = '')
     {
-        $sql = "INSERT INTO lugares (imagem_principal, nome, tipo, numero, instagram, linkInstagram, descricao, possui_restaurante) 
-                VALUES (:imagem_principal, :nome, :tipo, :numero, :instagram, :linkInstagram, :descricao, :possui_restaurante)";
+        $sql = "INSERT INTO lugares (imagem_principal, nome, tipo, numero, instagram, linkInstagram, descricao, possui_restaurante, google_maps_url) 
+                VALUES (:imagem_principal, :nome, :tipo, :numero, :instagram, :linkInstagram, :descricao, :possui_restaurante, :google_maps_url)";
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(':imagem_principal', $imagem_principal, PDO::PARAM_STR);
         $stmt->bindValue(':nome', $nome, PDO::PARAM_STR);
@@ -43,13 +43,14 @@ class LugaresModel
         $stmt->bindValue(':linkInstagram', $linkInstagram, PDO::PARAM_STR);
         $stmt->bindValue(':descricao', $descricao, PDO::PARAM_STR);
         $stmt->bindValue(':possui_restaurante', $possui_restaurante, PDO::PARAM_INT);
+        $stmt->bindValue(':google_maps_url', $google_maps_url, PDO::PARAM_STR);
         if ($stmt->execute()) {
             return $this->db->lastInsertId();
         }
         return false;
     }
 
-    public function atualizarLocal($id, $imagem_principal, $nome, $tipo, $numero, $instagram, $linkInstagram, $descricao, $possui_restaurante)
+    public function atualizarLocal($id, $imagem_principal, $nome, $tipo, $numero, $instagram, $linkInstagram, $descricao, $possui_restaurante, $google_maps_url = '')
     {
         $sql = "UPDATE lugares 
             SET imagem_principal = :imagem_principal,
@@ -59,7 +60,8 @@ class LugaresModel
                 instagram = :instagram,
                 linkInstagram = :linkInstagram,
                 descricao = :descricao,
-                possui_restaurante = :possui_restaurante
+                possui_restaurante = :possui_restaurante,
+                google_maps_url = :google_maps_url
             WHERE id = :id";
 
         $stmt = $this->db->prepare($sql);
@@ -72,6 +74,7 @@ class LugaresModel
         $stmt->bindValue(':linkInstagram', $linkInstagram, PDO::PARAM_STR);
         $stmt->bindValue(':descricao', $descricao, PDO::PARAM_STR);
         $stmt->bindValue(':possui_restaurante', $possui_restaurante, PDO::PARAM_INT);
+        $stmt->bindValue(':google_maps_url', $google_maps_url, PDO::PARAM_STR);
 
         return $stmt->execute();
     }

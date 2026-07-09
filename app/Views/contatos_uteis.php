@@ -6,6 +6,7 @@
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Turismo Curuçá - Contatos Úteis</title>
+   <link rel="icon" type="image/webp" href="/public/imgs/logos-bg/logo-sec-turismo.webp">
    <link rel="stylesheet" href="/public/css/conexao.css">
    <link rel="stylesheet" href="/public/css/contatos_uteis.css">
 </head>

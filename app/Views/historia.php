@@ -7,6 +7,7 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <meta name="description" content="Conheça a história de Curuçá, sua fundação jesuítica, formação como vila e dados gerais do município.">
    <title>Turismo Curuçá - História de Curuçá</title>
+   <link rel="icon" type="image/webp" href="/public/imgs/logos-bg/logo-sec-turismo.webp">
    <link rel="stylesheet" href="/public/css/conexao.css">
    <link rel="stylesheet" href="/public/css/historia.css">
 </head>

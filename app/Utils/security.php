@@ -51,3 +51,32 @@ function is_safe_http_url(?string $url): bool
     $scheme = strtolower((string) parse_url($url, PHP_URL_SCHEME));
     return in_array($scheme, ['http', 'https'], true);
 }
+
+function extract_iframe_src(string $value): string
+{
+    if (preg_match('/<iframe[^>]+src=["\']([^"\']+)["\']/i', $value, $matches)) {
+        return html_entity_decode($matches[1], ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    }
+
+    return trim($value);
+}
+
+function is_safe_google_maps_url(?string $url): bool
+{
+    if ($url === null || trim($url) === '') {
+        return true;
+    }
+
+    $url = extract_iframe_src($url);
+    if (!is_safe_http_url($url)) {
+        return false;
+    }
+
+    $host = strtolower((string) parse_url($url, PHP_URL_HOST));
+    return $host === 'google.com'
+        || str_ends_with($host, '.google.com')
+        || $host === 'google.com.br'
+        || str_ends_with($host, '.google.com.br')
+        || $host === 'maps.app.goo.gl'
+        || $host === 'goo.gl';
+}

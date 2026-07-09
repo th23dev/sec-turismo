@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" role="img" aria-labelledby="title desc">
+  <title id="title">Turismo MTur</title>
+  <desc id="desc">Icone verde com a palavra Turismo e elementos de viagem</desc>
+  <rect width="180" height="180" rx="10" fill="#079343"/>
+  <path d="M0 0h180v180H0z" fill="#098f3e"/>
+  <path d="M-20 55c42-24 80-25 114-5s66 21 104 0v130H-20z" fill="#07873a" opacity="0.42"/>
+  <path d="M142 0c-8 22-6 44 8 66s18 44 6 69l24 16V0z" fill="#0aa449" opacity="0.5"/>
+  <g transform="translate(16 31)">
+    <circle cx="21" cy="35" r="10" fill="#ffdc1f"/>
+    <g stroke="#ffdc1f" stroke-width="4" stroke-linecap="round">
+      <path d="M21 17v-10"/>
+      <path d="M21 63v10"/>
+      <path d="M3 35h-10"/>
+      <path d="M49 35h10"/>
+      <path d="M8 22 0 14"/>
+      <path d="M34 48 42 56"/>
+      <path d="M34 22 42 14"/>
+      <path d="M8 48 0 56"/>
+    </g>
+    <rect x="42" y="3" width="22" height="30" rx="2" transform="rotate(10 53 18)" fill="#173d7a"/>
+    <rect x="47" y="8" width="12" height="15" fill="#f5f2d8"/>
+    <rect x="9" y="69" width="27" height="19" rx="2" transform="rotate(-15 22 78)" fill="#f26a2e"/>
+    <path d="m12 80 9-8 14 6" fill="none" stroke="#0d6935" stroke-width="3"/>
+    <rect x="45" y="86" width="29" height="20" rx="2" transform="rotate(14 60 96)" fill="#ffb52e"/>
+    <path d="m50 99 11-9 11 7" fill="none" stroke="#0d6935" stroke-width="3"/>
+  </g>
+  <text x="104" y="63" font-family="Arial Black, Arial, Helvetica, sans-serif" font-size="34" font-weight="900" fill="#ffffff">TU</text>
+  <text x="86" y="101" font-family="Arial Black, Arial, Helvetica, sans-serif" font-size="34" font-weight="900" fill="#ffffff">RIS</text>
+  <text x="86" y="139" font-family="Arial Black, Arial, Helvetica, sans-serif" font-size="34" font-weight="900" fill="#ffffff">MO</text>
+</svg>

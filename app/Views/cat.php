@@ -6,6 +6,7 @@
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Turismo Curuçá - Portal</title>
+   <link rel="icon" type="image/webp" href="/public/imgs/logos-bg/logo-sec-turismo.webp">
    <link rel="stylesheet" href="/public/css/conexao.css">
    <link rel="stylesheet" href="/public/css/cat.css?v=20260618-passaporte">
 </head>
@@ -34,7 +35,7 @@
                Christo Alves, na Orla de Curuçá.
                Funciona todos os dias, com diversas informações.</p>
             <br>
-            <p><strong>Horário de Funcionamento:</strong> Segunda a Sábado, das 08h às 18h.</p>
+            <p><strong>Horário de Funcionamento:</strong> Segunda a domingo, das 08h às 12h e 16h às 22h.</p>
 
             <div class="social-links">
                <a class="tag insta" href="https://www.instagram.com/turismocuruca.oficial" target="_blank" rel="noopener"><i

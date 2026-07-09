@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 230" role="img" aria-labelledby="title desc">
+  <title id="title">ICMBio MMA</title>
+  <desc id="desc">Icone do ICMBio Instituto Chico Mendes MMA com mapa formado por pontos verdes e amarelos</desc>
+  <g transform="translate(33 8)">
+    <circle cx="40" cy="15" r="5" fill="#0f6934"/>
+    <circle cx="58" cy="12" r="7" fill="#9fbf2c"/>
+    <circle cx="78" cy="16" r="6" fill="#1f7a44"/>
+    <circle cx="95" cy="12" r="5" fill="#c3ca34"/>
+    <circle cx="112" cy="18" r="7" fill="#0a5d34"/>
+    <circle cx="25" cy="30" r="6" fill="#77a944"/>
+    <circle cx="43" cy="32" r="8" fill="#006b3f"/>
+    <circle cx="63" cy="30" r="5" fill="#1d8a58"/>
+    <circle cx="82" cy="34" r="9" fill="#c9ca36"/>
+    <circle cx="103" cy="32" r="6" fill="#00794b"/>
+    <circle cx="124" cy="35" r="7" fill="#6ea342"/>
+    <circle cx="13" cy="48" r="5" fill="#abc53e"/>
+    <circle cx="32" cy="50" r="8" fill="#0b6a3b"/>
+    <circle cx="52" cy="49" r="7" fill="#1d844f"/>
+    <circle cx="72" cy="52" r="10" fill="#005f36"/>
+    <circle cx="96" cy="51" r="8" fill="#93b442"/>
+    <circle cx="118" cy="54" r="10" fill="#006b3f"/>
+    <circle cx="141" cy="55" r="6" fill="#1d7d49"/>
+    <circle cx="23" cy="68" r="7" fill="#2b8a55"/>
+    <circle cx="45" cy="70" r="10" fill="#0a6e3c"/>
+    <circle cx="68" cy="70" r="8" fill="#d4c92f"/>
+    <circle cx="90" cy="70" r="11" fill="#00794b"/>
+    <circle cx="116" cy="73" r="7" fill="#b6bd35"/>
+    <circle cx="136" cy="75" r="9" fill="#2d8d54"/>
+    <circle cx="152" cy="68" r="5" fill="#0e6339"/>
+    <circle cx="37" cy="88" r="7" fill="#87aa40"/>
+    <circle cx="58" cy="89" r="12" fill="#006b3f"/>
+    <circle cx="82" cy="91" r="7" fill="#1c8754"/>
+    <circle cx="103" cy="92" r="10" fill="#d5ca32"/>
+    <circle cx="127" cy="92" r="7" fill="#0b6a3b"/>
+    <circle cx="145" cy="91" r="8" fill="#5d9b44"/>
+    <circle cx="56" cy="108" r="6" fill="#0f6934"/>
+    <circle cx="75" cy="109" r="10" fill="#2b8d55"/>
+    <circle cx="96" cy="111" r="8" fill="#006b3f"/>
+    <circle cx="118" cy="113" r="9" fill="#6da343"/>
+    <circle cx="135" cy="110" r="6" fill="#0a5d34"/>
+    <circle cx="76" cy="127" r="7" fill="#a9bd37"/>
+    <circle cx="94" cy="129" r="9" fill="#0f6934"/>
+    <circle cx="113" cy="132" r="6" fill="#23834f"/>
+    <circle cx="94" cy="147" r="6" fill="#00794b"/>
+    <circle cx="106" cy="158" r="5" fill="#d5ca32"/>
+  </g>
+  <text x="110" y="182" text-anchor="middle" font-family="Arial Black, Arial, Helvetica, sans-serif" font-size="47" font-weight="900" fill="#006b3f">ICMBio</text>
+  <text x="110" y="204" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#39564b" letter-spacing="1.2">INSTITUTO CHICO MENDES</text>
+  <text x="110" y="226" text-anchor="middle" font-family="Arial Black, Arial, Helvetica, sans-serif" font-size="28" font-weight="900" fill="#006b3f">MMA</text>
+</svg>

@@ -90,12 +90,30 @@
    background-color: var(--primary-color);
    grid-column-start: 6;
    grid-row-start: 4;
+   justify-content: center;
+}
+
+#SEBRAE img {
+   flex: 0 0 clamp(72px, 7vw, 94px) !important;
+   width: clamp(72px, 7vw, 94px) !important;
+   max-height: 58px !important;
 }
 
 #MTUR {
-   background: linear-gradient(45deg, #002776 0%, #004C99 25%, #0066CC 50%, #3399FF 75%, #66CCFF 100%);
+   background: linear-gradient(135deg, #057f36 0%, #0aa449 72%, #0fbf5b 100%);
+   color: #fff;
    grid-column-start: 6;
    grid-row-start: 3;
+   box-shadow: inset 0 0 0 2px rgba(255, 220, 31, 0.28);
+}
+
+#MTUR .mtur-icon {
+   flex: 0 0 clamp(46px, 5vw, 60px) !important;
+   width: clamp(46px, 5vw, 60px) !important;
+   max-height: 58px !important;
+   border-radius: 7px;
+   object-fit: contain;
+   filter: none !important;
 }
 
 #SEMTUR {
@@ -104,16 +122,37 @@
    grid-row-start: 1;
 }
 
+#SEMTUR img {
+   flex: 0 0 clamp(52px, 5.6vw, 68px) !important;
+   width: clamp(52px, 5.6vw, 68px) !important;
+   max-height: 58px !important;
+}
+
 #PREFEITURA {
    background: #0d7fb8;
    grid-column-start: 6;
    grid-row-start: 2;
 }
 
+#PREFEITURA img {
+   flex: 0 0 clamp(52px, 5.6vw, 68px) !important;
+   width: clamp(52px, 5.6vw, 68px) !important;
+   max-height: 58px !important;
+}
+
 #EMBRATUR {
-   background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+   background: #fff;
+   color: #2f3438;
    grid-column-start: 6;
    grid-row-start: 5;
+}
+
+#EMBRATUR .embratur-icon {
+   flex: 0 0 clamp(46px, 5vw, 60px) !important;
+   width: clamp(46px, 5vw, 60px) !important;
+   max-height: 50px;
+   object-fit: contain;
+   filter: none !important;
 }
 
 #SALGADO {
@@ -122,18 +161,25 @@
    grid-row-start: 6;
 }
 
-.salgado-mark {
-   display: grid;
-   place-items: center;
-   flex: 0 0 clamp(34px, 3.8vw, 44px);
-   width: clamp(34px, 3.8vw, 44px);
-   height: clamp(34px, 3.8vw, 44px);
+.salgado-link {
+   white-space: normal;
+}
+
+#SALGADO .icmbio-icon {
+   flex: 0 0 clamp(44px, 5vw, 58px) !important;
+   width: clamp(44px, 5vw, 58px) !important;
+   height: clamp(44px, 5vw, 58px) !important;
+   max-height: none !important;
+   padding: 6px;
    border-radius: 50%;
    background: #fff;
-   color: #0c5f35;
-   font-size: clamp(0.76rem, 1.1vw, 0.92rem);
-   font-weight: 900;
-   letter-spacing: 0;
+   object-fit: contain;
+   filter: none !important;
+}
+
+.salgado-label {
+   min-width: 0;
+   overflow-wrap: anywhere;
 }
 
 #igarapes {
@@ -203,7 +249,7 @@
 }
 
 #manguezais {
-   background: linear-gradient(135deg, rgba(0, 67, 58, 0.86), rgba(0, 137, 96, 0.66)), url('../imgs/logos-bg/bosque.webp') no-repeat center center/cover;
+   background: linear-gradient(rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0.28)), url('../imgs/logos-bg/manguezais.webp') no-repeat center center/cover;
    grid-column: span 2 / span 2;
    grid-row: span 2 / span 2;
    grid-column-start: 1;
@@ -211,7 +257,7 @@
 }
 
 #gastronomia {
-   background: linear-gradient(135deg, rgba(118, 45, 0, 0.86), rgba(255, 141, 41, 0.64)), url('../imgs/logos-bg/barraca_do_pescador.webp') no-repeat center center/cover;
+   background: linear-gradient(rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0.28)), url('../imgs/logos-bg/gastronomia.webp') no-repeat center center/cover;
    grid-column: span 1 / span 1;
    grid-row: span 2 / span 2;
    grid-column-start: 3;
@@ -219,7 +265,7 @@
 }
 
 #cultura-popular {
-   background: linear-gradient(135deg, rgba(58, 20, 120, 0.84), rgba(214, 61, 102, 0.64)), url('../imgs/logos-bg/abade-orla.webp') no-repeat center center/cover;
+   background: linear-gradient(rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0.28)), url('../imgs/logos-bg/cultura_popular.webp') no-repeat center center/cover;
    grid-column: span 2 / span 2;
    grid-row: span 2 / span 2;
    grid-column-start: 4;
@@ -227,7 +273,7 @@
 }
 
 #trilhas {
-   background: linear-gradient(135deg, rgba(17, 77, 31, 0.86), rgba(125, 171, 48, 0.62)), url('../imgs/logos-bg/igarapes.webp') no-repeat center center/cover;
+   background: linear-gradient(rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0.28)), url('../imgs/logos-bg/trilhas.webp') no-repeat center center/cover;
    grid-column: span 1 / span 1;
    grid-row: span 2 / span 2;
    grid-column-start: 6;

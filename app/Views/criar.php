@@ -36,6 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Turismo Curuçá - Criar Novo Local</title>
+   <link rel="icon" type="image/webp" href="/public/imgs/logos-bg/logo-sec-turismo.webp">
    <link rel="stylesheet" href="/public/css/conexao.css">
    <link rel="stylesheet" href="/public/css/editar.css">
 </head>
@@ -124,9 +125,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                   <div class="form-group">
                      <label for="tipo">Tipo</label>
                      <select name="tipo" id="tipo">
-                        <option value="Hotel">Hotel</option>
-                        <option value="Igarapé">Igarapé</option>
-                        <option value="Praia">Praia</option>
+                        <option value="hotel">Hotel</option>
+                        <option value="igarape">Igarapé</option>
+                        <option value="praia">Praia</option>
                      </select>
                   </div>
                </div>
@@ -166,6 +167,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                </div>
             </div>
 
+            <div class="form-section">
+               <h3><i class="fas fa-map-location-dot"></i> Google Maps</h3>
+               <div class="form-group">
+                  <label for="google_maps_url">Link ou iframe do mapa</label>
+                  <textarea name="google_maps_url" id="google_maps_url" rows="5" placeholder="Cole o link de compartilhamento ou o iframe incorporado do Google Maps"></textarea>
+                  <small>Use o link de compartilhar do Google Maps ou o código de incorporação.</small>
+               </div>
+            </div>
+
             <!-- Restaurante -->
             <div class="form-section">
                <h3><i class="fas fa-utensils"></i> Restaurante</h3>
@@ -183,13 +193,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="form-section">
                <h3><i class="fas fa-images"></i> Mídias Adicionais</h3>
                <div class="form-group">
-                  <label for="midias">URLs de imagens/vídeos adicionais (uma por linha)</label>
-                  <textarea name="midias" id="midias" placeholder="https://exemplo.com/imagem1.jpg&#10;https://exemplo.com/imagem2.jpg&#10;https://exemplo.com/video.mp4" rows="5"></textarea>
-               </div>
-               <div class="form-group">
                   <label for="midias_arquivos">Enviar imagens adicionais</label>
-                  <input type="file" name="midias_arquivos[]" id="midias_arquivos" accept="image/jpeg,image/png,image/webp,image/gif" multiple>
-                  <small>Você pode enviar várias imagens ao mesmo tempo.</small>
+                  <input type="file" name="midias_arquivos[]" id="midias_arquivos" accept="image/jpeg,image/png,image/webp,image/gif" multiple data-preview-target="#preview-midias-adicionais">
+                  <small>Selecione uma ou mais imagens. A previa aparece abaixo antes de salvar.</small>
+               </div>
+               <div class="secondary-photos-current">
+                  <label>Previa das imagens selecionadas</label>
+                  <div class="midias-grid upload-preview-grid" id="preview-midias-adicionais">
+                     <p class="midias-vazio">Nenhuma imagem selecionada ainda.</p>
+                  </div>
                </div>
             </div>
 
@@ -337,7 +349,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       });
    </script>
    <script src="/public/js/script.js"></script>
+   <script src="/public/js/image-preview-upload.js"></script>
 </body>
 
 </html>
-

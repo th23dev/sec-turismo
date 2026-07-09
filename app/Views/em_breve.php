@@ -19,6 +19,7 @@ $pagina = $paginas[$slug] ?? ['titulo' => 'Nova experi&ecirc;ncia', 'icone' => '
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title><?= $pagina['titulo']; ?> - Em breve</title>
+   <link rel="icon" type="image/webp" href="/public/imgs/logos-bg/logo-sec-turismo.webp">
    <link rel="stylesheet" href="<?= asset_url('css/conexao.css'); ?>">
    <link rel="stylesheet" href="<?= asset_url('css/em_breve.css'); ?>">
 </head>

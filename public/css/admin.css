@@ -11,6 +11,11 @@
 #lugares,
 #noticias,
 #videos-admin,
+#conteudos-turisticos,
+#conteudo-gastronomia,
+#conteudo-manguezais,
+#conteudo-cultura-popular,
+#conteudo-trilha,
 #usuarios {
    display: flex;
    flex-direction: column;
@@ -104,6 +109,17 @@
             background: var(--primary-color);
             color: var(--text-light);
          }
+      }
+
+      span {
+         min-height: 38px;
+         padding: 8px 12px;
+         border: 1px solid rgba(0, 44, 153, 0.14);
+         border-radius: 8px;
+         background: rgba(0, 71, 255, 0.08);
+         color: var(--main-text);
+         font-size: 0.85rem;
+         font-weight: 800;
       }
    }
 
@@ -315,12 +331,23 @@ body.dark {
    #lugares,
    #noticias,
    #videos-admin,
+   #conteudos-turisticos,
+   #conteudo-gastronomia,
+   #conteudo-manguezais,
+   #conteudo-cultura-popular,
+   #conteudo-trilha,
    #usuarios {
       border-color: rgba(255, 255, 255, 0.08);
    }
 
    .functions {
       .filtros a {
+         border-color: rgba(255, 255, 255, 0.08);
+         background: rgba(255, 255, 255, 0.06);
+         color: var(--text-color);
+      }
+
+      .filtros span {
          border-color: rgba(255, 255, 255, 0.08);
          background: rgba(255, 255, 255, 0.06);
          color: var(--text-color);
@@ -374,6 +401,11 @@ body.dark {
    #lugares,
    #noticias,
    #videos-admin,
+   #conteudos-turisticos,
+   #conteudo-gastronomia,
+   #conteudo-manguezais,
+   #conteudo-cultura-popular,
+   #conteudo-trilha,
    #usuarios {
       padding: 16px;
       max-height: 360px;

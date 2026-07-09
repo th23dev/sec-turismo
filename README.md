@@ -23,7 +23,7 @@ BASE_URL=
 ```
 
 3. Garanta permissão de escrita para `public/imgs/uploads`.
-4. Importe/crie as tabelas usadas pelo painel antes de cadastrar notícias, locais e usuários.
+4. Importe/crie as tabelas usadas pelo painel antes de cadastrar notícias, locais, usuários e conteúdos turísticos.
 
 ## Como Rodar Localmente
 

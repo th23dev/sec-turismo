@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header('location: ' . redirect_url('admin'));
             exit;
         } else {
-            $erro = 'Erro ao criar a notícia. Verifique os dados e tente novamente.';
+            $erro = $controller->getErro() ?: 'Erro ao criar a notícia. Verifique os dados e tente novamente.';
         }
     }
 }
@@ -36,6 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Turismo Curuçá - Criar Notícia</title>
+   <link rel="icon" type="image/webp" href="/public/imgs/logos-bg/logo-sec-turismo.webp">
    <link rel="stylesheet" href="/public/css/conexao.css">
    <link rel="stylesheet" href="/public/css/editar.css">
 </head>

@@ -1,8 +1,15 @@
 function openModal(rio) {
    const modalId = rio;
    const modal = document.getElementById("modal-" + modalId);
+   if (!modal) {
+      return;
+   }
    modal.style.display = "flex";
-   updateCarousel(modalId, 0);
+   document.body.style.overflow = "hidden";
+
+   if (modal.querySelector('.carousel-images')) {
+      updateCarousel(modalId, 0);
+   }
 
    modal.addEventListener('click', function(event) {
       if (event.target === modal) {
@@ -13,14 +20,21 @@ function openModal(rio) {
 
 function closeModal(rio) {
    const modal = document.getElementById("modal-" + rio);
+   if (!modal) {
+      return;
+   }
    const videos = modal.querySelectorAll('video');
    videos.forEach(video => video.pause());
    modal.style.display = "none";
+   document.body.style.overflow = "";
 }
 
 function prevImage(modalId) {
    const modal = document.getElementById("modal-" + modalId);
    const carouselImages = modal.querySelector('.carousel-images');
+   if (!carouselImages) {
+      return;
+   }
    const items = carouselImages.querySelectorAll('.carousel-image, .carousel-video');
    const indicators = modal.querySelectorAll('.indicator');
    let currentIndex = Array.from(indicators).findIndex(ind => ind.classList.contains('active'));
@@ -50,6 +64,10 @@ function updateCarousel(modalId, index) {
    const indicatorsContainer = modal.querySelector('.carousel-indicators');
    const items = carouselImages.querySelectorAll('.carousel-image, .carousel-video');
 
+   if (!indicatorsContainer) {
+      return;
+   }
+
    indicatorsContainer.innerHTML = '';
 
    items.forEach((_, i) => {
@@ -76,12 +94,12 @@ function updateCarousel(modalId, index) {
    }
 
    if (items.length <= 1) {
-      prevBtn.style.display = 'none';
-      nextBtn.style.display = 'none';
+      if (prevBtn) prevBtn.style.display = 'none';
+      if (nextBtn) nextBtn.style.display = 'none';
       indicatorsContainer.style.display = 'none';
    } else {
-      prevBtn.style.display = index === 0 ? 'none' : 'flex';
-      nextBtn.style.display = index === items.length - 1 ? 'none' : 'flex';
+      if (prevBtn) prevBtn.style.display = index === 0 ? 'none' : 'flex';
+      if (nextBtn) nextBtn.style.display = index === items.length - 1 ? 'none' : 'flex';
       indicatorsContainer.style.display = 'flex';
    }
 }

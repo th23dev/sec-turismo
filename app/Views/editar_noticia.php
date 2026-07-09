@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header('Location: ' . redirect_url('admin'));
             exit;
         } else {
-            $erro = 'Erro ao atualizar a notícia. Tente novamente.';
+            $erro = $controller->getErro() ?: 'Erro ao atualizar a notícia. Tente novamente.';
         }
     }
 }
@@ -45,6 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Notícia - <?= htmlspecialchars($noticia['titulo'] ?? '') ?></title>
+   <link rel="icon" type="image/webp" href="/public/imgs/logos-bg/logo-sec-turismo.webp">
    <link rel="stylesheet" href="/public/css/conexao.css">
     <link rel="stylesheet" href="/public/css/editar.css">
 </head>

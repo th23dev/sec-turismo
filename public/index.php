@@ -80,6 +80,8 @@ $experiencias = [
 
 $servicos = [
     ['icone' => 'fa-map-location-dot', 'titulo' => 'Mapa turístico', 'link' => view_url('mapa_turistico.php')],
+    ['icone' => 'fa-utensils', 'titulo' => 'Gastronomia', 'link' => view_url('gastronomia.php')],
+    ['icone' => 'fa-route', 'titulo' => 'Trilhas', 'link' => view_url('trilhas.php')],
     ['icone' => 'fa-video', 'titulo' => 'Vídeos', 'link' => view_url('videos.php')],
     ['icone' => 'fa-circle-info', 'titulo' => 'CAT e passaporte', 'link' => view_url('cat.php')],
     ['icone' => 'fa-phone-volume', 'titulo' => 'Contatos úteis', 'link' => view_url('contatos_uteis.php')],
@@ -94,15 +96,15 @@ $servicos = [
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Portal turístico de Curuçá, no Pará: praias, igarapés, hospedagem, mapa turístico, notícias e serviços ao visitante.">
     <title>Turismo Curuçá - Portal Oficial</title>
+    <link rel="icon" type="image/webp" href="<?= asset_url('imgs/logos-bg/logo-sec-turismo.webp'); ?>">
     <link rel="stylesheet" href="<?= asset_url('css/style.css'); ?>?v=20260616">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="<?= asset_url('css/home.css'); ?>?v=20260618-video-no-fade">
+    <link rel="stylesheet" href="<?= asset_url('css/home.css'); ?>?v=20260623-news-modal">
 </head>
 
 <body class="home-page">
     <nav id="main-nav" class="home-nav" aria-label="Navegação principal">
         <a class="logo-area" href="#inicio" aria-label="Turismo Curuçá">
-            <img src="<?= asset_url('imgs/logos-bg/logo-visite-curuca.png'); ?>?v=20260618-logo-focus" alt="Turismo Curuçá" class="logo-img">
             <span class="logo-text">Turismo Curuçá</span>
         </a>
 
@@ -182,9 +184,13 @@ $servicos = [
                 <div class="home-news-grid <?= count($noticias) === 1 ? 'home-news-grid--single' : ''; ?>">
                     <?php if (!empty($noticias)): ?>
                         <?php foreach ($noticias as $noticia): ?>
-                            <article class="home-news-card">
+                            <?php
+                            $noticiaId = 'noticia-' . intval($noticia['id'] ?? 0);
+                            $noticiaImagem = normalizeImagemUrl($noticia['imagem_url'] ?? '');
+                            ?>
+                            <article class="home-news-card" role="button" tabindex="0" data-news-modal="<?= htmlspecialchars($noticiaId); ?>">
                                 <?php if (!empty($noticia['imagem_url'])): ?>
-                                    <div class="home-news-image" style="background-image: url('<?= htmlspecialchars(normalizeImagemUrl($noticia['imagem_url'])); ?>');"></div>
+                                    <div class="home-news-image" style="background-image: url('<?= htmlspecialchars($noticiaImagem); ?>');"></div>
                                 <?php else: ?>
                                     <div class="home-news-image home-news-image-placeholder">
                                         <i class="fas fa-newspaper" aria-hidden="true"></i>
@@ -194,11 +200,7 @@ $servicos = [
                                     <span class="home-news-date"><?= htmlspecialchars(formatarDataEvento($noticia)); ?></span>
                                     <h3><?= htmlspecialchars($noticia['titulo'] ?? 'Notícia'); ?></h3>
                                     <p><?= htmlspecialchars(resumoTexto($noticia['conteudo'] ?? '')); ?></p>
-                                    <?php if (!empty($noticia['instagram_url']) && is_safe_http_url($noticia['instagram_url'])): ?>
-                                        <a href="<?= htmlspecialchars($noticia['instagram_url']); ?>" target="_blank" rel="noopener" class="home-news-instagram">
-                                            <i class="fab fa-instagram" aria-hidden="true"></i> Instagram
-                                        </a>
-                                    <?php endif; ?>
+                                    <span class="home-news-open"><i class="fas fa-circle-info" aria-hidden="true"></i> Ler notícia</span>
                                 </div>
                             </article>
                         <?php endforeach; ?>
@@ -211,6 +213,37 @@ $servicos = [
             </div>
         </section>
 
+        <?php foreach ($noticias as $noticia): ?>
+            <?php
+            $noticiaId = 'noticia-' . intval($noticia['id'] ?? 0);
+            $noticiaImagem = normalizeImagemUrl($noticia['imagem_url'] ?? '');
+            ?>
+            <div id="modal-<?= htmlspecialchars($noticiaId); ?>" class="modal home-news-modal" aria-hidden="true">
+                <div class="home-news-modal-box" role="dialog" aria-modal="true" aria-labelledby="title-<?= htmlspecialchars($noticiaId); ?>">
+                    <button class="home-news-modal-close" type="button" data-news-close="<?= htmlspecialchars($noticiaId); ?>" aria-label="Fechar notícia">&times;</button>
+                    <?php if (!empty($noticiaImagem)): ?>
+                        <div class="home-news-modal-image" style="background-image: url('<?= htmlspecialchars($noticiaImagem); ?>');"></div>
+                    <?php else: ?>
+                        <div class="home-news-modal-image home-news-modal-image-placeholder">
+                            <i class="fas fa-newspaper" aria-hidden="true"></i>
+                        </div>
+                    <?php endif; ?>
+                    <div class="home-news-modal-content">
+                        <span class="home-news-date"><?= htmlspecialchars(formatarDataEvento($noticia)); ?></span>
+                        <h2 id="title-<?= htmlspecialchars($noticiaId); ?>"><?= htmlspecialchars($noticia['titulo'] ?? 'Notícia'); ?></h2>
+                        <div class="home-news-modal-text">
+                            <?= nl2br(htmlspecialchars($noticia['conteudo'] ?? '')); ?>
+                        </div>
+                        <?php if (!empty($noticia['instagram_url']) && is_safe_http_url($noticia['instagram_url'])): ?>
+                            <a href="<?= htmlspecialchars($noticia['instagram_url']); ?>" target="_blank" rel="noopener" class="home-news-instagram">
+                                <i class="fas fa-circle-info" aria-hidden="true"></i> Saber mais
+                            </a>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
+
         <section class="intro-section">
             <div class="section-heading">
                 <p class="eyebrow">Turismo no litoral amazônico</p>
@@ -222,7 +255,7 @@ $servicos = [
         <section class="experiences-section" id="experiencias">
             <div class="section-heading">
                 <p class="eyebrow">Experiências</p>
-                <h2>Escolha por onde começar</h2>
+                <h2>Curuçá, onde os encantos viram lembranças</h2>
             </div>
 
             <div class="experience-grid">
@@ -281,7 +314,7 @@ $servicos = [
         <p>Desenvolvedor - <a href="https://github.com/th23dev" target="_blank" rel="noopener">Th23dev</a> - <a href="https://instagram.com/th23_dev" target="_blank" rel="noopener">@th23_dev</a></p>
     </footer>
 
-    <script src="<?= asset_url('js/script.js'); ?>?v=20260618-feature-layout"></script>
+    <script src="<?= asset_url('js/script.js'); ?>?v=20260623-news-modal"></script>
 </body>
 
 </html>

@@ -1,4 +1,4 @@
-<?php require_once __DIR__ . '/../Utils/url.php'; start_url_rewriter(); ?>
+﻿<?php require_once __DIR__ . '/../Utils/url.php'; start_url_rewriter(); ?>
 <?php
 include('../Core/conexao.php');
 include('../Controllers/protect.php');
@@ -76,6 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['acao']) && $lugar) {
             $_POST['linkInstagram'],
             $_POST['descricao'],
             $_POST['restaurante'],
+            $_POST['google_maps_url'] ?? '',
             $_FILES
         );
         if ($resultado) {
@@ -98,6 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['acao']) && $lugar) {
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Turismo Curuçá - Editar <?= htmlspecialchars($lugar['nome'] ?? '') ?></title>
+   <link rel="icon" type="image/webp" href="/public/imgs/logos-bg/logo-sec-turismo.webp">
    <link rel="stylesheet" href="/public/css/conexao.css">
    <link rel="stylesheet" href="/public/css/editar.css">
 </head>
@@ -232,6 +234,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['acao']) && $lugar) {
                </div>
             </div>
 
+            <div class="form-section">
+               <h3><i class="fas fa-map-location-dot"></i> Google Maps</h3>
+               <div class="form-group">
+                  <label for="google_maps_url">Link ou iframe do mapa</label>
+                  <textarea name="google_maps_url" id="google_maps_url" rows="5" placeholder="Cole o link de compartilhamento ou o iframe incorporado do Google Maps"><?= htmlspecialchars($lugar['google_maps_url'] ?? '') ?></textarea>
+                  <small>Use o link de compartilhar do Google Maps ou o codigo de incorporacao.</small>
+               </div>
+            </div>
+
             <!-- Restaurante -->
             <div class="form-section">
                <h3><i class="fas fa-utensils"></i> Restaurante</h3>
@@ -274,33 +285,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['acao']) && $lugar) {
                   <?php endif; ?>
                </div>
 
-               <!-- Adicionar nova mídia com Tabs -->
+               <!-- Adicionar nova mídia -->
                <div class="midia-add-box">
                   <label>Adicionar nova mídia</label>
-                  
-                  <!-- Tabs para alternar entre upload e URL -->
-                  <div class="midia-input-tabs">
-                     <button type="button" class="tab-btn active" data-tab="upload">
-                        <i class="fas fa-cloud-upload-alt"></i> Upload
-                     </button>
-                     <button type="button" class="tab-btn" data-tab="url">
-                        <i class="fas fa-link"></i> Link
-                     </button>
+
+                  <div class="midia-add-row file-upload-row">
+                     <input type="file" name="midias_arquivos[]" id="midias_arquivos" accept="image/jpeg,image/png,image/webp,image/gif" multiple data-preview-target="#preview-midias-editar">
+                     <small>Selecione uma ou mais imagens. A previa aparece abaixo antes de adicionar.</small>
                   </div>
 
-                  <!-- Aba Upload de Arquivo -->
-                  <div class="tab-content active" id="midia-tab-upload">
-                     <div class="midia-add-row file-upload-row">
-                        <input type="file" name="midias_arquivos[]" id="midias_arquivos" accept="image/jpeg,image/png,image/webp,image/gif" multiple>
-                        <small>Você pode enviar várias imagens de uma vez (JPG, PNG, WebP, GIF - Máx. 5MB cada).</small>
-                     </div>
-                  </div>
-
-                  <!-- Aba URL da Mídia -->
-                  <div class="tab-content" id="midia-tab-url">
-                     <div class="midia-add-row">
-                        <input type="text" name="url_midia" id="url_midia" placeholder="https://exemplo.com/imagem.jpg ou https://sua-api.com/imagem/123">
-                        <small>Cole a URL completa da imagem ou vídeo. Aceita URLs com ou sem extensão.</small>
+                  <div class="secondary-photos-current">
+                     <label>Previa das novas imagens</label>
+                     <div class="midias-grid upload-preview-grid" id="preview-midias-editar">
+                        <p class="midias-vazio">Nenhuma imagem selecionada ainda.</p>
                      </div>
                   </div>
 
@@ -445,33 +442,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['acao']) && $lugar) {
       });
       hidden.disabled = toggle.checked;
 
-      // ===== SISTEMA DE ABAS PARA MÍDIAS ADICIONAIS =====
-      const mediasTabButtons = document.querySelectorAll('.midia-input-tabs .tab-btn');
-      const mediasTabContents = document.querySelectorAll('.midia-add-box .tab-content');
-
-      mediasTabButtons.forEach(btn => {
-         btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            const tabName = this.dataset.tab;
-            const container = this.closest('.midia-add-box');
-            
-            // Remover ativa de todos os botões e conteúdos
-            container.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            container.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            
-            // Adicionar ativa ao clicado
-            this.classList.add('active');
-            container.querySelector(`#midia-tab-${tabName}`).classList.add('active');
-            
-            // Limpar campos do outro tab
-            if (tabName === 'upload') {
-               document.getElementById('url_midia').value = '';
-            } else {
-               document.getElementById('midias_arquivos').value = '';
-            }
-         });
-      });
-
       // Validar antes de enviar (apenas a seção de imagem principal)
       const forms = document.querySelectorAll('form.editar-form');
       forms.forEach(form => {
@@ -497,7 +467,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['acao']) && $lugar) {
       });
    </script>
    <script src="/public/js/script.js"></script>
+   <script src="/public/js/image-preview-upload.js"></script>
 </body>
 
 </html>
+
 

@@ -15,6 +15,7 @@ $lugares = $controller->buscarLugares('praia');
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Turismo Curuçá - Praias</title>
+   <link rel="icon" type="image/webp" href="/public/imgs/logos-bg/logo-sec-turismo.webp">
    <link rel="stylesheet" href="/public/css/conexao.css">
    <link rel="stylesheet" href="/public/css/catalogo.css">
 </head>
@@ -98,7 +99,15 @@ $lugares = $controller->buscarLugares('praia');
                <?php if ($lugar['possui_restaurante']): ?>
                <span class="tag"><i class="fas fa-utensils"></i>Restaurante</span>
                <?php endif; ?>
+               <?php if (!empty($lugar['google_maps_url']) && is_safe_google_maps_url($lugar['google_maps_url'])): ?>
+               <a class="tag map-link" href="<?php echo htmlspecialchars($lugar['google_maps_url']); ?>" target="_blank" rel="noopener">
+                  <i class="fas fa-map-location-dot"></i>Mapa
+               </a>
+               <?php endif; ?>
             </div>
+            <?php if (!empty($lugar['google_maps_url']) && str_contains($lugar['google_maps_url'], '/maps/embed') && is_safe_google_maps_url($lugar['google_maps_url'])): ?>
+            <iframe class="catalog-map" src="<?php echo htmlspecialchars($lugar['google_maps_url']); ?>" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <?php endif; ?>
          </div>
       </div>
    </div>

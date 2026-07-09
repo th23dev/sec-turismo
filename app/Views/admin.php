@@ -5,10 +5,12 @@ include('../Controllers/protect.php');
 include('../Controllers/LugaresController.php');
 require_once('../Controllers/NoticiasController.php');
 require_once('../Controllers/VideoController.php');
+require_once('../Controllers/ConteudoTuristicoController.php');
 
 $controller = new LugaresController($pdo);
 $noticiasController = new NoticiasController($pdo);
 $videosController = new VideoController($pdo);
+$conteudoController = new ConteudoTuristicoController($pdo);
 
 $tiposPermitidos = ['hotel', 'igarape', 'praia'];
 $tipo = isset($_GET['tipo']) && in_array($_GET['tipo'], $tiposPermitidos, true) ? $_GET['tipo'] : null;
@@ -21,6 +23,13 @@ if ($tipo) {
 
 $noticias = $noticiasController->buscarNoticias();
 $videos = $videosController->buscarVideos('');
+$conteudosTuristicos = [];
+foreach ($conteudoController->categorias() as $categoriaSlug => $categoriaInfo) {
+   $conteudosTuristicos[$categoriaSlug] = [
+      'info' => $categoriaInfo,
+      'itens' => $conteudoController->buscarTodos($categoriaSlug),
+   ];
+}
 ?>
 
 <!DOCTYPE html>
@@ -30,6 +39,7 @@ $videos = $videosController->buscarVideos('');
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Turismo Curuca - Portal</title>
+   <link rel="icon" type="image/webp" href="/public/imgs/logos-bg/logo-sec-turismo.webp">
    <link rel="stylesheet" href="/public/css/conexao.css">
    <link rel="stylesheet" href="/public/css/admin.css">
 </head>
@@ -84,6 +94,50 @@ $videos = $videosController->buscarVideos('');
                <?php endforeach ?>
             </div>
          </div>
+
+         <?php foreach ($conteudosTuristicos as $categoriaSlug => $grupo): ?>
+            <?php $containerId = 'conteudo-' . str_replace('_', '-', $categoriaSlug); ?>
+            <div class="container conteudo-admin-section" id="<?= htmlspecialchars($containerId); ?>">
+               <div class="functions">
+                  <h2><?= htmlspecialchars($grupo['info']['titulo']); ?></h2>
+                  <div class="filtros">
+                     <span><?= count($grupo['itens']); ?> cadastrados</span>
+                  </div>
+                  <button class="ver-mais" type="button" data-target="<?= htmlspecialchars($containerId); ?>">
+                     Ver mais <i class="fas fa-eye"></i>
+                  </button>
+               </div>
+
+               <div class="cards">
+                  <a href="/criar_conteudo?categoria=<?= urlencode($categoriaSlug); ?>" class="card-lugar card-add" title="Adicionar <?= htmlspecialchars($grupo['info']['titulo']); ?>">
+                     <i class="fas <?= htmlspecialchars($grupo['info']['icone']); ?>"></i>
+                  </a>
+                  <?php foreach ($grupo['itens'] as $item): ?>
+                     <?php
+                     $fotoPrincipal = $item['imagem_principal'] ?? '';
+                     if ($fotoPrincipal === '' && !empty($item['fotos'][0]['url'])) {
+                        $fotoPrincipal = $item['fotos'][0]['url'];
+                     }
+                     ?>
+                     <?php if ($fotoPrincipal !== ''): ?>
+                        <div class="card-lugar" style="background: url('<?= htmlspecialchars($fotoPrincipal); ?>') no-repeat center center / cover;">
+                     <?php else: ?>
+                        <div class="card-lugar card-lugar-empty">
+                           <i class="fas <?= htmlspecialchars($grupo['info']['icone']); ?>"></i>
+                     <?php endif; ?>
+                        <?php
+                        $tituloItem = $item[$grupo['info']['title_column'] ?? ''] ?? '';
+                        if ($tituloItem === '') {
+                           $tituloItem = mb_strimwidth(strip_tags($item['descricao'] ?? 'Cadastro'), 0, 42, '...');
+                        }
+                        ?>
+                        <?= htmlspecialchars($grupo['info']['titulo']); ?>: <?= htmlspecialchars($tituloItem); ?>
+                        <a href="/editar_conteudo?categoria=<?= urlencode($categoriaSlug); ?>&id=<?= intval($item['id']); ?>"><i class="fas fa-pencil"></i></a>
+                     </div>
+                  <?php endforeach; ?>
+               </div>
+            </div>
+         <?php endforeach; ?>
 
          <div class="container" id="noticias">
             <div class="functions">

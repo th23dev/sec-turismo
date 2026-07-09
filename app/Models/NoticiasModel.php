@@ -6,14 +6,19 @@ class NoticiasModel
     public function __construct($conexao)
     {
         $this->db = $conexao;
-        $this->garantirCamposDataEvento();
+        $this->garantirCamposNoticias();
     }
 
-    private function garantirCamposDataEvento(): void
+    private function garantirCamposNoticias(): void
     {
         $campos = [
-            'evento_data_inicio' => 'ALTER TABLE noticias ADD COLUMN evento_data_inicio DATE NULL AFTER instagram_url',
-            'evento_data_fim' => 'ALTER TABLE noticias ADD COLUMN evento_data_fim DATE NULL AFTER evento_data_inicio',
+            'instagram_url' => 'ALTER TABLE noticias ADD COLUMN instagram_url VARCHAR(255) NULL',
+            'evento_data_inicio' => 'ALTER TABLE noticias ADD COLUMN evento_data_inicio DATE NULL',
+            'evento_data_fim' => 'ALTER TABLE noticias ADD COLUMN evento_data_fim DATE NULL',
+            'data_inicio' => 'ALTER TABLE noticias ADD COLUMN data_inicio DATETIME NULL',
+            'data_fim' => 'ALTER TABLE noticias ADD COLUMN data_fim DATETIME NULL',
+            'indefinido' => 'ALTER TABLE noticias ADD COLUMN indefinido TINYINT(1) NOT NULL DEFAULT 0',
+            'updated_at' => 'ALTER TABLE noticias ADD COLUMN updated_at DATETIME NULL',
         ];
 
         foreach ($campos as $campo => $sql) {
